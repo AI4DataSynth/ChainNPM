@@ -1,0 +1,88 @@
+{
+  "dataset": "financial",
+  "shape": "chain",
+  "method": "chainnpm",
+  "mode": "natural",
+  "eps": 1.6,
+  "seed": 44,
+  "runtime_sec": 3.529386281967163,
+  "hyper": {
+    "tau1": 99,
+    "tau2": 459,
+    "sigma": 22.28823779672366,
+    "delta": 9.466828233868525e-07,
+    "k": null
+  },
+  "prereg": {
+    "query_seed": 123,
+    "n_queries": 150,
+    "large_count": 50,
+    "tau_choices": [
+      6,
+      8,
+      12
+    ]
+  },
+  "counts": {
+    "top_gt": 77,
+    "mid_gt": 4500,
+    "bot_gt": 1056320,
+    "top_syn": 157,
+    "mid_syn": 6657,
+    "bot_syn": 1327735,
+    "syn_orphans_bot": 0
+  },
+  "re": {
+    "re_median": {
+      "0hop_top": 0.9736842105263158,
+      "0hop_bot": 0.29077538263864267,
+      "1hop_topmid": 1.0,
+      "1hop_midbot": 0.8526580502290406,
+      "2hop_topbot": 0.34943684110107776
+    },
+    "re_median_large": {
+      "0hop_bot": 0.29077538263864267,
+      "1hop_topmid": 0.9855072463768116,
+      "1hop_midbot": 0.8526580502290406,
+      "2hop_topbot": 0.34943684110107776,
+      "0hop_top": 0.6346153846153846
+    },
+    "n_queries": {
+      "0hop_top": 150,
+      "0hop_bot": 150,
+      "1hop_topmid": 150,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150
+    },
+    "n_queries_large": {
+      "0hop_bot": 150,
+      "1hop_topmid": 133,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150,
+      "0hop_top": 24
+    }
+  },
+  "effect": {
+    "delta_real": {
+      "delta": -0.004404529874706409,
+      "pr_a_x1_1": 0.39876913779210316,
+      "pr_a_x1_0": 0.40317366766680957,
+      "share_x1": 0.46993335352923354
+    },
+    "delta_syn": {
+      "delta": -0.028062455667742958,
+      "pr_a_x1_1": 0.36426155465405013,
+      "pr_a_x1_0": 0.3923240103217931,
+      "share_x1": 0.44223131874959987
+    }
+  },
+  "size_tv": {
+    "bot_per_mid": 0.6647730208802763,
+    "mid_per_top": 0.7291407222914073
+  },
+  "mean_size": {
+    "bot_per_mid_gt": 234.73777777777778,
+    "mid_per_top_gt": 58.44155844155844
+  },
+  "total_runtime_sec": 26.358729362487793
+}

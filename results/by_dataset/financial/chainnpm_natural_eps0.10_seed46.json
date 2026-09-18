@@ -1,0 +1,88 @@
+{
+  "dataset": "financial",
+  "shape": "chain",
+  "method": "chainnpm",
+  "mode": "natural",
+  "eps": 0.1,
+  "seed": 46,
+  "runtime_sec": 12.16522765159607,
+  "hyper": {
+    "tau1": 99,
+    "tau2": 459,
+    "sigma": 295.9578272037096,
+    "delta": 9.466828233868525e-07,
+    "k": null
+  },
+  "prereg": {
+    "query_seed": 123,
+    "n_queries": 150,
+    "large_count": 50,
+    "tau_choices": [
+      6,
+      8,
+      12
+    ]
+  },
+  "counts": {
+    "top_gt": 77,
+    "mid_gt": 4500,
+    "bot_gt": 1056320,
+    "top_syn": 606,
+    "mid_syn": 33470,
+    "bot_syn": 7795933,
+    "syn_orphans_bot": 0
+  },
+  "re": {
+    "re_median": {
+      "0hop_top": 6.631578947368421,
+      "0hop_bot": 6.151119753937758,
+      "1hop_topmid": 5.289240546236899,
+      "1hop_midbot": 1.0,
+      "2hop_topbot": 4.2039286077882
+    },
+    "re_median_large": {
+      "0hop_bot": 6.151119753937758,
+      "1hop_topmid": 5.015748031496063,
+      "1hop_midbot": 1.0,
+      "2hop_topbot": 4.2039286077882,
+      "0hop_top": 7.903846153846154
+    },
+    "n_queries": {
+      "0hop_top": 150,
+      "0hop_bot": 150,
+      "1hop_topmid": 150,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150
+    },
+    "n_queries_large": {
+      "0hop_bot": 150,
+      "1hop_topmid": 133,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150,
+      "0hop_top": 24
+    }
+  },
+  "effect": {
+    "delta_real": {
+      "delta": -0.004404529874706409,
+      "pr_a_x1_1": 0.39876913779210316,
+      "pr_a_x1_0": 0.40317366766680957,
+      "share_x1": 0.46993335352923354
+    },
+    "delta_syn": {
+      "delta": -0.15983895433379086,
+      "pr_a_x1_1": 0.3917849181660305,
+      "pr_a_x1_0": 0.5516238724998214,
+      "share_x1": 0.2979597182274399
+    }
+  },
+  "size_tv": {
+    "bot_per_mid": 0.7929676991003551,
+    "mid_per_top": 0.8164673610218165
+  },
+  "mean_size": {
+    "bot_per_mid_gt": 234.73777777777778,
+    "mid_per_top_gt": 58.44155844155844
+  },
+  "total_runtime_sec": 162.82910323143005
+}

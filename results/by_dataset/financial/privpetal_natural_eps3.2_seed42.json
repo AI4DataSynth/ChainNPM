@@ -1,0 +1,102 @@
+{
+  "dataset": "financial",
+  "shape": "chain",
+  "method": "privpetal",
+  "mode": "natural",
+  "eps": 3.2,
+  "seed": 42,
+  "runtime_sec": 1285.572918176651,
+  "hyper": {
+    "tau1": 99,
+    "tau2": 459,
+    "theta": 1.0,
+    "delta": 9.466828233868525e-07,
+    "privpetal_budget": 0.4690807342529296
+  },
+  "prereg": {
+    "query_seed": 123,
+    "n_queries": 150,
+    "large_count": 50,
+    "tau_choices": [
+      6,
+      8,
+      12
+    ]
+  },
+  "counts": {
+    "top_gt": 77,
+    "mid_gt": 4500,
+    "bot_gt": 1056320,
+    "top_syn": 245,
+    "mid_syn": 3550,
+    "bot_syn": 53242,
+    "syn_orphans_bot": 0
+  },
+  "re": {
+    "re_median": {
+      "0hop_top": 2.1538461538461537,
+      "0hop_bot": 0.948976472205582,
+      "1hop_topmid": 0.4859295539621111,
+      "1hop_midbot": 0.9311613571036919,
+      "2hop_topbot": 0.9455391966674154
+    },
+    "re_median_large": {
+      "0hop_bot": 0.948976472205582,
+      "1hop_topmid": 0.4530386740331492,
+      "1hop_midbot": 0.9311613571036919,
+      "2hop_topbot": 0.9455391966674154,
+      "0hop_top": 2.1538461538461537
+    },
+    "n_queries": {
+      "0hop_top": 150,
+      "0hop_bot": 150,
+      "1hop_topmid": 150,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150
+    },
+    "n_queries_large": {
+      "0hop_bot": 150,
+      "1hop_topmid": 133,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150,
+      "0hop_top": 24
+    }
+  },
+  "size_tv": {
+    "bot_per_mid": 0.9902222222222221,
+    "mid_per_top": 1.0
+  },
+  "mean_size": {
+    "bot_per_mid_gt": 234.73777777777778,
+    "mid_per_top_gt": 58.44155844155844
+  },
+  "privpetal_meta": {
+    "pass_timings_sec": {
+      "stage1": 363.2378764152527,
+      "stage2": 919.0929157733917
+    },
+    "counts": {
+      "top_syn": 245,
+      "mid_syn": 3550,
+      "bot_syn": 53242
+    },
+    "host": "cluster",
+    "gpu": "2",
+    "tuple_num": 2,
+    "process_num": 2
+  },
+  "effect": {
+    "delta_real": {
+      "delta": -0.004404529874706409,
+      "pr_a_x1_1": 0.39876913779210316,
+      "pr_a_x1_0": 0.40317366766680957,
+      "share_x1": 0.46993335352923354
+    },
+    "delta_syn": {
+      "delta": 0.00027320060270580315,
+      "pr_a_x1_1": 0.39792089561419697,
+      "pr_a_x1_0": 0.39764769501149116,
+      "share_x1": 0.30534164757146615
+    }
+  }
+}

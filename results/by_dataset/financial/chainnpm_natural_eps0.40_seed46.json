@@ -1,0 +1,88 @@
+{
+  "dataset": "financial",
+  "shape": "chain",
+  "method": "chainnpm",
+  "mode": "natural",
+  "eps": 0.4,
+  "seed": 46,
+  "runtime_sec": 5.166226625442505,
+  "hyper": {
+    "tau1": 99,
+    "tau2": 459,
+    "sigma": 80.88200238002382,
+    "delta": 9.466828233868525e-07,
+    "k": null
+  },
+  "prereg": {
+    "query_seed": 123,
+    "n_queries": 150,
+    "large_count": 50,
+    "tau_choices": [
+      6,
+      8,
+      12
+    ]
+  },
+  "counts": {
+    "top_gt": 77,
+    "mid_gt": 4500,
+    "bot_gt": 1056320,
+    "top_syn": 192,
+    "mid_syn": 11039,
+    "bot_syn": 2934368,
+    "syn_orphans_bot": 0
+  },
+  "re": {
+    "re_median": {
+      "0hop_top": 1.2894736842105263,
+      "0hop_bot": 1.7942054889387427,
+      "1hop_topmid": 1.451547650853021,
+      "1hop_midbot": 1.3629954371584816,
+      "2hop_topbot": 1.573132844509089
+    },
+    "re_median_large": {
+      "0hop_bot": 1.7942054889387427,
+      "1hop_topmid": 1.3539182282793867,
+      "1hop_midbot": 1.3629954371584816,
+      "2hop_topbot": 1.573132844509089,
+      "0hop_top": 1.9038461538461537
+    },
+    "n_queries": {
+      "0hop_top": 150,
+      "0hop_bot": 150,
+      "1hop_topmid": 150,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150
+    },
+    "n_queries_large": {
+      "0hop_bot": 150,
+      "1hop_topmid": 133,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150,
+      "0hop_top": 24
+    }
+  },
+  "effect": {
+    "delta_real": {
+      "delta": -0.004404529874706409,
+      "pr_a_x1_1": 0.39876913779210316,
+      "pr_a_x1_0": 0.40317366766680957,
+      "share_x1": 0.46993335352923354
+    },
+    "delta_syn": {
+      "delta": -0.08361521151146362,
+      "pr_a_x1_1": 0.45580149606964754,
+      "pr_a_x1_0": 0.5394167075811112,
+      "share_x1": 0.32254986422970805
+    }
+  },
+  "size_tv": {
+    "bot_per_mid": 0.7120743827440086,
+    "mid_per_top": 0.797077922077922
+  },
+  "mean_size": {
+    "bot_per_mid_gt": 234.73777777777778,
+    "mid_per_top_gt": 58.44155844155844
+  },
+  "total_runtime_sec": 45.772709131240845
+}

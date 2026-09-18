@@ -216,3 +216,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Chain-NPM experiment tree: inputs, synthetic tables and run logs stay local.
+# The aggregated per-cell metrics and summary tables under results/ ARE tracked.
+tmp/
+data/
+data_planted/
+result/
+results/*.csv
+*.npz
+*.pkl

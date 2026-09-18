@@ -1,0 +1,88 @@
+{
+  "dataset": "financial",
+  "shape": "chain",
+  "method": "chainnpm",
+  "mode": "natural",
+  "eps": 0.2,
+  "seed": 49,
+  "runtime_sec": 5.156493902206421,
+  "hyper": {
+    "tau1": 99,
+    "tau2": 459,
+    "sigma": 154.75858116087934,
+    "delta": 9.466828233868525e-07,
+    "k": null
+  },
+  "prereg": {
+    "query_seed": 123,
+    "n_queries": 150,
+    "large_count": 50,
+    "tau_choices": [
+      6,
+      8,
+      12
+    ]
+  },
+  "counts": {
+    "top_gt": 77,
+    "mid_gt": 4500,
+    "bot_gt": 1056320,
+    "top_syn": 418,
+    "mid_syn": 22477,
+    "bot_syn": 5424272,
+    "syn_orphans_bot": 0
+  },
+  "re": {
+    "re_median": {
+      "0hop_top": 5.346153846153846,
+      "0hop_bot": 3.7103005511050506,
+      "1hop_topmid": 1.5961954007797527,
+      "1hop_midbot": 1.0,
+      "2hop_topbot": 2.1961602984290667
+    },
+    "re_median_large": {
+      "0hop_bot": 3.7103005511050506,
+      "1hop_topmid": 1.7102219443576117,
+      "1hop_midbot": 1.0,
+      "2hop_topbot": 2.1961602984290667,
+      "0hop_top": 5.346153846153846
+    },
+    "n_queries": {
+      "0hop_top": 150,
+      "0hop_bot": 150,
+      "1hop_topmid": 150,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150
+    },
+    "n_queries_large": {
+      "0hop_bot": 150,
+      "1hop_topmid": 133,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150,
+      "0hop_top": 24
+    }
+  },
+  "effect": {
+    "delta_real": {
+      "delta": -0.004404529874706409,
+      "pr_a_x1_1": 0.39876913779210316,
+      "pr_a_x1_0": 0.40317366766680957,
+      "share_x1": 0.46993335352923354
+    },
+    "delta_syn": {
+      "delta": 0.05846152388747872,
+      "pr_a_x1_1": 0.7466251298026999,
+      "pr_a_x1_0": 0.6881636059152212,
+      "share_x1": 0.12338706466047425
+    }
+  },
+  "size_tv": {
+    "bot_per_mid": 0.8041258867088827,
+    "mid_per_top": 0.9087491455912509
+  },
+  "mean_size": {
+    "bot_per_mid_gt": 234.73777777777778,
+    "mid_per_top_gt": 58.44155844155844
+  },
+  "total_runtime_sec": 67.26933455467224
+}

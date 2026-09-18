@@ -1,0 +1,95 @@
+{
+  "dataset": "financial",
+  "shape": "chain",
+  "method": "privbayes",
+  "mode": "natural",
+  "eps": 0.8,
+  "seed": 50,
+  "runtime_sec": 6.575532913208008,
+  "hyper": {
+    "tau1": 99,
+    "tau2": 459,
+    "k": null,
+    "pb": {
+      "theta": 1.0,
+      "pgm_iters": 1000,
+      "mechanism": "laplace",
+      "budget_split": {
+        "structure": 0.5,
+        "measurements": 0.5
+      }
+    }
+  },
+  "prereg": {
+    "query_seed": 123,
+    "n_queries": 150,
+    "large_count": 50,
+    "tau_choices": [
+      6,
+      8,
+      12
+    ]
+  },
+  "counts": {
+    "top_gt": 77,
+    "mid_gt": 4500,
+    "bot_gt": 1056320,
+    "top_syn": 77,
+    "mid_syn": 4500,
+    "bot_syn": 1056320,
+    "syn_orphans_bot": 0
+  },
+  "re": {
+    "re_median": {
+      "0hop_top": 0.17307692307692307,
+      "0hop_bot": 0.0009545947690183555,
+      "1hop_topmid": 0.16274038461538462,
+      "1hop_midbot": 0.0915195275132221,
+      "2hop_topbot": 0.09579957657021877
+    },
+    "re_median_large": {
+      "0hop_bot": 0.0009545947690183555,
+      "1hop_topmid": 0.15625,
+      "1hop_midbot": 0.0915195275132221,
+      "2hop_topbot": 0.09579957657021877,
+      "0hop_top": 0.17307692307692307
+    },
+    "n_queries": {
+      "0hop_top": 150,
+      "0hop_bot": 150,
+      "1hop_topmid": 150,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150
+    },
+    "n_queries_large": {
+      "0hop_bot": 150,
+      "1hop_topmid": 133,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150,
+      "0hop_top": 24
+    }
+  },
+  "effect": {
+    "delta_real": {
+      "delta": -0.004404529874706409,
+      "pr_a_x1_1": 0.39876913779210316,
+      "pr_a_x1_0": 0.40317366766680957,
+      "share_x1": 0.46993335352923354
+    },
+    "delta_syn": {
+      "delta": 0.0035698251790268754,
+      "pr_a_x1_1": 0.40436907567826785,
+      "pr_a_x1_0": 0.400799250499241,
+      "share_x1": 0.1855630869433505
+    }
+  },
+  "size_tv": {
+    "bot_per_mid": 0.8260000000000001,
+    "mid_per_top": 0.7142857142857142
+  },
+  "mean_size": {
+    "bot_per_mid_gt": 234.73777777777778,
+    "mid_per_top_gt": 58.44155844155844
+  },
+  "total_runtime_sec": 29.05539107322693
+}

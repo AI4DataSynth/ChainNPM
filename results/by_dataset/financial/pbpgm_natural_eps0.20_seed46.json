@@ -1,0 +1,95 @@
+{
+  "dataset": "financial",
+  "shape": "chain",
+  "method": "pbpgm",
+  "mode": "natural",
+  "eps": 0.2,
+  "seed": 46,
+  "runtime_sec": 7.061821222305298,
+  "hyper": {
+    "tau1": 99,
+    "tau2": 459,
+    "k": null,
+    "pb": {
+      "theta": 1.0,
+      "pgm_iters": 1000,
+      "mechanism": "laplace",
+      "budget_split": {
+        "structure": 0.5,
+        "measurements": 0.5
+      }
+    }
+  },
+  "prereg": {
+    "query_seed": 123,
+    "n_queries": 150,
+    "large_count": 50,
+    "tau_choices": [
+      6,
+      8,
+      12
+    ]
+  },
+  "counts": {
+    "top_gt": 77,
+    "mid_gt": 4500,
+    "bot_gt": 1056320,
+    "top_syn": 77,
+    "mid_syn": 4500,
+    "bot_syn": 1056320,
+    "syn_orphans_bot": 0
+  },
+  "re": {
+    "re_median": {
+      "0hop_top": 1.0,
+      "0hop_bot": 0.001770476800304651,
+      "1hop_topmid": 1.0,
+      "1hop_midbot": 0.14334262496435837,
+      "2hop_topbot": 1.0
+    },
+    "re_median_large": {
+      "0hop_bot": 0.001770476800304651,
+      "1hop_topmid": 1.0,
+      "1hop_midbot": 0.14334262496435837,
+      "2hop_topbot": 1.0,
+      "0hop_top": 0.038461538461538464
+    },
+    "n_queries": {
+      "0hop_top": 150,
+      "0hop_bot": 150,
+      "1hop_topmid": 150,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150
+    },
+    "n_queries_large": {
+      "0hop_bot": 150,
+      "1hop_topmid": 133,
+      "1hop_midbot": 150,
+      "2hop_topbot": 150,
+      "0hop_top": 24
+    }
+  },
+  "effect": {
+    "delta_real": {
+      "delta": -0.004404529874706409,
+      "pr_a_x1_1": 0.39876913779210316,
+      "pr_a_x1_0": 0.40317366766680957,
+      "share_x1": 0.46993335352923354
+    },
+    "delta_syn": {
+      "delta": 0.0001998894517719063,
+      "pr_a_x1_1": 0.4007382372547821,
+      "pr_a_x1_0": 0.4005383478030102,
+      "share_x1": 0.6504108603453499
+    }
+  },
+  "size_tv": {
+    "bot_per_mid": 0.8286666666666667,
+    "mid_per_top": 0.6883116883116883
+  },
+  "mean_size": {
+    "bot_per_mid_gt": 234.73777777777778,
+    "mid_per_top_gt": 58.44155844155844
+  },
+  "total_runtime_sec": 30.607048988342285
+}

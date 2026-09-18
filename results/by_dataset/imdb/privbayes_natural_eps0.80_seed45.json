@@ -1,0 +1,109 @@
+{
+  "dataset": "imdb",
+  "shape": "vshape",
+  "method": "privbayes",
+  "mode": "natural",
+  "eps": 0.8,
+  "seed": 45,
+  "runtime_sec": 4.267226934432983,
+  "hyper": {
+    "tau": 12,
+    "k": null,
+    "pb": {
+      "theta": 1.0,
+      "pgm_iters": 1000,
+      "mechanism": "laplace",
+      "budget_split": {
+        "structure": 0.5,
+        "measurements": 0.5
+      }
+    }
+  },
+  "prereg": {
+    "query_seed": 123,
+    "n_queries": 150,
+    "large_count": 50,
+    "tau_choices": [
+      6,
+      8,
+      12
+    ]
+  },
+  "counts": {
+    "r1_gt": 639533,
+    "r2_gt": 110468,
+    "c_gt": 1216178,
+    "r1_syn": 639533,
+    "r2_syn": 110468,
+    "c_syn": 1216178,
+    "syn_orphans_c": 0
+  },
+  "subset": {
+    "subset_frac": 1.0,
+    "subset_seed": null
+  },
+  "re": {
+    "re_median": {
+      "0hop_r1": 0.0028817135260400346,
+      "0hop_r2": 0.0032754806874255573,
+      "0hop_c": 0.0011355255110065843,
+      "1hop_r1c": 0.3537165426838451,
+      "1hop_r2c": 0.1805821397567944,
+      "cross_r1r2": 0.22188739717226486
+    },
+    "re_median_large": {
+      "0hop_r1": 0.0028817135260400346,
+      "0hop_r2": 0.0032754806874255573,
+      "1hop_r1c": 0.3286908077994429,
+      "1hop_r2c": 0.15795102388041563,
+      "cross_r1r2": 0.2130020763227608,
+      "0hop_c": 0.0011049923255457748
+    },
+    "n_queries": {
+      "0hop_r1": 150,
+      "0hop_r2": 150,
+      "0hop_c": 150,
+      "1hop_r1c": 150,
+      "1hop_r2c": 150,
+      "cross_r1r2": 150
+    },
+    "n_queries_large": {
+      "0hop_r1": 150,
+      "0hop_r2": 150,
+      "1hop_r1c": 129,
+      "1hop_r2c": 143,
+      "cross_r1r2": 145,
+      "0hop_c": 146
+    }
+  },
+  "effect": {
+    "contrast_real": {
+      "contrast": 0.12107982540556056,
+      "cell_means": {
+        "00": 0.4773233389524449,
+        "01": 0.3562435135468843,
+        "10": 0.0,
+        "11": 0.0
+      },
+      "share_x1": 0.0,
+      "share_x2": 0.24639732012912582
+    },
+    "contrast_syn": {
+      "contrast": 6.881087254745344e-05,
+      "cell_means": {
+        "00": 0.44791713364594793,
+        "01": 0.4478483227734005,
+        "10": 0.0,
+        "11": 0.0
+      },
+      "share_x1": 0.0,
+      "share_x2": 0.35804873957595024
+    }
+  },
+  "size_tv": 0.36961920387149744,
+  "mean_size": {
+    "gt": 1.901665746724563,
+    "syn": 2.2367026705925843
+  },
+  "total_runtime_sec": 46.766033411026
+}
