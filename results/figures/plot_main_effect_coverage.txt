@@ -1,0 +1,145 @@
+Coverage report -- fig_main_effect_plant
+source: <repo>/tmp/results (read only; never modified)
+records read: 4182 | excluded 6 | natural (not this figure) 1752 | denorm (excluded by user decision) 400 | other unknown method 0 | no effect scalar/degraded 0 | unexpected eps 0 | no target 0 | unreadable 0 | duplicate cells 0
+NOTE: only planted-mode records enter this figure. The natural grid (6 budgets) is tabulated in ../tables/p7_summary.tsv and ../tables/tab_re_appendix.tsv, and visualised by plot_main_crosshop.py.
+
+EXCLUDED tmp/results/imdb/chainnpm_natural_eps3.20_seed42_sub0.20.json ('_sub' subset run)
+EXCLUDED tmp/results/imdb/denorm_natural_eps3.20_seed42_sub0.20.json ('_sub' subset run)
+EXCLUDED tmp/results/imdb/pertable_natural_eps3.20_seed42_sub0.20.json ('_sub' subset run)
+EXCLUDED tmp/results/instacart/chainnpm_natural_eps3.20_seed42_sub0.20.json ('_sub' subset run)
+EXCLUDED tmp/results/instacart/denorm_natural_eps3.20_seed42_sub0.20.json ('_sub' subset run)
+EXCLUDED tmp/results/instacart/pertable_natural_eps3.20_seed42_sub0.20.json ('_sub' subset run)
+SKIPPED-MODE 1752 records (mode in ['natural', 'plant_family:mod4', 'plant_family:or', 'plant_family:threshold']): the natural grid is out of scope for this figure
+SKIPPED-DENORM 400 records (method=denorm): excluded by user decision 2026-09-18
+
+-- plotted cell coverage: n seeds per (dataset, series, mode, t, eps) --
+dataset    series     mode          eps        t=0.1    t=0.2  t=0.316    t=0.4    t=0.8
+----------------------------------------------------------------------------------------
+financial  chainnpm   plant_product 0.8          10       10       10       10        -
+financial  chainnpm   plant_product 3.2          10       10       10       10        -
+financial  chainnpm   plant_xor     0.8           -        -        -        -       10
+financial  chainnpm   plant_xor     3.2           -        -        -        -       10
+financial  pertable   plant_product 0.8          10       10       10       10        -
+financial  pertable   plant_product 3.2          10       10       10       10        -
+financial  pertable   plant_xor     0.8           -        -        -        -       10
+financial  pertable   plant_xor     3.2           -        -        -        -       10
+financial  privpetal  plant_product 0.8           -        -        -        -        -
+financial  privpetal  plant_product 3.2           -        -        3        -        -
+financial  privpetal  plant_xor     0.8           -        -        -        -        -
+financial  privpetal  plant_xor     3.2           -        -        -        -        3
+financial  privbayes  plant_product 0.8          10       10       10       10        -
+financial  privbayes  plant_product 3.2          10       10       10       10        -
+financial  privbayes  plant_xor     0.8           -        -        -        -       10
+financial  privbayes  plant_xor     3.2           -        -        -        -       10
+financial  pbpgm      plant_product 0.8          10       10       10       10        -
+financial  pbpgm      plant_product 3.2          10       10       10       10        -
+financial  pbpgm      plant_xor     0.8           -        -        -        -       10
+financial  pbpgm      plant_xor     3.2           -        -        -        -       10
+financial  lavaprop   plant_product 0.8          10       10       10       10        -
+financial  lavaprop   plant_product 3.2          10       10       10       10        -
+financial  lavaprop   plant_xor     0.8           -        -        -        -       10
+financial  lavaprop   plant_xor     3.2           -        -        -        -       10
+imdb       chainnpm   plant_product 0.8          10       10       10       10        -
+imdb       chainnpm   plant_product 3.2          10       10       10       10        -
+imdb       chainnpm   plant_xor     0.8           -        -        -        -       10
+imdb       chainnpm   plant_xor     3.2           -        -        -        -       10
+imdb       pertable   plant_product 0.8          10       10       10       10        -
+imdb       pertable   plant_product 3.2          10       10       10       10        -
+imdb       pertable   plant_xor     0.8           -        -        -        -       10
+imdb       pertable   plant_xor     3.2           -        -        -        -       10
+imdb       privpetal  plant_product 0.8           -        -        -        -        -
+imdb       privpetal  plant_product 3.2           -        -        3        -        -
+imdb       privpetal  plant_xor     0.8           -        -        -        -        -
+imdb       privpetal  plant_xor     3.2           -        -        -        -        3
+imdb       privbayes  plant_product 0.8          10       10       10       10        -
+imdb       privbayes  plant_product 3.2          10       10       10       10        -
+imdb       privbayes  plant_xor     0.8           -        -        -        -       10
+imdb       privbayes  plant_xor     3.2           -        -        -        -       10
+imdb       pbpgm      plant_product 0.8          10       10       10       10        -
+imdb       pbpgm      plant_product 3.2          10       10       10       10        -
+imdb       pbpgm      plant_xor     0.8           -        -        -        -       10
+imdb       pbpgm      plant_xor     3.2           -        -        -        -       10
+imdb       lavaprop   plant_product 0.8          10       10       10       10        -
+imdb       lavaprop   plant_product 3.2          10       10       10       10        -
+imdb       lavaprop   plant_xor     0.8           -        -        -        -       10
+imdb       lavaprop   plant_xor     3.2           -        -        -        -       10
+instacart  chainnpm   plant_product 0.8          10       10       10       10        -
+instacart  chainnpm   plant_product 3.2          10       10       10       10        -
+instacart  chainnpm   plant_xor     0.8           -        -        -        -       10
+instacart  chainnpm   plant_xor     3.2           -        -        -        -       10
+instacart  pertable   plant_product 0.8          10       10       10       10        -
+instacart  pertable   plant_product 3.2          10       10       10       10        -
+instacart  pertable   plant_xor     0.8           -        -        -        -       10
+instacart  pertable   plant_xor     3.2           -        -        -        -       10
+instacart  privpetal  plant_product 0.8           -        -        -        -        -
+instacart  privpetal  plant_product 3.2           -        -        3        -        -
+instacart  privpetal  plant_xor     0.8           -        -        -        -        -
+instacart  privpetal  plant_xor     3.2           -        -        -        -        3
+instacart  privbayes  plant_product 0.8          10       10       10       10        -
+instacart  privbayes  plant_product 3.2          10       10       10       10        -
+instacart  privbayes  plant_xor     0.8           -        -        -        -       10
+instacart  privbayes  plant_xor     3.2           -        -        -        -       10
+instacart  pbpgm      plant_product 0.8          10       10       10       10        -
+instacart  pbpgm      plant_product 3.2          10       10       10       10        -
+instacart  pbpgm      plant_xor     0.8           -        -        -        -       10
+instacart  pbpgm      plant_xor     3.2           -        -        -        -       10
+instacart  lavaprop   plant_product 0.8          10       10       10       10        -
+instacart  lavaprop   plant_product 3.2          10       10       10       10        -
+instacart  lavaprop   plant_xor     0.8           -        -        -        -       10
+instacart  lavaprop   plant_xor     3.2           -        -        -        -       10
+movielens  chainnpm   plant_product 0.8          10       10       10       10        -
+movielens  chainnpm   plant_product 3.2          10       10       10       10        -
+movielens  chainnpm   plant_xor     0.8           -        -        -        -       10
+movielens  chainnpm   plant_xor     3.2           -        -        -        -       10
+movielens  pertable   plant_product 0.8          10       10       10       10        -
+movielens  pertable   plant_product 3.2          10       10       10       10        -
+movielens  pertable   plant_xor     0.8           -        -        -        -       10
+movielens  pertable   plant_xor     3.2           -        -        -        -       10
+movielens  privpetal  plant_product 0.8           -        -        -        -        -
+movielens  privpetal  plant_product 3.2           -        -        3        -        -
+movielens  privpetal  plant_xor     0.8           -        -        -        -        -
+movielens  privpetal  plant_xor     3.2           -        -        -        -        3
+movielens  privbayes  plant_product 0.8          10       10       10       10        -
+movielens  privbayes  plant_product 3.2          10       10       10       10        -
+movielens  privbayes  plant_xor     0.8           -        -        -        -       10
+movielens  privbayes  plant_xor     3.2           -        -        -        -       10
+movielens  pbpgm      plant_product 0.8          10       10       10       10        -
+movielens  pbpgm      plant_product 3.2          10       10       10       10        -
+movielens  pbpgm      plant_xor     0.8           -        -        -        -       10
+movielens  pbpgm      plant_xor     3.2           -        -        -        -       10
+movielens  lavaprop   plant_product 0.8          10       10       10       10        -
+movielens  lavaprop   plant_product 3.2          10       10       10       10        -
+movielens  lavaprop   plant_xor     0.8           -        -        -        -       10
+movielens  lavaprop   plant_xor     3.2           -        -        -        -       10
+
+-- anomalies --
+none: every expected cell carries exactly its seed set (10 seeds 42-51; PrivPetal only the partial 3-seed subset at eps=3.2, target 0.316 / XOR 0.8)
+
+-- reused planted realisations (plant_reused) --
+flagged cells (see ../tables/p7_effect.tsv plant_reused=1): 56
+  imdb: the attainable contrast is already reached, so all four product targets carry the same planted REAL effect (2-hop contrast 0.12108) -> the flat series there is saturation of the plant, not measured target-insensitivity. The assignment differs at t=0.1 (plant.p 0.000244 vs 0.999756), which is why the synthetic side, and hence the retention error, does move between t=0.1 and t>=0.2.
+  imdb / instacart / movielens + PrivLava: all four product files carry one realised plant (t = 0.316) -> its flat product series is a reused realisation, not a sweep.
+
+-- reused SYNTHETIC effects (syn_reused=1 in the table) --
+  102 rows (of 241) repeat their whole per-seed synthetic effect at another target, i.e. the audit target is invisible in the synthetic data:
+  * the per-table family (PerTable and PB-PGM on all three vshape datasets, PrivBayes additionally on imdb and movielens) and PrivLava on the three vshape datasets: the plant is calibrated with plant.onehop_exact = true and plant.fk_exact = true in every cell, so all four targets present the SAME one-hop marginals; for these series the synthetic 2-hop effect repeats across targets at fixed seed -> the retention error is pinned at 1.0. Verified example: instacart / PerTable / eps=3.2 / seed 42 -- r1_syn = 38,491, c_syn = 1,516,279 and all four synthetic cell means identical to 8 decimals at every one of the four targets, while the planted real effect moves 0.101 -> 0.407.
+  * PrivLava on financial: four distinct plants, one identical synthetic effect.
+  * Chain-NPM on imdb: identical for t >= 0.2 (saturated plant).
+
+-- envelope --
+within each target slot the six methods are offset from left to right in legend order (Chain-NPM, PerTable, PrivPetal, PrivBayes, PB-PGM, PrivLava).
+drawn quantity = median over seeds per cell.
+medians actually drawn: 0.0092 .. 1.9804
+all per-seed retention errors: 1.103e-06 .. 13.25 (NOT drawn: the axis carries medians only; per-cell min/max are in ../tables/p7_effect.tsv, columns ret_err_min / ret_err_max)
+per panel (min..max of drawn medians):
+  financial  0.9246 .. 1.9804
+  imdb       0.0747 .. 1.0107
+  instacart  0.0092 .. 1.0110
+  movielens  0.0747 .. 1.0250
+hard y limits (log): (0.006, 3.0) -> medians inside, no clipping
+
+-- panel scale (ground-truth rows, from record 'counts') --
+financial  shape=chain   rows=1.06M
+imdb       shape=vshape  rows=1.97M
+instacart  shape=vshape  rows=1.70M
+movielens  shape=vshape  rows=1.01M

@@ -149,3 +149,22 @@ baseline runs take hours.
 * `results/by_dataset/` reports exactly the cells that entered the paper; a few
   cells have fewer than 10 seeds where a run was still in flight, and each record
   carries its own `seed`, so the aggregation is transparent.
+* **Reproducibility of a single cell.** Chain-NPM's own cells are deterministic
+  given `--seed` (no multiprocessing, no GPU, numpy legacy RNG only), so re-running
+  one reproduces it exactly. The PrivPetal baseline cells are **not** bit-reproducible:
+  its implementation dispatches per-attribute jobs through `multiprocessing.Pool`
+  with `apply_async`, so which job a forked worker picks up — and therefore the
+  random stream it consumes — varies from run to run even on one machine with the
+  same seed. Two same-seed runs on the same GPU differ on the synthetic foreign-key
+  assignment by as much as a cross-platform pair does (measured: same-machine TVD
+  35% vs cross-machine 33% on the FK column), while the synthetic *parent* content is
+  identical as a multiset and per-table marginal TVDs stay below 1%. Seeds are
+  therefore a Monte-Carlo handle, not a bit-level reproducibility handle, for that
+  baseline; the aggregate statistics (medians over 10 seeds) are unaffected.
+* **PerTable naming.** The per-table baseline appears as `pertable` in
+  `results/by_dataset/`, `results/tables/p7_effect.tsv` and
+  `results/tables/tab_re_appendix.tsv`, and as `privmrf` in
+  `results/tables/p7_summary.tsv`; both are the manuscript's *PerTable*.
+* **Planted-mode cells.** The planted grid is shipped as aggregated tables and
+  figures only; the per-cell planted records live in the live campaign tree
+  (`tmp/results/<dataset>/`), which is not part of this repository.

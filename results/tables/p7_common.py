@@ -1,12 +1,41 @@
 #!/usr/bin/env python3
-"""P7 统计汇总共享加载器（只读 tmp/results，不改任何数据）。"""
+"""P7 统计汇总共享加载器（只读，不改任何数据）。
+
+数据源解析：优先随仓归档 ``results/by_dataset/``，否则用现场战役树
+``tmp/results/``。项目根按"是否存在这两个数据目录"向上探测——同一份脚本曾同时
+存在于 ``<root>/tmp/`` 与 ``<root>/results/tables/``，后者用
+``dirname(dirname(__file__))`` 会落在 ``results/``，导致 D 指向不存在的
+``results/tmp/results``，所有汇总静默退化成 0 行。
+"""
 import json, os, glob
 
-ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
-# Read the shipped archive when present (results/by_dataset/), otherwise a live
-# campaign tree (tmp/results/).
-_cands = [os.path.join(ROOT, 'results', 'by_dataset'), os.path.join(ROOT, 'tmp', 'results')]
-D = next((c for c in _cands if os.path.isdir(c)), _cands[-1])
+
+def _has_data(d):
+    return (os.path.isdir(os.path.join(d, 'results', 'by_dataset'))
+            or os.path.isdir(os.path.join(d, 'tmp', 'results')))
+
+
+def _find_root(start):
+    d = os.path.abspath(start)
+    for _ in range(6):
+        if _has_data(d):
+            return d
+        parent = os.path.dirname(d)
+        if parent == d:
+            break
+        d = parent
+    # 回退到旧口径（<root>/tmp/ 下的拷贝）
+    return os.path.normpath(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+
+
+ROOT = _find_root(os.path.dirname(os.path.abspath(__file__)))
+# Prefer the live campaign tree when it exists: it holds both the natural cells
+# and the planted-mode records, while results/by_dataset ships only the natural
+# grid.  In the published repository tmp/results is absent and the archive wins.
+_ALL = [os.path.join(ROOT, 'tmp', 'results'),
+        os.path.join(ROOT, 'results', 'by_dataset')]
+D = next((c for c in _ALL if os.path.isdir(c)), _ALL[-1])
 
 DATASETS = ['financial', 'imdb', 'instacart', 'movielens']
 EPS_ORDER = [0.1, 0.2, 0.4, 0.8, 1.6, 3.2]
@@ -63,7 +92,12 @@ def plant_t_from_filename(fp_or_name):
 
 def load_rows(pref_order=None):
     """同 (ds, series, eps, seed, mode, t) 去重（plant 模式 t 取自卫文件名；
-    natural 模式 t=None），同格保留 pref 横靠前的源码文件。"""
+    natural 模式 t=None），同格保留 pref 横靠前的源码文件。
+
+    降级记录（无 re.re_median_large，例如 movielens 上被历史 bug 写坏的
+    lavaprop_natural_eps0.1/3.2_seed42.json）永不顶掉同格的可用记录；可用
+    记录则一定顶掉降级记录，避免去重结果依赖 glob 的返回顺序。
+    """
     best = {}
     for d in iter_files():
         series = canonical_series(d.get('method'))
@@ -73,9 +107,14 @@ def load_rows(pref_order=None):
         key = (d['_dataset'], series, d.get('eps'), d.get('seed'),
                d.get('mode'), t)
         if key in best:
-            # 保留 pref 更靠前者；并列保留先见
-            if pref_order is not None and \
-               pref_order.index(d.get('method')) < pref_order.index(best[key].get('method')):
+            old = best[key]
+            new_ok = hop2_re(d) is not None
+            old_ok = hop2_re(old) is not None
+            if new_ok and not old_ok:
+                best[key] = d
+            elif new_ok == old_ok and pref_order is not None and \
+                    pref_order.index(d.get('method')) < \
+                    pref_order.index(old.get('method')):
                 best[key] = d
         else:
             best[key] = d

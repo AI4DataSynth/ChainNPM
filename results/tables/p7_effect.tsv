@@ -1,107 +1,251 @@
-# P7-3 effect/contrast retention (planted mode): retention error = |syn - real| / |real| per seed, aggregated by mean/median over seeds
-# financial -> target=delta; vshape -> target=contrast (plant_xor also phi=xor interaction when present)
-# series: chainnpm / privmrf(=privmrf+pertable, pertable preferred) / privpetal; denorm excluded; privpetal n=3 eps3.2 only; privbayes/pbpgm/lavaprop no planted data
-dataset	mode	eps	t	series	target	n	real_mean	real_med	syn_mean	syn_med	ret_err_mean	ret_err_med
-financial	plant_product	0.8	0.100	chainnpm	delta	10	0.089873	0.089788	-0.074899	-0.018949	2.142827	1.479204
-financial	plant_product	0.8	0.100	privmrf	delta	10	0.089873	0.089788	-0.000111	-0.000182	1.001236	1.002018
-financial	plant_product	0.8	0.200	chainnpm	delta	10	0.183550	0.183692	-0.073667	-0.020082	1.454369	1.109209
-financial	plant_product	0.8	0.200	privmrf	delta	10	0.183550	0.183692	-0.000197	-0.000383	1.001062	1.002086
-financial	plant_product	0.8	0.316	chainnpm	delta	10	0.324598	0.324555	-0.071726	-0.022155	1.221400	1.068359
-financial	plant_product	0.8	0.316	privmrf	delta	10	0.324598	0.324555	-0.000128	-0.000154	1.000396	1.000474
-financial	plant_product	0.8	0.400	chainnpm	delta	10	0.371449	0.371362	-0.071055	-0.023044	1.191395	1.062186
-financial	plant_product	0.8	0.400	privmrf	delta	10	0.371449	0.371362	-0.000439	-0.000334	1.001181	1.000899
-financial	plant_product	3.2	0.100	chainnpm	delta	10	0.089873	0.089788	-0.009011	0.003535	1.101191	0.960623
-financial	plant_product	3.2	0.100	privmrf	delta	10	0.089873	0.089788	0.000020	-0.000114	0.999748	1.001260
-financial	plant_product	3.2	0.200	chainnpm	delta	10	0.183550	0.183692	-0.008726	0.002565	1.047427	0.986007
-financial	plant_product	3.2	0.200	privmrf	delta	10	0.183550	0.183692	-0.000544	-0.000423	1.002971	1.002307
-financial	plant_product	3.2	0.316	chainnpm	delta	10	0.324598	0.324555	-0.008382	0.002974	1.026026	0.990859
-financial	plant_product	3.2	0.316	privmrf	delta	10	0.324598	0.324555	-0.000138	-0.000153	1.000426	1.000473
-financial	plant_product	3.2	0.316	privpetal	delta	3	0.325560	0.325560	0.001712	0.001098	0.994742	0.996627
-financial	plant_product	3.2	0.400	chainnpm	delta	10	0.371449	0.371362	-0.007919	0.002908	1.021399	0.992166
-financial	plant_product	3.2	0.400	privmrf	delta	10	0.371449	0.371362	-0.000269	-0.000152	1.000723	1.000409
-financial	plant_xor	0.8	0.800	chainnpm	delta	10	0.051533	0.051557	-0.071374	-0.017158	3.044934	1.980351
-financial	plant_xor	0.8	0.800	privmrf	delta	10	0.051533	0.051557	0.000247	0.000086	0.995253	0.998337
-financial	plant_xor	3.2	0.800	chainnpm	delta	10	0.051533	0.051557	-0.012906	0.003862	1.244394	0.924635
-financial	plant_xor	3.2	0.800	privmrf	delta	10	0.051533	0.051557	-0.000049	0.000151	1.000991	0.997077
-financial	plant_xor	3.2	0.800	privpetal	delta	3	0.051569	0.051569	-0.004517	-0.004524	1.087592	1.087718
-imdb	plant_product	0.8	0.100	chainnpm	contrast	10	0.121080	0.121080	0.045435	0.045111	0.624750	0.627429
-imdb	plant_product	0.8	0.100	privmrf	contrast	10	0.121080	0.121080	0.000082	-0.000153	0.999320	1.001260
-imdb	plant_product	0.8	0.200	chainnpm	contrast	10	0.121080	0.121080	0.135504	0.141099	0.120023	0.165337
-imdb	plant_product	0.8	0.200	privmrf	contrast	10	0.121080	0.121080	0.000082	-0.000153	0.999320	1.001260
-imdb	plant_product	0.8	0.316	chainnpm	contrast	10	0.121080	0.121080	0.135504	0.141099	0.120023	0.165337
-imdb	plant_product	0.8	0.316	privmrf	contrast	10	0.121080	0.121080	0.000082	-0.000153	0.999320	1.001260
-imdb	plant_product	0.8	0.400	chainnpm	contrast	10	0.121080	0.121080	0.135504	0.141099	0.120023	0.165337
-imdb	plant_product	0.8	0.400	privmrf	contrast	10	0.121080	0.121080	0.000082	-0.000153	0.999320	1.001260
-imdb	plant_product	3.2	0.100	chainnpm	contrast	10	0.121080	0.121080	0.045227	0.045303	0.626468	0.625842
-imdb	plant_product	3.2	0.100	privmrf	contrast	10	0.121080	0.121080	-0.000340	-0.000267	1.002812	1.002206
-imdb	plant_product	3.2	0.200	chainnpm	contrast	10	0.121080	0.121080	0.134576	0.139143	0.111676	0.149186
-imdb	plant_product	3.2	0.200	privmrf	contrast	10	0.121080	0.121080	-0.000340	-0.000267	1.002812	1.002206
-imdb	plant_product	3.2	0.316	chainnpm	contrast	10	0.121080	0.121080	0.134576	0.139143	0.111676	0.149186
-imdb	plant_product	3.2	0.316	privmrf	contrast	10	0.121080	0.121080	-0.000340	-0.000267	1.002812	1.002206
-imdb	plant_product	3.2	0.316	privpetal	contrast	3	0.121080	0.121080	0.114115	0.112034	0.095241	0.074710
-imdb	plant_product	3.2	0.400	chainnpm	contrast	10	0.121080	0.121080	0.134576	0.139143	0.111676	0.149186
-imdb	plant_product	3.2	0.400	privmrf	contrast	10	0.121080	0.121080	-0.000340	-0.000267	1.002812	1.002206
-imdb	plant_xor	0.8	0.800	chainnpm	contrast	10	0.121080	0.121080	0.148873	0.148516	0.229546	0.226594
-imdb	plant_xor	0.8	0.800	chainnpm	phi	10	0.557467	0.557466	0.525070	0.524981	0.058113	0.058271
-imdb	plant_xor	0.8	0.800	privmrf	contrast	10	0.121080	0.121080	0.000082	-0.000153	0.999320	1.001260
-imdb	plant_xor	0.8	0.800	privmrf	phi	10	0.557467	0.557466	0.486117	0.486138	0.127990	0.127952
-imdb	plant_xor	3.2	0.800	chainnpm	contrast	10	0.121080	0.121080	0.146520	0.146607	0.210114	0.210827
-imdb	plant_xor	3.2	0.800	chainnpm	phi	10	0.557467	0.557466	0.524397	0.524269	0.059322	0.059551
-imdb	plant_xor	3.2	0.800	privmrf	contrast	10	0.121080	0.121080	-0.000340	-0.000267	1.002812	1.002206
-imdb	plant_xor	3.2	0.800	privmrf	phi	10	0.557467	0.557466	0.485923	0.485917	0.128337	0.128349
-imdb	plant_xor	3.2	0.800	privpetal	contrast	3	0.121080	0.121080	0.082835	0.081935	0.315866	0.323296
-imdb	plant_xor	3.2	0.800	privpetal	phi	3	0.557469	0.557469	0.508930	0.508877	0.087070	0.087165
-instacart	plant_product	0.8	0.100	chainnpm	contrast	10	0.098066	0.098162	0.104165	0.109982	0.202515	0.191892
-instacart	plant_product	0.8	0.100	privmrf	contrast	10	0.098066	0.098162	-0.000173	0.000048	1.001744	0.999463
-instacart	plant_product	0.8	0.200	chainnpm	contrast	10	0.187385	0.186821	0.195092	0.196434	0.103223	0.091021
-instacart	plant_product	0.8	0.200	privmrf	contrast	10	0.187385	0.186821	-0.000173	0.000048	1.000910	0.999735
-instacart	plant_product	0.8	0.316	chainnpm	contrast	10	0.298361	0.297006	0.307813	0.312765	0.065760	0.058104
-instacart	plant_product	0.8	0.316	privmrf	contrast	10	0.298361	0.297006	-0.000173	0.000048	1.000579	0.999831
-instacart	plant_product	0.8	0.400	chainnpm	contrast	10	0.398444	0.395000	0.409573	0.414602	0.050347	0.042002
-instacart	plant_product	0.8	0.400	privmrf	contrast	10	0.398444	0.395000	-0.000173	0.000048	1.000445	0.999883
-instacart	plant_product	3.2	0.100	chainnpm	contrast	10	0.098066	0.098162	0.094242	0.094647	0.062992	0.055202
-instacart	plant_product	3.2	0.100	privmrf	contrast	10	0.098066	0.098162	0.001418	0.001197	0.985421	0.988001
-instacart	plant_product	3.2	0.200	chainnpm	contrast	10	0.187385	0.186821	0.185063	0.182337	0.027109	0.021612
-instacart	plant_product	3.2	0.200	privmrf	contrast	10	0.187385	0.186821	0.001418	0.001197	0.992400	0.993525
-instacart	plant_product	3.2	0.316	chainnpm	contrast	10	0.298361	0.297006	0.296599	0.295190	0.014464	0.011427
-instacart	plant_product	3.2	0.316	privmrf	contrast	10	0.298361	0.297006	0.001418	0.001197	0.995233	0.996058
-instacart	plant_product	3.2	0.316	privpetal	contrast	3	0.306200	0.306200	-0.001149	-0.003363	1.003753	1.010982
-instacart	plant_product	3.2	0.400	chainnpm	contrast	10	0.398444	0.395000	0.398977	0.399670	0.011501	0.011960
-instacart	plant_product	3.2	0.400	privmrf	contrast	10	0.398444	0.395000	0.001418	0.001197	0.996441	0.997062
-instacart	plant_xor	0.8	0.800	chainnpm	contrast	10	-1.013989	-1.013968	-0.988673	-0.984362	0.026913	0.029259
-instacart	plant_xor	0.8	0.800	chainnpm	phi	10	0.717257	0.717253	0.719624	0.717264	0.005516	0.003129
-instacart	plant_xor	0.8	0.800	privmrf	contrast	10	-1.013989	-1.013968	-0.000173	0.000048	0.999829	1.000048
-instacart	plant_xor	0.8	0.800	privmrf	phi	10	0.717257	0.717253	0.498840	0.498636	0.304516	0.304802
-instacart	plant_xor	3.2	0.800	chainnpm	contrast	10	-1.013989	-1.013968	-1.007124	-1.004614	0.008814	0.009219
-instacart	plant_xor	3.2	0.800	chainnpm	phi	10	0.717257	0.717253	0.724347	0.723739	0.009886	0.009032
-instacart	plant_xor	3.2	0.800	privmrf	contrast	10	-1.013989	-1.013968	0.001418	0.001197	1.001398	1.001181
-instacart	plant_xor	3.2	0.800	privmrf	phi	10	0.717257	0.717253	0.498529	0.498506	0.304950	0.304987
-instacart	plant_xor	3.2	0.800	privpetal	contrast	3	-1.013947	-1.013947	0.001383	0.000140	1.001364	1.000139
-instacart	plant_xor	3.2	0.800	privpetal	phi	3	0.717249	0.717249	0.512930	0.513473	0.284865	0.284108
-movielens	plant_product	0.8	0.100	chainnpm	contrast	10	0.109142	0.108670	0.146597	0.126987	0.787351	0.722764
-movielens	plant_product	0.8	0.100	privmrf	contrast	10	0.109142	0.108670	-0.000204	-0.000256	1.001852	1.002332
-movielens	plant_product	0.8	0.200	chainnpm	contrast	10	0.184524	0.184248	0.214345	0.196051	0.476556	0.435056
-movielens	plant_product	0.8	0.200	privmrf	contrast	10	0.184524	0.184248	-0.000204	-0.000256	1.001106	1.001394
-movielens	plant_product	0.8	0.316	chainnpm	contrast	10	0.298062	0.296675	0.309800	0.290615	0.290533	0.265970
-movielens	plant_product	0.8	0.316	privmrf	contrast	10	0.298062	0.296675	-0.000204	-0.000256	1.000680	1.000865
-movielens	plant_product	0.8	0.400	chainnpm	contrast	10	0.297345	0.296794	0.310186	0.299262	0.287520	0.260384
-movielens	plant_product	0.8	0.400	privmrf	contrast	10	0.297345	0.296794	-0.000204	-0.000256	1.000691	1.000863
-movielens	plant_product	3.2	0.100	chainnpm	contrast	10	0.109142	0.108670	0.125015	0.120299	0.272928	0.263158
-movielens	plant_product	3.2	0.100	privmrf	contrast	10	0.109142	0.108670	-0.000796	-0.001253	1.007322	1.011492
-movielens	plant_product	3.2	0.200	chainnpm	contrast	10	0.184524	0.184248	0.197130	0.196283	0.164594	0.155285
-movielens	plant_product	3.2	0.200	privmrf	contrast	10	0.184524	0.184248	-0.000796	-0.001253	1.004298	1.006850
-movielens	plant_product	3.2	0.316	chainnpm	contrast	10	0.298062	0.296675	0.310032	0.308871	0.103918	0.099643
-movielens	plant_product	3.2	0.316	privmrf	contrast	10	0.298062	0.296675	-0.000796	-0.001253	1.002657	1.004241
-movielens	plant_product	3.2	0.316	privpetal	contrast	3	0.276547	0.276547	-0.006340	-0.006926	1.022925	1.025046
-movielens	plant_product	3.2	0.400	chainnpm	contrast	10	0.297345	0.296794	0.306489	0.306588	0.105619	0.103517
-movielens	plant_product	3.2	0.400	privmrf	contrast	10	0.297345	0.296794	-0.000796	-0.001253	1.002669	1.004226
-movielens	plant_xor	0.8	0.800	chainnpm	contrast	10	0.957739	0.977072	0.806171	0.802478	0.158341	0.151169
-movielens	plant_xor	0.8	0.800	chainnpm	phi	10	0.818184	0.819237	0.591209	0.592110	0.277457	0.277232
-movielens	plant_xor	0.8	0.800	privmrf	contrast	10	0.977564	0.977072	-0.000204	-0.000256	1.000209	1.000261
-movielens	plant_xor	0.8	0.800	privmrf	phi	10	0.819378	0.819237	0.498710	0.498703	0.391355	0.391304
-movielens	plant_xor	3.2	0.800	chainnpm	contrast	10	0.957739	0.977072	0.894264	0.893611	0.065080	0.074653
-movielens	plant_xor	3.2	0.800	chainnpm	phi	10	0.818184	0.819237	0.591278	0.590174	0.277328	0.277927
-movielens	plant_xor	3.2	0.800	privmrf	contrast	10	0.977564	0.977072	-0.000796	-0.001253	1.000816	1.001282
-movielens	plant_xor	3.2	0.800	privmrf	phi	10	0.819378	0.819237	0.498609	0.498570	0.391479	0.391613
-movielens	plant_xor	3.2	0.800	privpetal	contrast	3	0.777075	0.777075	0.004425	0.004572	0.994306	0.994116
-movielens	plant_xor	3.2	0.800	privpetal	phi	3	0.806884	0.806884	0.503084	0.503761	0.376511	0.375671
+# P7-3 planted-mode effect retention (six series)
+# retention error = |syn - real| / |real| per seed, aggregated over seeds (median primary; mean/min/max also reported)
+# real = planted effect on the real released data, syn = the same functional on the synthetic data; 0 = effect survives, 1 = effect lost (per-table / no-cross-table level), >1 = worse
+# target: financial(chain) -> delta = Pr[a=1|x1=1] - Pr[a=1|x1=0]; imdb/instacart/movielens(vshape) -> contrast = cell_mean(00) - cell_mean(01); plant_xor additionally yields phi (phi_xor interaction)
+# series (6): chainnpm / pertable / privpetal / privbayes / pbpgm / lavaprop. pertable = the manuscript PerTable (per-table PrivMRF + random FK relinking), the only per-table series in the archive; the same series is keyed privmrf in p7_summary.tsv. denorm excluded by user decision; no standalone plant-mode privmrf record exists
+# coverage: plant_product = targets 0.1/0.2/0.316/0.4 x eps 0.8,3.2 x seeds 42-51; plant_xor = target phi 0.8 x eps 0.8,3.2 x seeds 42-51. chainnpm/pertable/privbayes/pbpgm/lavaprop are complete (n=10 per cell); privpetal is a PARTIAL n=3 subset (eps=3.2, seeds 42-44, target 0.316 for product and 0.8 for xor) -> partial=1
+# plant_reused=1: the planted REAL effect at this target equals that of another target of the same (dataset, series, mode, eps) group, so the audit target was not actually varied (imdb reaches the attainable contrast at every requested target: 2-hop contrast 0.12108 at all four; lavaprop carries one realised plant t=0.316 in all four product files on the three vshape datasets). The synthetic side may still differ, in which case the retention error differs even though the audit target does not
+# syn_reused=1: the synthetic effect coincides in the same way (lavaprop on financial: four distinct plants, one identical synthetic effect)
+# source_labels: raw JSON method label(s) actually consumed for the series; n_seeds lists the seeds present
+dataset	mode	eps	t	series	target	n	partial	plant_reused	syn_reused	real_med	syn_med	ret_err_med	ret_err_mean	ret_err_min	ret_err_max	n_seeds	source_labels
+financial	plant_product	0.8	0.100	chainnpm	delta	10	0	0	0	0.089788	-0.018949	1.479204	2.142827	0.638526	8.372412	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	0.8	0.100	pertable	delta	10	0	0	0	0.089788	-0.000182	1.002018	1.001236	0.986881	1.025100	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+financial	plant_product	0.8	0.100	privbayes	delta	10	0	0	0	0.089788	0.000390	0.995681	0.994309	0.974822	1.021649	42,43,44,45,46,47,48,49,50,51	privbayes
+financial	plant_product	0.8	0.100	pbpgm	delta	10	0	0	0	0.089788	-0.000549	1.006089	1.003455	0.982025	1.016745	42,43,44,45,46,47,48,49,50,51	pbpgm
+financial	plant_product	0.8	0.100	lavaprop	delta	10	0	0	1	0.089788	-0.000123	1.001367	1.000560	0.979310	1.020076	42,43,44,45,46,47,48,49,50,51	lavaprop
+financial	plant_product	0.8	0.200	chainnpm	delta	10	0	0	0	0.183692	-0.020082	1.109209	1.454369	0.268441	4.565349	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	0.8	0.200	pertable	delta	10	0	0	0	0.183692	-0.000383	1.002086	1.001062	0.988852	1.007880	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+financial	plant_product	0.8	0.200	privbayes	delta	10	0	0	0	0.183692	0.000516	0.997190	0.997943	0.989821	1.009562	42,43,44,45,46,47,48,49,50,51	privbayes
+financial	plant_product	0.8	0.200	pbpgm	delta	10	0	0	0	0.183692	-0.000582	1.003164	1.002585	0.986647	1.011820	42,43,44,45,46,47,48,49,50,51	pbpgm
+financial	plant_product	0.8	0.200	lavaprop	delta	10	0	0	1	0.183692	-0.000123	1.000667	1.000278	0.989916	1.009873	42,43,44,45,46,47,48,49,50,51	lavaprop
+financial	plant_product	0.8	0.316	chainnpm	delta	10	0	0	0	0.324555	-0.022155	1.068359	1.221400	0.273793	2.993245	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	0.8	0.316	pertable	delta	10	0	0	0	0.324555	-0.000154	1.000474	1.000396	0.996789	1.005432	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+financial	plant_product	0.8	0.316	privbayes	delta	10	0	0	0	0.324555	0.000484	0.998509	0.999130	0.994517	1.005970	42,43,44,45,46,47,48,49,50,51	privbayes
+financial	plant_product	0.8	0.316	pbpgm	delta	10	0	0	0	0.324555	-0.000783	1.002407	1.001716	0.992341	1.005964	42,43,44,45,46,47,48,49,50,51	pbpgm
+financial	plant_product	0.8	0.316	lavaprop	delta	10	0	0	1	0.324555	-0.000123	1.000379	1.000155	0.994296	1.005549	42,43,44,45,46,47,48,49,50,51	lavaprop
+financial	plant_product	0.8	0.400	chainnpm	delta	10	0	0	0	0.371362	-0.023044	1.062186	1.191395	0.358832	2.732018	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	0.8	0.400	pertable	delta	10	0	0	0	0.371362	-0.000334	1.000899	1.001181	0.999048	1.003507	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+financial	plant_product	0.8	0.400	privbayes	delta	10	0	0	0	0.371362	0.000500	0.998655	0.999015	0.995203	1.003547	42,43,44,45,46,47,48,49,50,51	privbayes
+financial	plant_product	0.8	0.400	pbpgm	delta	10	0	0	0	0.371362	-0.000576	1.001549	1.001146	0.993743	1.005245	42,43,44,45,46,47,48,49,50,51	pbpgm
+financial	plant_product	0.8	0.400	lavaprop	delta	10	0	0	1	0.371362	-0.000123	1.000332	1.000136	0.995016	1.004852	42,43,44,45,46,47,48,49,50,51	lavaprop
+financial	plant_product	3.2	0.100	chainnpm	delta	10	0	0	0	0.089788	0.003535	0.960623	1.101191	0.246379	3.390864	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	3.2	0.100	pertable	delta	10	0	0	0	0.089788	-0.000114	1.001260	0.999748	0.976049	1.030198	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+financial	plant_product	3.2	0.100	privbayes	delta	10	0	0	0	0.089788	0.000220	0.997546	0.999382	0.989650	1.018475	42,43,44,45,46,47,48,49,50,51	privbayes
+financial	plant_product	3.2	0.100	pbpgm	delta	10	0	0	0	0.089788	-0.000348	1.003870	1.000939	0.973287	1.016435	42,43,44,45,46,47,48,49,50,51	pbpgm
+financial	plant_product	3.2	0.100	lavaprop	delta	10	0	0	1	0.089788	0.000342	0.996193	1.001072	0.990485	1.017656	42,43,44,45,46,47,48,49,50,51	lavaprop
+financial	plant_product	3.2	0.200	chainnpm	delta	10	0	0	0	0.183692	0.002565	0.986007	1.047427	0.630918	2.131284	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	3.2	0.200	pertable	delta	10	0	0	0	0.183692	-0.000423	1.002307	1.002971	0.995573	1.009605	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+financial	plant_product	3.2	0.200	privbayes	delta	10	0	0	0	0.183692	0.000544	0.997029	0.998805	0.994794	1.009111	42,43,44,45,46,47,48,49,50,51	privbayes
+financial	plant_product	3.2	0.200	pbpgm	delta	10	0	0	0	0.183692	-0.000142	1.000777	1.000224	0.987868	1.009842	42,43,44,45,46,47,48,49,50,51	pbpgm
+financial	plant_product	3.2	0.200	lavaprop	delta	10	0	0	1	0.183692	0.000342	0.998137	1.000520	0.995307	1.008662	42,43,44,45,46,47,48,49,50,51	lavaprop
+financial	plant_product	3.2	0.316	chainnpm	delta	10	0	0	0	0.324555	0.002974	0.990859	1.026026	0.797662	1.604943	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	3.2	0.316	pertable	delta	10	0	0	0	0.324555	-0.000153	1.000473	1.000426	0.997760	1.003911	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+financial	plant_product	3.2	0.316	privpetal	delta	3	1	0	0	0.325560	0.001098	0.996627	0.994742	0.984094	1.003505	42,43,44	privpetal
+financial	plant_product	3.2	0.316	privbayes	delta	10	0	0	0	0.324555	0.000354	0.998910	0.999422	0.997694	1.005149	42,43,44,45,46,47,48,49,50,51	privbayes
+financial	plant_product	3.2	0.316	pbpgm	delta	10	0	0	0	0.324555	-0.000236	1.000728	1.000455	0.995035	1.005091	42,43,44,45,46,47,48,49,50,51	pbpgm
+financial	plant_product	3.2	0.316	lavaprop	delta	10	0	0	1	0.324555	0.000342	0.998946	1.000294	0.997344	1.004879	42,43,44,45,46,47,48,49,50,51	lavaprop
+financial	plant_product	3.2	0.400	chainnpm	delta	10	0	0	0	0.371362	0.002908	0.992166	1.021399	0.819833	1.515843	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	3.2	0.400	pertable	delta	10	0	0	0	0.371362	-0.000152	1.000409	1.000723	0.997465	1.005773	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+financial	plant_product	3.2	0.400	privbayes	delta	10	0	0	0	0.371362	0.000318	0.999145	0.999423	0.996929	1.004506	42,43,44,45,46,47,48,49,50,51	privbayes
+financial	plant_product	3.2	0.400	pbpgm	delta	10	0	0	0	0.371362	-0.000265	1.000718	1.000600	0.997296	1.003681	42,43,44,45,46,47,48,49,50,51	pbpgm
+financial	plant_product	3.2	0.400	lavaprop	delta	10	0	0	1	0.371362	0.000342	0.999079	1.000259	0.997679	1.004265	42,43,44,45,46,47,48,49,50,51	lavaprop
+financial	plant_xor	0.8	0.800	chainnpm	delta	10	0	0	0	0.051557	-0.017158	1.980351	3.044934	0.144891	13.252931	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_xor	0.8	0.800	pertable	delta	10	0	0	0	0.051557	0.000086	0.998337	0.995253	0.947720	1.020361	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+financial	plant_xor	0.8	0.800	privbayes	delta	10	0	0	0	0.051557	0.000399	0.992230	0.993926	0.965833	1.031548	42,43,44,45,46,47,48,49,50,51	privbayes
+financial	plant_xor	0.8	0.800	pbpgm	delta	10	0	0	0	0.051557	-0.000594	1.011803	1.008158	0.953226	1.034263	42,43,44,45,46,47,48,49,50,51	pbpgm
+financial	plant_xor	0.8	0.800	lavaprop	delta	10	0	0	0	0.051557	-0.000123	1.002357	1.001029	0.963855	1.035236	42,43,44,45,46,47,48,49,50,51	lavaprop
+financial	plant_xor	3.2	0.800	chainnpm	delta	10	0	0	0	0.051557	0.003862	0.924635	1.244394	0.211539	4.946781	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_xor	3.2	0.800	pertable	delta	10	0	0	0	0.051557	0.000151	0.997077	1.000991	0.983113	1.035310	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+financial	plant_xor	3.2	0.800	privpetal	delta	3	1	0	0	0.051569	-0.004524	1.087718	1.087592	1.058103	1.116955	42,43,44	privpetal
+financial	plant_xor	3.2	0.800	privbayes	delta	10	0	0	0	0.051557	0.000563	0.989062	0.994367	0.979634	1.032230	42,43,44,45,46,47,48,49,50,51	privbayes
+financial	plant_xor	3.2	0.800	pbpgm	delta	10	0	0	0	0.051557	-0.000294	1.005649	1.003519	0.975339	1.024806	42,43,44,45,46,47,48,49,50,51	pbpgm
+financial	plant_xor	3.2	0.800	lavaprop	delta	10	0	0	0	0.051557	0.000342	0.993391	1.001909	0.983401	1.030801	42,43,44,45,46,47,48,49,50,51	lavaprop
+imdb	plant_product	0.8	0.100	chainnpm	contrast	10	0	1	0	0.121080	0.045111	0.627429	0.624750	0.603929	0.634061	42,43,44,45,46,47,48,49,50,51	chainnpm
+imdb	plant_product	0.8	0.100	pertable	contrast	10	0	1	1	0.121080	-0.000153	1.001260	0.999320	0.988387	1.006562	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+imdb	plant_product	0.8	0.100	privbayes	contrast	10	0	1	1	0.121080	0.000295	0.997564	0.998653	0.988016	1.012843	42,43,44,45,46,47,48,49,50,51	privbayes
+imdb	plant_product	0.8	0.100	pbpgm	contrast	10	0	1	1	0.121080	-0.000270	1.002227	1.002708	0.994890	1.012622	42,43,44,45,46,47,48,49,50,51	pbpgm
+imdb	plant_product	0.8	0.100	lavaprop	contrast	10	0	1	1	0.121080	-0.001290	1.010653	1.013853	0.994169	1.045238	42,43,44,45,46,47,48,49,50,51	lavaprop
+imdb	plant_product	0.8	0.200	chainnpm	contrast	10	0	1	1	0.121080	0.141099	0.165337	0.120023	0.001710	0.180593	42,43,44,45,46,47,48,49,50,51	chainnpm
+imdb	plant_product	0.8	0.200	pertable	contrast	10	0	1	1	0.121080	-0.000153	1.001260	0.999320	0.988387	1.006562	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+imdb	plant_product	0.8	0.200	privbayes	contrast	10	0	1	1	0.121080	0.000295	0.997564	0.998653	0.988016	1.012843	42,43,44,45,46,47,48,49,50,51	privbayes
+imdb	plant_product	0.8	0.200	pbpgm	contrast	10	0	1	1	0.121080	-0.000270	1.002227	1.002708	0.994890	1.012622	42,43,44,45,46,47,48,49,50,51	pbpgm
+imdb	plant_product	0.8	0.200	lavaprop	contrast	10	0	1	1	0.121080	-0.001290	1.010653	1.013853	0.994169	1.045238	42,43,44,45,46,47,48,49,50,51	lavaprop
+imdb	plant_product	0.8	0.316	chainnpm	contrast	10	0	1	1	0.121080	0.141099	0.165337	0.120023	0.001710	0.180593	42,43,44,45,46,47,48,49,50,51	chainnpm
+imdb	plant_product	0.8	0.316	pertable	contrast	10	0	1	1	0.121080	-0.000153	1.001260	0.999320	0.988387	1.006562	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+imdb	plant_product	0.8	0.316	privbayes	contrast	10	0	1	1	0.121080	0.000295	0.997564	0.998653	0.988016	1.012843	42,43,44,45,46,47,48,49,50,51	privbayes
+imdb	plant_product	0.8	0.316	pbpgm	contrast	10	0	1	1	0.121080	-0.000270	1.002227	1.002708	0.994890	1.012622	42,43,44,45,46,47,48,49,50,51	pbpgm
+imdb	plant_product	0.8	0.316	lavaprop	contrast	10	0	1	1	0.121080	-0.001290	1.010653	1.013853	0.994169	1.045238	42,43,44,45,46,47,48,49,50,51	lavaprop
+imdb	plant_product	0.8	0.400	chainnpm	contrast	10	0	1	1	0.121080	0.141099	0.165337	0.120023	0.001710	0.180593	42,43,44,45,46,47,48,49,50,51	chainnpm
+imdb	plant_product	0.8	0.400	pertable	contrast	10	0	1	1	0.121080	-0.000153	1.001260	0.999320	0.988387	1.006562	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+imdb	plant_product	0.8	0.400	privbayes	contrast	10	0	1	1	0.121080	0.000295	0.997564	0.998653	0.988016	1.012843	42,43,44,45,46,47,48,49,50,51	privbayes
+imdb	plant_product	0.8	0.400	pbpgm	contrast	10	0	1	1	0.121080	-0.000270	1.002227	1.002708	0.994890	1.012622	42,43,44,45,46,47,48,49,50,51	pbpgm
+imdb	plant_product	0.8	0.400	lavaprop	contrast	10	0	1	1	0.121080	-0.001290	1.010653	1.013853	0.994169	1.045238	42,43,44,45,46,47,48,49,50,51	lavaprop
+imdb	plant_product	3.2	0.100	chainnpm	contrast	10	0	1	0	0.121080	0.045303	0.625842	0.626468	0.616092	0.642244	42,43,44,45,46,47,48,49,50,51	chainnpm
+imdb	plant_product	3.2	0.100	pertable	contrast	10	0	1	1	0.121080	-0.000267	1.002206	1.002812	0.997932	1.009275	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+imdb	plant_product	3.2	0.100	privbayes	contrast	10	0	1	1	0.121080	0.000720	0.994057	0.994555	0.982699	1.004940	42,43,44,45,46,47,48,49,50,51	privbayes
+imdb	plant_product	3.2	0.100	pbpgm	contrast	10	0	1	1	0.121080	-0.000133	1.001099	1.002146	0.988350	1.021431	42,43,44,45,46,47,48,49,50,51	pbpgm
+imdb	plant_product	3.2	0.100	lavaprop	contrast	10	0	1	1	0.121080	-0.000599	1.004944	1.005580	0.972462	1.044461	42,43,44,45,46,47,48,49,50,51	lavaprop
+imdb	plant_product	3.2	0.200	chainnpm	contrast	10	0	1	1	0.121080	0.139143	0.149186	0.111676	0.001041	0.172229	42,43,44,45,46,47,48,49,50,51	chainnpm
+imdb	plant_product	3.2	0.200	pertable	contrast	10	0	1	1	0.121080	-0.000267	1.002206	1.002812	0.997932	1.009275	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+imdb	plant_product	3.2	0.200	privbayes	contrast	10	0	1	1	0.121080	0.000720	0.994057	0.994555	0.982699	1.004940	42,43,44,45,46,47,48,49,50,51	privbayes
+imdb	plant_product	3.2	0.200	pbpgm	contrast	10	0	1	1	0.121080	-0.000133	1.001099	1.002146	0.988350	1.021431	42,43,44,45,46,47,48,49,50,51	pbpgm
+imdb	plant_product	3.2	0.200	lavaprop	contrast	10	0	1	1	0.121080	-0.000599	1.004944	1.005580	0.972462	1.044461	42,43,44,45,46,47,48,49,50,51	lavaprop
+imdb	plant_product	3.2	0.316	chainnpm	contrast	10	0	1	1	0.121080	0.139143	0.149186	0.111676	0.001041	0.172229	42,43,44,45,46,47,48,49,50,51	chainnpm
+imdb	plant_product	3.2	0.316	pertable	contrast	10	0	1	1	0.121080	-0.000267	1.002206	1.002812	0.997932	1.009275	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+imdb	plant_product	3.2	0.316	privpetal	contrast	3	1	0	0	0.121080	0.112034	0.074710	0.095241	0.056572	0.154442	42,43,44	privpetal
+imdb	plant_product	3.2	0.316	privbayes	contrast	10	0	1	1	0.121080	0.000720	0.994057	0.994555	0.982699	1.004940	42,43,44,45,46,47,48,49,50,51	privbayes
+imdb	plant_product	3.2	0.316	pbpgm	contrast	10	0	1	1	0.121080	-0.000133	1.001099	1.002146	0.988350	1.021431	42,43,44,45,46,47,48,49,50,51	pbpgm
+imdb	plant_product	3.2	0.316	lavaprop	contrast	10	0	1	1	0.121080	-0.000599	1.004944	1.005580	0.972462	1.044461	42,43,44,45,46,47,48,49,50,51	lavaprop
+imdb	plant_product	3.2	0.400	chainnpm	contrast	10	0	1	1	0.121080	0.139143	0.149186	0.111676	0.001041	0.172229	42,43,44,45,46,47,48,49,50,51	chainnpm
+imdb	plant_product	3.2	0.400	pertable	contrast	10	0	1	1	0.121080	-0.000267	1.002206	1.002812	0.997932	1.009275	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+imdb	plant_product	3.2	0.400	privbayes	contrast	10	0	1	1	0.121080	0.000720	0.994057	0.994555	0.982699	1.004940	42,43,44,45,46,47,48,49,50,51	privbayes
+imdb	plant_product	3.2	0.400	pbpgm	contrast	10	0	1	1	0.121080	-0.000133	1.001099	1.002146	0.988350	1.021431	42,43,44,45,46,47,48,49,50,51	pbpgm
+imdb	plant_product	3.2	0.400	lavaprop	contrast	10	0	1	1	0.121080	-0.000599	1.004944	1.005580	0.972462	1.044461	42,43,44,45,46,47,48,49,50,51	lavaprop
+imdb	plant_xor	0.8	0.800	chainnpm	contrast	10	0	0	0	0.121080	0.148516	0.226594	0.229546	0.212759	0.251520	42,43,44,45,46,47,48,49,50,51	chainnpm
+imdb	plant_xor	0.8	0.800	chainnpm	phi	10	0	0	0	0.557466	0.524981	0.058271	0.058113	0.056827	0.059188	42,43,44,45,46,47,48,49,50,51	chainnpm
+imdb	plant_xor	0.8	0.800	pertable	contrast	10	0	0	0	0.121080	-0.000153	1.001260	0.999320	0.988387	1.006562	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+imdb	plant_xor	0.8	0.800	pertable	phi	10	0	0	0	0.557466	0.486138	0.127952	0.127990	0.126732	0.129538	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+imdb	plant_xor	0.8	0.800	privbayes	contrast	10	0	0	0	0.121080	0.000295	0.997564	0.998653	0.988016	1.012843	42,43,44,45,46,47,48,49,50,51	privbayes
+imdb	plant_xor	0.8	0.800	privbayes	phi	10	0	0	0	0.557466	0.486298	0.127670	0.127897	0.126733	0.129064	42,43,44,45,46,47,48,49,50,51	privbayes
+imdb	plant_xor	0.8	0.800	pbpgm	contrast	10	0	0	0	0.121080	-0.000270	1.002227	1.002708	0.994890	1.012622	42,43,44,45,46,47,48,49,50,51	pbpgm
+imdb	plant_xor	0.8	0.800	pbpgm	phi	10	0	0	0	0.557466	0.485737	0.128677	0.128351	0.127324	0.129105	42,43,44,45,46,47,48,49,50,51	pbpgm
+imdb	plant_xor	0.8	0.800	lavaprop	contrast	10	0	0	0	0.121080	-0.001269	1.010478	1.014944	0.992210	1.048481	42,43,44,45,46,47,48,49,50,51	lavaprop
+imdb	plant_xor	0.8	0.800	lavaprop	phi	10	0	0	0	0.557469	0.501142	0.101039	0.101027	0.099572	0.101865	42,43,44,45,46,47,48,49,50,51	lavaprop
+imdb	plant_xor	3.2	0.800	chainnpm	contrast	10	0	0	0	0.121080	0.146607	0.210827	0.210114	0.195102	0.218819	42,43,44,45,46,47,48,49,50,51	chainnpm
+imdb	plant_xor	3.2	0.800	chainnpm	phi	10	0	0	0	0.557466	0.524269	0.059551	0.059322	0.057993	0.060144	42,43,44,45,46,47,48,49,50,51	chainnpm
+imdb	plant_xor	3.2	0.800	pertable	contrast	10	0	0	0	0.121080	-0.000267	1.002206	1.002812	0.997932	1.009275	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+imdb	plant_xor	3.2	0.800	pertable	phi	10	0	0	0	0.557466	0.485917	0.128349	0.128337	0.127693	0.129038	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+imdb	plant_xor	3.2	0.800	privpetal	contrast	3	1	0	0	0.121080	0.081935	0.323296	0.315866	0.300389	0.323913	42,43,44	privpetal
+imdb	plant_xor	3.2	0.800	privpetal	phi	3	1	0	0	0.557469	0.508877	0.087165	0.087070	0.086212	0.087834	42,43,44	privpetal
+imdb	plant_xor	3.2	0.800	privbayes	contrast	10	0	0	0	0.121080	0.000720	0.994057	0.994555	0.982699	1.004940	42,43,44,45,46,47,48,49,50,51	privbayes
+imdb	plant_xor	3.2	0.800	privbayes	phi	10	0	0	0	0.557466	0.486245	0.127759	0.127681	0.126792	0.128439	42,43,44,45,46,47,48,49,50,51	privbayes
+imdb	plant_xor	3.2	0.800	pbpgm	contrast	10	0	0	0	0.121080	-0.000133	1.001099	1.002146	0.988350	1.021431	42,43,44,45,46,47,48,49,50,51	pbpgm
+imdb	plant_xor	3.2	0.800	pbpgm	phi	10	0	0	0	0.557466	0.486067	0.128081	0.128168	0.126646	0.129943	42,43,44,45,46,47,48,49,50,51	pbpgm
+imdb	plant_xor	3.2	0.800	lavaprop	contrast	10	0	0	0	0.121080	-0.000683	1.005643	1.006405	0.974109	1.043391	42,43,44,45,46,47,48,49,50,51	lavaprop
+imdb	plant_xor	3.2	0.800	lavaprop	phi	10	0	0	0	0.557469	0.503694	0.096462	0.096545	0.095589	0.098148	42,43,44,45,46,47,48,49,50,51	lavaprop
+instacart	plant_product	0.8	0.100	chainnpm	contrast	10	0	0	0	0.098162	0.109982	0.191892	0.202515	0.028261	0.557530	42,43,44,45,46,47,48,49,50,51	chainnpm
+instacart	plant_product	0.8	0.100	pertable	contrast	10	0	0	1	0.098162	0.000048	0.999463	1.001744	0.984205	1.028007	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+instacart	plant_product	0.8	0.100	privbayes	contrast	10	0	0	0	0.098162	0.000826	0.991573	0.992990	0.962307	1.014592	42,43,44,45,46,47,48,49,50,51	privbayes
+instacart	plant_product	0.8	0.100	pbpgm	contrast	10	0	0	1	0.098162	-0.000410	1.004210	1.003423	0.979517	1.027968	42,43,44,45,46,47,48,49,50,51	pbpgm
+instacart	plant_product	0.8	0.100	lavaprop	contrast	10	0	1	1	0.306200	0.001294	0.995773	1.000210	0.983799	1.017921	42,43,44,45,46,47,48,49,50,51	lavaprop
+instacart	plant_product	0.8	0.200	chainnpm	contrast	10	0	0	0	0.186821	0.196434	0.091021	0.103223	0.008498	0.272336	42,43,44,45,46,47,48,49,50,51	chainnpm
+instacart	plant_product	0.8	0.200	pertable	contrast	10	0	0	1	0.186821	0.000048	0.999735	1.000910	0.991626	1.014798	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+instacart	plant_product	0.8	0.200	privbayes	contrast	10	0	0	0	0.186821	0.000822	0.995525	0.996299	0.979419	1.007836	42,43,44,45,46,47,48,49,50,51	privbayes
+instacart	plant_product	0.8	0.200	pbpgm	contrast	10	0	0	1	0.186821	-0.000410	1.002142	1.001790	0.989391	1.015019	42,43,44,45,46,47,48,49,50,51	pbpgm
+instacart	plant_product	0.8	0.200	lavaprop	contrast	10	0	1	1	0.306200	0.001294	0.995773	1.000210	0.983799	1.017921	42,43,44,45,46,47,48,49,50,51	lavaprop
+instacart	plant_product	0.8	0.316	chainnpm	contrast	10	0	0	0	0.297006	0.312765	0.058104	0.065760	0.023877	0.135811	42,43,44,45,46,47,48,49,50,51	chainnpm
+instacart	plant_product	0.8	0.316	pertable	contrast	10	0	0	1	0.297006	0.000048	0.999831	1.000579	0.994729	1.008890	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+instacart	plant_product	0.8	0.316	privbayes	contrast	10	0	0	0	0.297006	0.000849	0.997188	0.997740	0.987444	1.004950	42,43,44,45,46,47,48,49,50,51	privbayes
+instacart	plant_product	0.8	0.316	pbpgm	contrast	10	0	0	1	0.297006	-0.000410	1.001363	1.001088	0.993038	1.009488	42,43,44,45,46,47,48,49,50,51	pbpgm
+instacart	plant_product	0.8	0.316	lavaprop	contrast	10	0	1	1	0.306200	0.001294	0.995773	1.000210	0.983799	1.017921	42,43,44,45,46,47,48,49,50,51	lavaprop
+instacart	plant_product	0.8	0.400	chainnpm	contrast	10	0	0	0	0.395000	0.414602	0.042002	0.050347	0.022939	0.114510	42,43,44,45,46,47,48,49,50,51	chainnpm
+instacart	plant_product	0.8	0.400	pertable	contrast	10	0	0	1	0.395000	0.000048	0.999883	1.000445	0.996043	1.006891	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+instacart	plant_product	0.8	0.400	privbayes	contrast	10	0	0	0	0.395000	0.000814	0.997951	0.998312	0.990474	1.003737	42,43,44,45,46,47,48,49,50,51	privbayes
+instacart	plant_product	0.8	0.400	pbpgm	contrast	10	0	0	1	0.395000	-0.000410	1.001040	1.000846	0.994946	1.007162	42,43,44,45,46,47,48,49,50,51	pbpgm
+instacart	plant_product	0.8	0.400	lavaprop	contrast	10	0	1	1	0.306200	0.001294	0.995773	1.000210	0.983799	1.017921	42,43,44,45,46,47,48,49,50,51	lavaprop
+instacart	plant_product	3.2	0.100	chainnpm	contrast	10	0	0	0	0.098162	0.094647	0.055202	0.062992	0.005458	0.156543	42,43,44,45,46,47,48,49,50,51	chainnpm
+instacart	plant_product	3.2	0.100	pertable	contrast	10	0	0	1	0.098162	0.001197	0.988001	0.985421	0.961946	1.002100	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+instacart	plant_product	3.2	0.100	privbayes	contrast	10	0	0	0	0.098162	0.000249	0.997501	1.006562	0.992632	1.044669	42,43,44,45,46,47,48,49,50,51	privbayes
+instacart	plant_product	3.2	0.100	pbpgm	contrast	10	0	0	1	0.098162	0.001177	0.988078	0.998258	0.986568	1.024102	42,43,44,45,46,47,48,49,50,51	pbpgm
+instacart	plant_product	3.2	0.100	lavaprop	contrast	10	0	1	1	0.306200	0.000810	0.997354	0.998490	0.974316	1.024478	42,43,44,45,46,47,48,49,50,51	lavaprop
+instacart	plant_product	3.2	0.200	chainnpm	contrast	10	0	0	0	0.186821	0.182337	0.021612	0.027109	0.004164	0.078774	42,43,44,45,46,47,48,49,50,51	chainnpm
+instacart	plant_product	3.2	0.200	pertable	contrast	10	0	0	1	0.186821	0.001197	0.993525	0.992400	0.980355	1.001088	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+instacart	plant_product	3.2	0.200	privbayes	contrast	10	0	0	0	0.186821	0.000246	0.998716	1.003554	0.996422	1.023733	42,43,44,45,46,47,48,49,50,51	privbayes
+instacart	plant_product	3.2	0.200	pbpgm	contrast	10	0	0	1	0.186821	0.001177	0.993619	0.998951	0.993043	1.012010	42,43,44,45,46,47,48,49,50,51	pbpgm
+instacart	plant_product	3.2	0.200	lavaprop	contrast	10	0	1	1	0.306200	0.000810	0.997354	0.998490	0.974316	1.024478	42,43,44,45,46,47,48,49,50,51	lavaprop
+instacart	plant_product	3.2	0.316	chainnpm	contrast	10	0	0	0	0.297006	0.295190	0.011427	0.014464	0.002051	0.033636	42,43,44,45,46,47,48,49,50,51	chainnpm
+instacart	plant_product	3.2	0.316	pertable	contrast	10	0	0	1	0.297006	0.001197	0.996058	0.995233	0.987594	1.000714	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+instacart	plant_product	3.2	0.316	privpetal	contrast	3	1	0	0	0.306200	-0.003363	1.010982	1.003753	0.988316	1.011962	42,43,44	privpetal
+instacart	plant_product	3.2	0.316	privbayes	contrast	10	0	0	0	0.297006	0.000179	0.999391	1.002182	0.997644	1.014585	42,43,44,45,46,47,48,49,50,51	privbayes
+instacart	plant_product	3.2	0.316	pbpgm	contrast	10	0	0	1	0.297006	0.001177	0.996129	0.999383	0.995434	1.007674	42,43,44,45,46,47,48,49,50,51	pbpgm
+instacart	plant_product	3.2	0.316	lavaprop	contrast	10	0	1	1	0.306200	0.000810	0.997354	0.998490	0.974316	1.024478	42,43,44,45,46,47,48,49,50,51	lavaprop
+instacart	plant_product	3.2	0.400	chainnpm	contrast	10	0	0	0	0.395000	0.399670	0.011960	0.011501	0.000387	0.024987	42,43,44,45,46,47,48,49,50,51	chainnpm
+instacart	plant_product	3.2	0.400	pertable	contrast	10	0	0	1	0.395000	0.001197	0.997062	0.996441	0.990700	1.000518	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+instacart	plant_product	3.2	0.400	privbayes	contrast	10	0	0	0	0.395000	0.000183	0.999550	1.001621	0.998185	1.010862	42,43,44,45,46,47,48,49,50,51	privbayes
+instacart	plant_product	3.2	0.400	pbpgm	contrast	10	0	0	1	0.395000	0.001177	0.997059	0.999534	0.996686	1.005571	42,43,44,45,46,47,48,49,50,51	pbpgm
+instacart	plant_product	3.2	0.400	lavaprop	contrast	10	0	1	1	0.306200	0.000810	0.997354	0.998490	0.974316	1.024478	42,43,44,45,46,47,48,49,50,51	lavaprop
+instacart	plant_xor	0.8	0.800	chainnpm	contrast	10	0	0	0	-1.013968	-0.984362	0.029259	0.026913	0.003806	0.049180	42,43,44,45,46,47,48,49,50,51	chainnpm
+instacart	plant_xor	0.8	0.800	chainnpm	phi	10	0	0	0	0.717253	0.717264	0.003129	0.005516	0.000261	0.018097	42,43,44,45,46,47,48,49,50,51	chainnpm
+instacart	plant_xor	0.8	0.800	pertable	contrast	10	0	0	0	-1.013968	0.000048	1.000048	0.999829	0.997336	1.001545	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+instacart	plant_xor	0.8	0.800	pertable	phi	10	0	0	0	0.717253	0.498636	0.304802	0.304516	0.301537	0.306512	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+instacart	plant_xor	0.8	0.800	privbayes	contrast	10	0	0	0	-1.013968	0.000709	1.000699	1.000605	0.998551	1.003617	42,43,44,45,46,47,48,49,50,51	privbayes
+instacart	plant_xor	0.8	0.800	privbayes	phi	10	0	0	0	0.717253	0.498639	0.304799	0.304529	0.302689	0.306045	42,43,44,45,46,47,48,49,50,51	privbayes
+instacart	plant_xor	0.8	0.800	pbpgm	contrast	10	0	0	0	-1.013968	-0.000410	0.999595	0.999677	0.997222	1.002026	42,43,44,45,46,47,48,49,50,51	pbpgm
+instacart	plant_xor	0.8	0.800	pbpgm	phi	10	0	0	0	0.717253	0.498371	0.305169	0.304997	0.302960	0.307599	42,43,44,45,46,47,48,49,50,51	pbpgm
+instacart	plant_xor	0.8	0.800	lavaprop	contrast	10	0	0	0	-1.013947	0.001294	1.001276	0.999937	0.994588	1.004893	42,43,44,45,46,47,48,49,50,51	lavaprop
+instacart	plant_xor	0.8	0.800	lavaprop	phi	10	0	0	0	0.717249	0.449461	0.373354	0.373155	0.371853	0.374375	42,43,44,45,46,47,48,49,50,51	lavaprop
+instacart	plant_xor	3.2	0.800	chainnpm	contrast	10	0	0	0	-1.013968	-1.004614	0.009219	0.008814	0.000001	0.015660	42,43,44,45,46,47,48,49,50,51	chainnpm
+instacart	plant_xor	3.2	0.800	chainnpm	phi	10	0	0	0	0.717253	0.723739	0.009032	0.009886	0.006887	0.014703	42,43,44,45,46,47,48,49,50,51	chainnpm
+instacart	plant_xor	3.2	0.800	pertable	contrast	10	0	0	0	-1.013968	0.001197	1.001181	1.001398	0.999792	1.003615	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+instacart	plant_xor	3.2	0.800	pertable	phi	10	0	0	0	0.717253	0.498506	0.304987	0.304950	0.301742	0.308207	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+instacart	plant_xor	3.2	0.800	privpetal	contrast	3	1	0	0	-1.013947	0.000140	1.000139	1.001364	0.999674	1.004278	42,43,44	privpetal
+instacart	plant_xor	3.2	0.800	privpetal	phi	3	1	0	0	0.717249	0.513473	0.284108	0.284865	0.283930	0.286557	42,43,44	privpetal
+instacart	plant_xor	3.2	0.800	privbayes	contrast	10	0	0	0	-1.013968	0.000246	1.000243	0.999351	0.995533	1.000719	42,43,44,45,46,47,48,49,50,51	privbayes
+instacart	plant_xor	3.2	0.800	privbayes	phi	10	0	0	0	0.717253	0.499019	0.304269	0.304285	0.302385	0.307109	42,43,44,45,46,47,48,49,50,51	privbayes
+instacart	plant_xor	3.2	0.800	pbpgm	contrast	10	0	0	0	-1.013968	0.001177	1.001160	1.000188	0.997780	1.001328	42,43,44,45,46,47,48,49,50,51	pbpgm
+instacart	plant_xor	3.2	0.800	pbpgm	phi	10	0	0	0	0.717253	0.498356	0.305190	0.305166	0.302875	0.307232	42,43,44,45,46,47,48,49,50,51	pbpgm
+instacart	plant_xor	3.2	0.800	lavaprop	contrast	10	0	0	0	-1.013947	0.000810	1.000799	1.000456	0.992608	1.007756	42,43,44,45,46,47,48,49,50,51	lavaprop
+instacart	plant_xor	3.2	0.800	lavaprop	phi	10	0	0	0	0.717249	0.449030	0.373955	0.374070	0.372344	0.376848	42,43,44,45,46,47,48,49,50,51	lavaprop
+movielens	plant_product	0.8	0.100	chainnpm	contrast	10	0	0	0	0.108670	0.126987	0.722764	0.787351	0.102403	1.593439	42,43,44,45,46,47,48,49,50,51	chainnpm
+movielens	plant_product	0.8	0.100	pertable	contrast	10	0	0	1	0.108670	-0.000256	1.002332	1.001852	0.980116	1.018238	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+movielens	plant_product	0.8	0.100	privbayes	contrast	10	0	0	1	0.108670	-0.000065	1.000653	0.999322	0.965734	1.026954	42,43,44,45,46,47,48,49,50,51	privbayes
+movielens	plant_product	0.8	0.100	pbpgm	contrast	10	0	0	1	0.108670	-0.000133	1.001178	0.997428	0.951454	1.018272	42,43,44,45,46,47,48,49,50,51	pbpgm
+movielens	plant_product	0.8	0.100	lavaprop	contrast	10	0	1	1	0.276547	-0.000603	1.002180	1.003027	0.991494	1.013488	42,43,44,45,46,47,48,49,50,51	lavaprop
+movielens	plant_product	0.8	0.200	chainnpm	contrast	10	0	0	0	0.184248	0.196051	0.435056	0.476556	0.107070	0.948371	42,43,44,45,46,47,48,49,50,51	chainnpm
+movielens	plant_product	0.8	0.200	pertable	contrast	10	0	0	1	0.184248	-0.000256	1.001394	1.001106	0.988247	1.010977	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+movielens	plant_product	0.8	0.200	privbayes	contrast	10	0	0	1	0.184248	-0.000065	1.000324	0.999492	0.979746	1.015689	42,43,44,45,46,47,48,49,50,51	privbayes
+movielens	plant_product	0.8	0.200	pbpgm	contrast	10	0	0	1	0.184248	-0.000133	1.000706	0.998457	0.971305	1.010752	42,43,44,45,46,47,48,49,50,51	pbpgm
+movielens	plant_product	0.8	0.200	lavaprop	contrast	10	0	1	1	0.276547	-0.000603	1.002180	1.003027	0.991494	1.013488	42,43,44,45,46,47,48,49,50,51	lavaprop
+movielens	plant_product	0.8	0.316	chainnpm	contrast	10	0	0	0	0.296675	0.290615	0.265970	0.290533	0.080323	0.595515	42,43,44,45,46,47,48,49,50,51	chainnpm
+movielens	plant_product	0.8	0.316	pertable	contrast	10	0	0	1	0.296675	-0.000256	1.000865	1.000680	0.992732	1.006938	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+movielens	plant_product	0.8	0.316	privbayes	contrast	10	0	0	1	0.296675	-0.000065	1.000203	0.999642	0.987475	1.009324	42,43,44,45,46,47,48,49,50,51	privbayes
+movielens	plant_product	0.8	0.316	pbpgm	contrast	10	0	0	1	0.296675	-0.000133	1.000456	0.999031	0.982255	1.006677	42,43,44,45,46,47,48,49,50,51	pbpgm
+movielens	plant_product	0.8	0.316	lavaprop	contrast	10	0	1	1	0.276547	-0.000603	1.002180	1.003027	0.991494	1.013488	42,43,44,45,46,47,48,49,50,51	lavaprop
+movielens	plant_product	0.8	0.400	chainnpm	contrast	10	0	0	0	0.296794	0.299262	0.260384	0.287520	0.082846	0.632682	42,43,44,45,46,47,48,49,50,51	chainnpm
+movielens	plant_product	0.8	0.400	pertable	contrast	10	0	0	1	0.296794	-0.000256	1.000863	1.000691	0.992754	1.006910	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+movielens	plant_product	0.8	0.400	privbayes	contrast	10	0	0	1	0.296794	-0.000065	1.000202	0.999696	0.987513	1.009835	42,43,44,45,46,47,48,49,50,51	privbayes
+movielens	plant_product	0.8	0.400	pbpgm	contrast	10	0	0	1	0.296794	-0.000133	1.000453	0.999056	0.982308	1.006648	42,43,44,45,46,47,48,49,50,51	pbpgm
+movielens	plant_product	0.8	0.400	lavaprop	contrast	10	0	1	1	0.276547	-0.000603	1.002180	1.003027	0.991494	1.013488	42,43,44,45,46,47,48,49,50,51	lavaprop
+movielens	plant_product	3.2	0.100	chainnpm	contrast	10	0	0	0	0.108670	0.120299	0.263158	0.272928	0.013597	0.690204	42,43,44,45,46,47,48,49,50,51	chainnpm
+movielens	plant_product	3.2	0.100	pertable	contrast	10	0	0	1	0.108670	-0.001253	1.011492	1.007322	0.986549	1.018023	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+movielens	plant_product	3.2	0.100	privbayes	contrast	10	0	0	1	0.108670	0.000883	0.991844	0.996837	0.975060	1.017831	42,43,44,45,46,47,48,49,50,51	privbayes
+movielens	plant_product	3.2	0.100	pbpgm	contrast	10	0	0	1	0.108670	-0.000322	1.002817	1.002241	0.973453	1.034280	42,43,44,45,46,47,48,49,50,51	pbpgm
+movielens	plant_product	3.2	0.100	lavaprop	contrast	10	0	1	1	0.276547	0.000423	0.998469	0.999233	0.992073	1.007921	42,43,44,45,46,47,48,49,50,51	lavaprop
+movielens	plant_product	3.2	0.200	chainnpm	contrast	10	0	0	0	0.184248	0.196283	0.155285	0.164594	0.000461	0.402101	42,43,44,45,46,47,48,49,50,51	chainnpm
+movielens	plant_product	3.2	0.200	pertable	contrast	10	0	0	1	0.184248	-0.001253	1.006850	1.004298	0.991904	1.010527	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+movielens	plant_product	3.2	0.200	privbayes	contrast	10	0	0	1	0.184248	0.000883	0.995227	0.998101	0.985257	1.010553	42,43,44,45,46,47,48,49,50,51	privbayes
+movielens	plant_product	3.2	0.200	pbpgm	contrast	10	0	0	1	0.184248	-0.000322	1.001668	1.001385	0.984548	1.020173	42,43,44,45,46,47,48,49,50,51	pbpgm
+movielens	plant_product	3.2	0.200	lavaprop	contrast	10	0	1	1	0.276547	0.000423	0.998469	0.999233	0.992073	1.007921	42,43,44,45,46,47,48,49,50,51	lavaprop
+movielens	plant_product	3.2	0.316	chainnpm	contrast	10	0	0	0	0.296675	0.308871	0.099643	0.103918	0.013370	0.234202	42,43,44,45,46,47,48,49,50,51	chainnpm
+movielens	plant_product	3.2	0.316	pertable	contrast	10	0	0	1	0.296675	-0.001253	1.004241	1.002657	0.994883	1.006508	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+movielens	plant_product	3.2	0.316	privpetal	contrast	3	1	0	0	0.276547	-0.006926	1.025046	1.022925	1.017402	1.026327	42,43,44	privpetal
+movielens	plant_product	3.2	0.316	privbayes	contrast	10	0	0	1	0.296675	0.000883	0.997122	0.998813	0.990755	1.006500	42,43,44,45,46,47,48,49,50,51	privbayes
+movielens	plant_product	3.2	0.316	pbpgm	contrast	10	0	0	1	0.296675	-0.000322	1.001065	1.000926	0.990817	1.012526	42,43,44,45,46,47,48,49,50,51	pbpgm
+movielens	plant_product	3.2	0.316	lavaprop	contrast	10	0	1	1	0.276547	0.000423	0.998469	0.999233	0.992073	1.007921	42,43,44,45,46,47,48,49,50,51	lavaprop
+movielens	plant_product	3.2	0.400	chainnpm	contrast	10	0	0	0	0.296794	0.306588	0.103517	0.105619	0.001366	0.232469	42,43,44,45,46,47,48,49,50,51	chainnpm
+movielens	plant_product	3.2	0.400	pertable	contrast	10	0	0	1	0.296794	-0.001253	1.004226	1.002669	0.994904	1.006480	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+movielens	plant_product	3.2	0.400	privbayes	contrast	10	0	0	1	0.296794	0.000883	0.997025	0.998797	0.990771	1.006481	42,43,44,45,46,47,48,49,50,51	privbayes
+movielens	plant_product	3.2	0.400	pbpgm	contrast	10	0	0	1	0.296794	-0.000322	1.001062	1.000870	0.990314	1.012472	42,43,44,45,46,47,48,49,50,51	pbpgm
+movielens	plant_product	3.2	0.400	lavaprop	contrast	10	0	1	1	0.276547	0.000423	0.998469	0.999233	0.992073	1.007921	42,43,44,45,46,47,48,49,50,51	lavaprop
+movielens	plant_xor	0.8	0.800	chainnpm	contrast	10	0	0	0	0.977072	0.802478	0.151169	0.158341	0.062450	0.299118	42,43,44,45,46,47,48,49,50,51	chainnpm
+movielens	plant_xor	0.8	0.800	chainnpm	phi	10	0	0	0	0.819237	0.592110	0.277232	0.277457	0.249864	0.304639	42,43,44,45,46,47,48,49,50,51	chainnpm
+movielens	plant_xor	0.8	0.800	pertable	contrast	10	0	0	0	0.977072	-0.000256	1.000261	1.000209	0.997806	1.002082	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+movielens	plant_xor	0.8	0.800	pertable	phi	10	0	0	0	0.819237	0.498703	0.391304	0.391355	0.389217	0.392471	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+movielens	plant_xor	0.8	0.800	privbayes	contrast	10	0	0	0	0.977072	-0.000065	1.000066	0.999917	0.996219	1.002990	42,43,44,45,46,47,48,49,50,51	privbayes
+movielens	plant_xor	0.8	0.800	privbayes	phi	10	0	0	0	0.819237	0.498414	0.391576	0.391286	0.389800	0.392545	42,43,44,45,46,47,48,49,50,51	privbayes
+movielens	plant_xor	0.8	0.800	pbpgm	contrast	10	0	0	0	0.977072	-0.000133	1.000135	0.999721	0.994644	1.002037	42,43,44,45,46,47,48,49,50,51	pbpgm
+movielens	plant_xor	0.8	0.800	pbpgm	phi	10	0	0	0	0.819237	0.498438	0.391676	0.391585	0.390472	0.392283	42,43,44,45,46,47,48,49,50,51	pbpgm
+movielens	plant_xor	0.8	0.800	lavaprop	contrast	10	0	0	0	0.777075	-0.000603	1.000776	1.001077	0.996973	1.004800	42,43,44,45,46,47,48,49,50,51	lavaprop
+movielens	plant_xor	0.8	0.800	lavaprop	phi	10	0	0	0	0.806884	0.495810	0.385525	0.386021	0.383055	0.389808	42,43,44,45,46,47,48,49,50,51	lavaprop
+movielens	plant_xor	3.2	0.800	chainnpm	contrast	10	0	0	0	0.977072	0.893611	0.074653	0.065080	0.006720	0.122663	42,43,44,45,46,47,48,49,50,51	chainnpm
+movielens	plant_xor	3.2	0.800	chainnpm	phi	10	0	0	0	0.819237	0.590174	0.277927	0.277328	0.269061	0.288780	42,43,44,45,46,47,48,49,50,51	chainnpm
+movielens	plant_xor	3.2	0.800	pertable	contrast	10	0	0	0	0.977072	-0.001253	1.001282	1.000816	0.998464	1.001992	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+movielens	plant_xor	3.2	0.800	pertable	phi	10	0	0	0	0.819237	0.498570	0.391613	0.391479	0.389969	0.393187	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
+movielens	plant_xor	3.2	0.800	privpetal	contrast	3	1	0	0	0.777075	0.004572	0.994116	0.994306	0.987957	1.000846	42,43,44	privpetal
+movielens	plant_xor	3.2	0.800	privpetal	phi	3	1	0	0	0.806884	0.503761	0.375671	0.376511	0.374668	0.379193	42,43,44	privpetal
+movielens	plant_xor	3.2	0.800	privbayes	contrast	10	0	0	0	0.977072	0.000883	0.999097	0.999642	0.997229	1.001993	42,43,44,45,46,47,48,49,50,51	privbayes
+movielens	plant_xor	3.2	0.800	privbayes	phi	10	0	0	0	0.819237	0.498654	0.391310	0.391420	0.389840	0.393252	42,43,44,45,46,47,48,49,50,51	privbayes
+movielens	plant_xor	3.2	0.800	pbpgm	contrast	10	0	0	0	0.977072	-0.000322	1.000329	1.000263	0.997055	1.003822	42,43,44,45,46,47,48,49,50,51	pbpgm
+movielens	plant_xor	3.2	0.800	pbpgm	phi	10	0	0	0	0.819237	0.498697	0.391430	0.391440	0.390666	0.392316	42,43,44,45,46,47,48,49,50,51	pbpgm
+movielens	plant_xor	3.2	0.800	lavaprop	contrast	10	0	0	0	0.777075	0.000423	0.999455	0.999727	0.997179	1.002819	42,43,44,45,46,47,48,49,50,51	lavaprop
+movielens	plant_xor	3.2	0.800	lavaprop	phi	10	0	0	0	0.806884	0.495220	0.386257	0.386811	0.384686	0.390397	42,43,44,45,46,47,48,49,50,51	lavaprop

@@ -27,5 +27,21 @@ Two notes on provenance:
 * a few cells have fewer than 10 seeds because a run was still in flight when the
   archive was cut; each record carries its own `seed`, so aggregations stay exact.
 
-`tables/` holds the aggregation outputs used by the paper (`p7_summary.tsv`,
-`p7_effect.tsv`, `p7_stats.json`) together with the scripts that produced them.
+`tables/` holds the aggregation outputs used by the paper together with the
+scripts that produced them: `p7_summary.tsv` (natural-mode per-hop RE, median
+with bootstrap CI), `p7_effect.tsv` (planted-mode effect retention, six series),
+`p7_stats.json` (Wilcoxon/Holm across margins) and `tab_re_appendix.tsv` (the
+appendix RE table). `figures/` holds the two main figures (`fig_main_effect_plant.*`
+for effect retention and `fig_main_crosshop_natural.*` for the natural-grid RE)
+plus the scripts and per-cell coverage reports that generate them.
+
+Two naming notes:
+
+* the per-table baseline series appears as **`pertable`** in `by_dataset/`,
+  `p7_effect.tsv` and `tab_re_appendix.tsv`, but as **`privmrf`** in
+  `p7_summary.tsv`; both denote the manuscript's *PerTable* (per-table PrivMRF
+  with author-protocol FK re-linking), and the alias is also recorded in the
+  header of `tab_re_appendix.tsv`;
+* the planted-mode grid is only shipped as the aggregated tables and figures —
+  the per-cell planted records live in the live campaign tree, not in
+  `by_dataset/`.

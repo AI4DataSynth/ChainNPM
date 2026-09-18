@@ -1,0 +1,80 @@
+Coverage report -- fig_main_crosshop_natural (natural mode, 2-hop median RE)
+source: <repo>/results/by_dataset
+records read: 1440 files | excluded 0 | degraded 0 | wrong mode 0 | unknown method 0 | unexpected eps 0 | unreadable 0
+cells in grid: 1440 (expected 1440 = 4 datasets x 6 series x 6 budgets x 10 seeds)
+
+-- per-cell seed coverage (n = seeds present) --
+dataset    series       eps=0.1  eps=0.2  eps=0.4  eps=0.8  eps=1.6  eps=3.2   total
+------------------------------------------------------------------------------------
+financial  Chain-NPM        10       10       10       10       10       10      60
+financial  PrivPetal        10       10       10       10       10       10      60
+financial  PrivLava         10       10       10       10       10       10      60
+financial  PerTable         10       10       10       10       10       10      60
+financial  PrivBayes        10       10       10       10       10       10      60
+financial  PB-PGM           10       10       10       10       10       10      60
+imdb       Chain-NPM        10       10       10       10       10       10      60
+imdb       PrivPetal        10       10       10       10       10       10      60
+imdb       PrivLava         10       10       10       10       10       10      60
+imdb       PerTable         10       10       10       10       10       10      60
+imdb       PrivBayes        10       10       10       10       10       10      60
+imdb       PB-PGM           10       10       10       10       10       10      60
+instacart  Chain-NPM        10       10       10       10       10       10      60
+instacart  PrivPetal        10       10       10       10       10       10      60
+instacart  PrivLava         10       10       10       10       10       10      60
+instacart  PerTable         10       10       10       10       10       10      60
+instacart  PrivBayes        10       10       10       10       10       10      60
+instacart  PB-PGM           10       10       10       10       10       10      60
+movielens  Chain-NPM        10       10       10       10       10       10      60
+movielens  PrivPetal        10       10       10       10       10       10      60
+movielens  PrivLava         10       10       10       10       10       10      60
+movielens  PerTable         10       10       10       10       10       10      60
+movielens  PrivBayes        10       10       10       10       10       10      60
+movielens  PB-PGM           10       10       10       10       10       10      60
+
+-- medians / min / max actually plotted --
+dataset    series                        eps=0.1                   eps=0.2                   eps=0.4                   eps=0.8                   eps=1.6                   eps=3.2
+financial  Chain-NPM    3.881[ 0.724, 9.691]   2.438[ 0.764, 7.447]   1.683[ 0.825, 4.182]   0.905[ 0.796, 2.514]   0.690[ 0.349, 1.100]   0.435[ 0.311, 0.794]
+financial  PrivPetal    0.292[ 0.261, 0.313]   0.508[ 0.370, 0.575]   0.732[ 0.665, 0.792]   0.842[ 0.792, 0.920]   0.917[ 0.882, 0.937]   0.943[ 0.931, 0.949]
+financial  PrivLava     0.340[ 0.295, 0.426]   0.380[ 0.343, 0.466]   0.343[ 0.277, 0.481]   0.369[ 0.325, 0.431]   0.330[ 0.275, 0.449]   0.343[ 0.296, 0.410]
+financial  PerTable     0.288[ 0.127, 0.677]   0.218[ 0.061, 0.409]   0.170[ 0.035, 0.484]   0.097[ 0.045, 0.276]   0.136[ 0.082, 0.252]   0.156[ 0.074, 0.283]
+financial  PrivBayes    0.518[ 0.247, 1.000]   0.496[ 0.218, 1.000]   0.402[ 0.162, 1.000]   0.138[ 0.036, 0.254]   0.173[ 0.110, 0.289]   0.119[ 0.042, 0.218]
+financial  PB-PGM       1.000[ 0.168, 1.000]   0.851[ 0.354, 1.000]   0.691[ 0.278, 0.948]   0.280[ 0.124, 0.512]   0.267[ 0.134, 0.481]   0.137[ 0.086, 0.382]
+imdb       Chain-NPM    0.230[ 0.207, 0.242]   0.197[ 0.187, 0.215]   0.178[ 0.167, 0.187]   0.161[ 0.155, 0.169]   0.151[ 0.148, 0.164]   0.149[ 0.144, 0.161]
+imdb       PrivPetal    0.641[ 0.463, 0.678]   0.306[ 0.257, 0.340]   0.313[ 0.272, 0.370]   0.293[ 0.239, 0.346]   0.332[ 0.257, 0.603]   0.364[ 0.316, 0.554]
+imdb       PrivLava     0.999[ 0.999, 0.999]   0.999[ 0.999, 0.999]   0.999[ 0.999, 0.999]   0.999[ 0.999, 0.999]   0.999[ 0.999, 0.999]   0.999[ 0.999, 0.999]
+imdb       PerTable     0.207[ 0.197, 0.224]   0.203[ 0.194, 0.215]   0.201[ 0.191, 0.207]   0.200[ 0.192, 0.216]   0.196[ 0.193, 0.206]   0.199[ 0.192, 0.205]
+imdb       PrivBayes    0.224[ 0.209, 0.240]   0.216[ 0.203, 0.224]   0.210[ 0.200, 0.227]   0.204[ 0.195, 0.213]   0.204[ 0.185, 0.215]   0.204[ 0.194, 0.219]
+imdb       PB-PGM       0.224[ 0.192, 0.240]   0.210[ 0.201, 0.224]   0.213[ 0.199, 0.221]   0.206[ 0.199, 0.222]   0.202[ 0.195, 0.224]   0.205[ 0.200, 0.221]
+instacart  Chain-NPM    0.567[ 0.369, 0.765]   0.558[ 0.427, 0.647]   0.419[ 0.374, 0.461]   0.348[ 0.306, 0.416]   0.383[ 0.351, 0.440]   0.452[ 0.416, 0.494]
+instacart  PrivPetal    1.207[ 1.139, 1.247]   1.032[ 0.974, 1.090]   0.454[ 0.427, 0.485]   0.444[ 0.425, 0.465]   0.443[ 0.423, 0.450]   0.438[ 0.434, 0.446]
+instacart  PrivLava     0.904[ 0.893, 0.926]   0.901[ 0.896, 0.916]   0.908[ 0.903, 0.920]   0.920[ 0.916, 0.927]   0.934[ 0.925, 0.943]   0.953[ 0.944, 0.963]
+instacart  PerTable     0.506[ 0.471, 0.517]   0.497[ 0.441, 0.584]   0.471[ 0.424, 0.538]   0.502[ 0.456, 0.578]   0.491[ 0.421, 0.534]   0.481[ 0.440, 0.585]
+instacart  PrivBayes    0.666[ 0.594, 0.782]   0.548[ 0.521, 0.579]   0.501[ 0.437, 0.589]   0.488[ 0.467, 0.498]   0.479[ 0.411, 0.582]   0.481[ 0.464, 0.495]
+instacart  PB-PGM       0.501[ 0.469, 0.579]   0.477[ 0.448, 0.495]   0.469[ 0.430, 0.528]   0.479[ 0.459, 0.492]   0.479[ 0.416, 0.517]   0.476[ 0.461, 0.495]
+movielens  Chain-NPM    0.976[ 0.746, 1.002]   0.777[ 0.678, 0.999]   0.727[ 0.635, 0.809]   0.665[ 0.569, 0.815]   0.616[ 0.490, 0.774]   0.516[ 0.443, 0.642]
+movielens  PrivPetal    0.667[ 0.634, 0.703]   0.774[ 0.743, 0.962]   0.818[ 0.810, 0.969]   0.801[ 0.794, 0.904]   0.811[ 0.803, 0.829]   0.817[ 0.810, 0.835]
+movielens  PrivLava     0.981[ 0.970, 0.985]   0.983[ 0.977, 0.988]   0.982[ 0.970, 0.991]   0.969[ 0.962, 0.984]   0.974[ 0.967, 0.985]   0.963[ 0.955, 0.974]
+movielens  PerTable     0.389[ 0.356, 0.443]   0.354[ 0.327, 0.389]   0.347[ 0.289, 0.404]   0.341[ 0.307, 0.363]   0.338[ 0.289, 0.381]   0.331[ 0.298, 0.351]
+movielens  PrivBayes    0.411[ 0.347, 0.528]   0.381[ 0.298, 0.416]   0.361[ 0.342, 0.396]   0.344[ 0.327, 0.371]   0.346[ 0.303, 0.389]   0.327[ 0.315, 0.360]
+movielens  PB-PGM       0.453[ 0.345, 0.558]   0.393[ 0.350, 0.416]   0.379[ 0.327, 0.404]   0.342[ 0.322, 0.377]   0.351[ 0.307, 0.398]   0.326[ 0.311, 0.339]
+
+-- anomalies --
+none: every (dataset, series, eps) cell carries all 10 seeds 42-51
+
+-- excluded / degraded inputs --
+none
+
+-- plotted envelope vs paper y-axis limits --
+paper figure y limits (log10 axis): 0.020 .. 20.0
+financial  min-max band envelope 0.0354 .. 9.6915
+imdb       min-max band envelope 0.1441 .. 0.9994
+instacart  min-max band envelope 0.3057 .. 1.2466
+movielens  min-max band envelope 0.2886 .. 1.0016
+global envelope 0.0354 .. 9.6915 -> inside the axis limits (no clipping)
+
+-- panel scale (ground-truth rows, from record 'counts') --
+financial  shape=chain   rows=1.06M
+imdb       shape=vshape  rows=1.97M
+instacart  shape=vshape  rows=1.70M
+movielens  shape=vshape  rows=1.01M
+
