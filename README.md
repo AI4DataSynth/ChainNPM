@@ -36,6 +36,7 @@ privacy budget. Chain-NPM instead
 | `results/by_dataset/` | per-cell metrics for every (dataset, method, mode, ε, seed) reported in the paper |
 | `results/tables/` | summary tables (median + bootstrap CI, significance, effect retention) |
 | `docs/REPRODUCE.md` | data preparation and exact reproduction commands |
+| `preprocess/` | rebuilds the discretized inputs of every dataset from the public raw sources, with a per-source licence review; `preprocess/MANIFEST.md` lists the reference build's file hashes |
 
 ## Install
 
@@ -102,6 +103,22 @@ Result JSONs are written to `$CHAINNPM_ROOT/tmp/results/<dataset>/`.
 `make_planted_csvs.py` materializes the planted variants (product / xor) that the
 third-party baselines consume, using exactly the same planting protocol as
 `p4_common`, so that all methods see identical planted inputs.
+
+## Data availability
+
+The discretized inputs that produced `results/by_dataset/` are **not
+redistributed here**: the IMDb, MovieLens, Instacart and PKDD'99 terms do not
+permit redistribution of raw or derived data (the per-source review, with
+quotations and links, is in `preprocess/README.md`). Instead,
+
+* `preprocess/` rebuilds every dataset's inputs from its public source with a
+  scripted, verified pipeline, and
+* `preprocess/MANIFEST.md` lists the reference build's file sizes, row counts and
+  sha256 hashes, so a rebuild can be checked byte-for-byte against the inputs
+  behind the archived numbers.
+
+All other artifacts — the method code, the experiment drivers, the evaluators and
+the per-cell result archive — are included and runnable as-is.
 
 ## Baselines
 
