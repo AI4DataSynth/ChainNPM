@@ -5,13 +5,20 @@
   "mode": "natural",
   "eps": 0.8,
   "seed": 48,
-  "runtime_sec": 3.7676243782043457,
+  "runtime_sec": 11.565228700637817,
   "hyper": {
     "tau1": 99,
     "tau2": 459,
-    "sigma": 42.34481140884434,
+    "sigma": 49.448086458756194,
     "delta": 9.466828233868525e-07,
-    "k": null
+    "k": null,
+    "Q": 43,
+    "n_queries": 45,
+    "tb_pairs": 12,
+    "tb_weight": "inner",
+    "tb_shrink": false,
+    "tb_shrink_denom": true,
+    "tb_mass_total": 54369.35947712599
   },
   "prereg": {
     "query_seed": 123,
@@ -27,25 +34,25 @@
     "top_gt": 77,
     "mid_gt": 4500,
     "bot_gt": 1056320,
-    "top_syn": 226,
-    "mid_syn": 16080,
-    "bot_syn": 3889820,
+    "top_syn": 254,
+    "mid_syn": 11230,
+    "bot_syn": 2854071,
     "syn_orphans_bot": 0
   },
   "re": {
     "re_median": {
-      "0hop_top": 1.6153846153846154,
-      "0hop_bot": 2.5753978215162343,
+      "0hop_top": 1.868421052631579,
+      "0hop_bot": 1.3935707366314678,
       "1hop_topmid": 1.0,
-      "1hop_midbot": 1.9936780316670415,
-      "2hop_topbot": 2.5142692758923086
+      "1hop_midbot": 1.0,
+      "2hop_topbot": 1.3500470406221907
     },
     "re_median_large": {
-      "0hop_bot": 2.5753978215162343,
-      "1hop_topmid": 2.1211096075778078,
-      "1hop_midbot": 1.9936780316670415,
-      "2hop_topbot": 2.5142692758923086,
-      "0hop_top": 2.3076923076923075
+      "0hop_bot": 1.3935707366314678,
+      "1hop_topmid": 1.0,
+      "1hop_midbot": 1.0,
+      "2hop_topbot": 1.3500470406221907,
+      "0hop_top": 2.519230769230769
     },
     "n_queries": {
       "0hop_top": 150,
@@ -70,19 +77,19 @@
       "share_x1": 0.46993335352923354
     },
     "delta_syn": {
-      "delta": -0.06752912451041965,
-      "pr_a_x1_1": 0.40982375974251317,
-      "pr_a_x1_0": 0.4773528842529328,
-      "share_x1": 0.5178231897619942
+      "delta": -0.16575468424081613,
+      "pr_a_x1_1": 0.3802671341429234,
+      "pr_a_x1_0": 0.5460218183837395,
+      "share_x1": 0.3437738584639275
     }
   },
   "size_tv": {
-    "bot_per_mid": 0.7485771144278606,
-    "mid_per_top": 0.8684059303528329
+    "bot_per_mid": 0.7470230533293756,
+    "mid_per_top": 0.8639186900056466
   },
   "mean_size": {
     "bot_per_mid_gt": 234.73777777777778,
     "mid_per_top_gt": 58.44155844155844
   },
-  "total_runtime_sec": 52.94956088066101
+  "total_runtime_sec": 49.29499006271362
 }

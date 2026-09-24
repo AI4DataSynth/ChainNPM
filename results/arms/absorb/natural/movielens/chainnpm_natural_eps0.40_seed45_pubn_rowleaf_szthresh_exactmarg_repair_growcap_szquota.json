@@ -1,0 +1,110 @@
+{
+  "dataset": "movielens",
+  "shape": "vshape",
+  "method": "chainnpm",
+  "mode": "natural",
+  "eps": 0.4,
+  "seed": 45,
+  "runtime_sec": 46.71676540374756,
+  "hyper": {
+    "tau": 556,
+    "Q": 16,
+    "sigma": 56.153418865065376,
+    "delta": 9.997910436718726e-07,
+    "k": null,
+    "n_queries": 16,
+    "absorb": "pubn+szthresh+szquota+exactmarg+growcap+rowleaf+repair",
+    "adjacency": "one-child-row",
+    "public_n": true,
+    "sz_sensitivity": 1.4142135623730951,
+    "size_bins": null
+  },
+  "prereg": {
+    "query_seed": 123,
+    "n_queries": 150,
+    "large_count": 50,
+    "tau_choices": [
+      6,
+      8,
+      12
+    ]
+  },
+  "counts": {
+    "r1_gt": 6040,
+    "r2_gt": 3883,
+    "c_gt": 1000209,
+    "r1_syn": 6040,
+    "r2_syn": 3883,
+    "c_syn": 1000252,
+    "syn_orphans_c": 0
+  },
+  "subset": {
+    "subset_frac": 1.0,
+    "subset_seed": null
+  },
+  "re": {
+    "re_median": {
+      "0hop_r1": 0.016870262283953493,
+      "0hop_r2": 0.04311649016641452,
+      "0hop_c": 0.000161531700596242,
+      "1hop_r1c": 0.009289482102990219,
+      "1hop_r2c": 0.09856793227502952,
+      "cross_r1r2": 0.17357317594527835
+    },
+    "re_median_large": {
+      "0hop_r1": 0.016870262283953493,
+      "0hop_r2": 0.04152249134948097,
+      "0hop_c": 0.000161531700596242,
+      "1hop_r1c": 0.009289482102990219,
+      "1hop_r2c": 0.09856793227502952,
+      "cross_r1r2": 0.17357317594527835
+    },
+    "n_queries": {
+      "0hop_r1": 150,
+      "0hop_r2": 150,
+      "0hop_c": 150,
+      "1hop_r1c": 150,
+      "1hop_r2c": 150,
+      "cross_r1r2": 150
+    },
+    "n_queries_large": {
+      "0hop_r1": 150,
+      "0hop_r2": 143,
+      "0hop_c": 150,
+      "1hop_r1c": 150,
+      "1hop_r2c": 150,
+      "cross_r1r2": 150
+    }
+  },
+  "effect": {
+    "contrast_real": {
+      "contrast": -0.007385377759560496,
+      "cell_means": {
+        "00": 0.22759337101995458,
+        "01": 0.21211202198739515,
+        "10": 0.2481562065865817,
+        "11": 0.22528947979446176
+      },
+      "share_x1": 0.39382369084861263,
+      "share_x2": 0.5145514587451223
+    },
+    "contrast_syn": {
+      "contrast": 0.0010632594101482595,
+      "cell_means": {
+        "00": 0.2268752936692307,
+        "01": 0.20849632786950295,
+        "10": 0.2480186297724115,
+        "11": 0.230702923382832
+      },
+      "share_x1": 0.3934008629825284,
+      "share_x2": 0.4913851709369239
+    }
+  },
+  "size_tv": 0.41241721854304636,
+  "mean_size": {
+    "gt": 165.5975165562914,
+    "syn": 165.6046357615894
+  },
+  "total_runtime_sec": 74.9772264957428,
+  "arm": "pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota"
+}

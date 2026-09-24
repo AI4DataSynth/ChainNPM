@@ -92,6 +92,8 @@ def main():
     ap.add_argument('--gt_dir', required=True)
     ap.add_argument('--epsilon', type=float, required=True)
     ap.add_argument('--out_prefix', required=True)
+    ap.add_argument('--absorb', type=str, default='off',
+                    help='absorb-arm spec, see chain_npm_absorb; off = released')
     args = ap.parse_args()
 
     t0 = time.time()
@@ -109,7 +111,7 @@ def main():
     model = ChainNPM2(parent_attrs, parent_domains, child_attrs,
                       child_domains, pp_pairs=[('NATION', 'YEAR'),
                                                ('YEAR', 'MONTH')],
-                      tau=8, seed=0)
+                      tau=8, seed=0, absorb=args.absorb)
     n_ind = child.shape[0]
     delta = 1.0 / n_ind
     t1 = time.time()
@@ -179,7 +181,16 @@ def main():
     syn_l.to_csv(args.out_prefix + '_syn_l.csv', index=False)
     meta = {'epsilon': args.epsilon, 'delta': delta,
             'n_orders_syn': int(n_orders), 'n_lineitem_syn': int(n_l),
-            'n_queries_in_phase1': 42, 'runtime_s': time.time() - t0}
+            'n_queries_in_phase1': 42, 'runtime_s': time.time() - t0,
+            # the literal 42 above is what the released meta claimed; the
+            # registry actually builds 36 objects (5 P + 2 PP + 4 C + 20 PC +
+            # 5 SZ, cc_pairs empty) plus one uncounted MEAN_SIZE draw.  Both
+            # numbers are recorded so the discrepancy is visible, not silent.
+            'n_queries_model': int(getattr(model, 'n_queries', 0) or 0),
+            'Q_model': int(getattr(model, 'Q', 0) or 0),
+            'absorb': model.absorb, 'adjacency': model.adjacency,
+            'anchor_source': model.anchor_source,
+            'total_source': dict(model.total_source)}
     json.dump(meta, open(args.out_prefix + '_meta.json', 'w'), indent=2)
     print('SAVED', args.out_prefix, meta, flush=True)
 

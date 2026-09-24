@@ -68,8 +68,12 @@ def main():
         f.write('\n'.join(lines) + '\n')
 
     # 与 p5_preview 数值表对齐（median 必须一致）——6 档 ε 全覆盖
+    # 2026-09-19: chain (financial) 的 chainnpm 一行随 cross-hop 边际正式
+    # 启用而更新（默认 tb_weight='inner' + 分母 SNR 保护）。vshape 三数据
+    # 集走 ChainNPMV，不在本次改动范围内，期望值不变。
     ref = {  # (dataset, series): (ε0.1, ε0.2, ε0.4, ε0.8, ε1.6, ε3.2) median
-        ('financial', 'chainnpm'):  (3.881, 2.438, 1.683, 0.905, 0.690, 0.435),
+        ('financial', 'chainnpm'):  (4.341539, 2.352837, 1.259714, 0.955441,
+                                     0.661351, 0.467999),
         ('financial', 'privpetal'): (0.292, 0.508, 0.732, 0.842, 0.917, 0.943),
         ('financial', 'lavaprop'):  (0.340, 0.380, 0.343, 0.369, 0.330, 0.343),
         ('financial', 'privmrf'):   (0.288, 0.218, 0.170, 0.097, 0.136, 0.156),

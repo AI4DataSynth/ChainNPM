@@ -1,0 +1,130 @@
+{
+  "dataset": "instacart",
+  "shape": "vshape",
+  "method": "chainnpm",
+  "mode": "plant_product",
+  "eps": 0.8,
+  "seed": 49,
+  "runtime_sec": 142.48799562454224,
+  "hyper": {
+    "tau": 139,
+    "Q": 25,
+    "sigma": 37.51398962852058,
+    "delta": 6.595092327995046e-07,
+    "k": null,
+    "n_queries": 25,
+    "absorb": "pubn+szthresh+szquota+exactmarg+growcap+rowleaf+repair",
+    "adjacency": "one-child-row",
+    "public_n": true,
+    "sz_sensitivity": 1.4142135623730951,
+    "size_bins": null
+  },
+  "prereg": {
+    "query_seed": 123,
+    "n_queries": 150,
+    "large_count": 50,
+    "tau_choices": [
+      6,
+      8,
+      12
+    ]
+  },
+  "counts": {
+    "r1_gt": 38491,
+    "r2_gt": 150000,
+    "c_gt": 1516279,
+    "r1_syn": 38491,
+    "r2_syn": 150000,
+    "c_syn": 1516559,
+    "syn_orphans_c": 0
+  },
+  "subset": {
+    "subset_frac": 1.0,
+    "subset_seed": null
+  },
+  "plant": {
+    "mode": "product",
+    "metric": "contrast",
+    "p": 0.375,
+    "effect": 0.18257074930117334,
+    "contrast_x1u": 0.18257074930117334,
+    "tv_x1a": 0.0,
+    "tv_ua": 0.0,
+    "x1_share": 0.4734353485230314,
+    "x2_share": 0.0,
+    "u_share": 0.32359333333333334,
+    "a_share": 0.5925044137655405,
+    "fk_exact": true,
+    "onehop_exact": true,
+    "forced_swaps": 0,
+    "n": 1516279,
+    "u_attr": "HOURBIN",
+    "calib_p": 0.375,
+    "calib_effect": 0.1846286382718038
+  },
+  "re": {
+    "re_median": {
+      "0hop_r1": 0.012334701242018423,
+      "0hop_r2": 0.0006272786350349968,
+      "0hop_c": 0.0002076755324691971,
+      "1hop_r1c": 0.01087939894745771,
+      "1hop_r2c": 0.01760967175012211,
+      "cross_r1r2": 0.025299421343022474
+    },
+    "re_median_large": {
+      "0hop_r1": 0.012334701242018423,
+      "0hop_r2": 0.0006272786350349968,
+      "0hop_c": 0.0002076755324691971,
+      "1hop_r1c": 0.01087939894745771,
+      "1hop_r2c": 0.01760967175012211,
+      "cross_r1r2": 0.025299421343022474
+    },
+    "n_queries": {
+      "0hop_r1": 150,
+      "0hop_r2": 150,
+      "0hop_c": 150,
+      "1hop_r1c": 150,
+      "1hop_r2c": 150,
+      "cross_r1r2": 150
+    },
+    "n_queries_large": {
+      "0hop_r1": 150,
+      "0hop_r2": 150,
+      "0hop_c": 150,
+      "1hop_r1c": 150,
+      "1hop_r2c": 150,
+      "cross_r1r2": 150
+    }
+  },
+  "effect": {
+    "contrast_real": {
+      "contrast": 0.18257074930117334,
+      "cell_means": {
+        "00": 0.5839445222196068,
+        "01": 0.43971236740693653,
+        "10": 0.6051091380052256,
+        "11": 0.6434477324937287
+      },
+      "share_x1": 0.6874625316317116,
+      "share_x2": 0.3180766864145715
+    },
+    "contrast_syn": {
+      "contrast": 0.18190322330665704,
+      "cell_means": {
+        "00": 0.5825960160150264,
+        "01": 0.438958504791993,
+        "10": 0.6056473143326554,
+        "11": 0.643913026416279
+      },
+      "share_x1": 0.6872103228426985,
+      "share_x2": 0.31778585600692094
+    }
+  },
+  "size_tv": 0.1528669039515731,
+  "mean_size": {
+    "gt": 39.3930789015614,
+    "syn": 39.40035332934972
+  },
+  "total_runtime_sec": 203.93996953964233,
+  "arm": "pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota"
+}

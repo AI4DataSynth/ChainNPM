@@ -61,7 +61,11 @@ SOURCE_PREFERENCE = {'privmrf': ['pertable', 'privmrf']}
 def iter_files():
     for ds in DATASETS:
         for fp in glob.glob(os.path.join(D, ds, '*.json')):
-            if os.path.basename(fp).startswith('._') or '_sub' in os.path.basename(fp):
+            name = os.path.basename(fp)
+            if name.startswith('._') or '_sub' in name or '_xhoff' in name:
+                # '_xhoff*' = cross-hop ablation arms (both / un-guarded);
+                # they are diagnostic, not manuscript data, and would
+                # otherwise race the canonical cell in the dedup below
                 continue
             try:
                 with open(fp) as f:

@@ -32,6 +32,8 @@ def main():
     ap.add_argument('--out_prefix', required=True)
     ap.add_argument('--tau', type=int, default=20)
     ap.add_argument('--seed', type=int, default=0)
+    ap.add_argument('--absorb', type=str, default='off',
+                    help='absorb-arm spec, see chain_npm_absorb; off = released')
     args = ap.parse_args()
 
     t0 = time.time()
@@ -61,7 +63,7 @@ def main():
         cc_pairs=[],
         # NPbin IS the group size; conditioning SZ on it double-counts
         sz_attrs=['ACR', 'BLD', 'HHT', 'TEN', 'VEH', 'HINCPbin'],
-        tau=args.tau, seed=args.seed)
+        tau=args.tau, seed=args.seed, absorb=args.absorb)
 
     delta = 1.0 / child.shape[0]
     model.compute_marginals(parent, child, args.epsilon, delta)
@@ -82,7 +84,17 @@ def main():
     stats = {'epsilon': args.epsilon, 'seed': args.seed,
              'runtime_sec': time.time() - t0,
              'n_households': int(parent_out.shape[0]),
-             'n_individuals': int(child_out.shape[0])}
+             'n_individuals': int(child_out.shape[0]),
+             # the manuscript states Q=67 for this rail (main.tex:1627); the
+             # registry builds 7 parent 1-way + 5 PP + 7 child 1-way + 49 PC
+             # + 6 SZ = 74.  Recorded from the model so the artifact, not the
+             # prose, is the authority.
+             'Q_model': int(getattr(model, 'Q', 0) or 0),
+             'n_queries_model': int(getattr(model, 'n_queries', 0) or 0),
+             'absorb': model.absorb, 'adjacency': model.adjacency,
+             'anchor_source': model.anchor_source,
+             'total_source': dict(model.total_source),
+             'sz_sensitivity': float(model.sz_sens)}
     json.dump(stats, open(args.out_prefix + '_stats.json', 'w'), indent=2)
     print(json.dumps(stats, indent=2), flush=True)
 

@@ -16,11 +16,12 @@ Series conventions (manuscript labels)
 --------------------------------------
 ``chainnpm`` -> Chain-NPM, ``privpetal`` -> PrivPetal, ``lavaprop`` ->
 PrivLava, ``privbayes`` -> PrivBayes, ``pbpgm`` -> PB-PGM, and
-``privmrf`` -> PerTable, the manuscript's per-table baseline (per-table
-PrivMRF with author-protocol FK re-linking). The series *absorbs* the
-``pertable`` label; on a duplicate cell ``pertable`` wins. The archive
-records this series under the ``pertable`` label, while ``p7_summary.tsv``
-still calls it ``privmrf`` — that alias is documented in
+``privmrf`` -> PrivMRF, the manuscript's per-table baseline (per-table
+PrivMRF with author-protocol FK re-linking). Renamed on 2026-09-19 for the
+manuscript: only the display label changed, not the series it denotes. The
+series *absorbs* the ``pertable`` label; on a duplicate cell ``pertable``
+wins. The archive records this series under the ``pertable`` label, while
+``p7_summary.tsv`` still calls it ``privmrf`` — that alias is documented in
 ``results/tables/tab_re_appendix.tsv`` and ``results/README.md``.
 
 Deduplication rules (guards against the historical degradation bug)
@@ -81,7 +82,7 @@ META = {
     "chainnpm":  ("Chain-NPM", "#1d4ed8", "o", "-"),
     "privpetal": ("PrivPetal", "#b45309", "s", "-"),
     "lavaprop":  ("PrivLava",  "#7c3aed", "D", "-"),
-    "privmrf":   ("PerTable",  "#be123c", "v", (0, (4.0, 1.6))),
+    "privmrf":   ("PrivMRF",   "#be123c", "v", (0, (4.0, 1.6))),
     "privbayes": ("PrivBayes", "#166534", "^", "-"),
     "pbpgm":     ("PB-PGM",    "#0891b2", "P", (0, (1.3, 1.3))),
 }
@@ -113,6 +114,8 @@ def exclude_reason(path):
         return "macOS resource fork"
     if "_sub" in name:
         return "'_sub' subset run"
+    if "_xhoff" in name:
+        return "cross-hop ablation arm (not manuscript data)"
     for pat in EXCLUDE_PATTERNS:
         if pat in name:
             return "marker '%s'" % pat

@@ -2,59 +2,59 @@
 # retention error = |syn - real| / |real| per seed, aggregated over seeds (median primary; mean/min/max also reported)
 # real = planted effect on the real released data, syn = the same functional on the synthetic data; 0 = effect survives, 1 = effect lost (per-table / no-cross-table level), >1 = worse
 # target: financial(chain) -> delta = Pr[a=1|x1=1] - Pr[a=1|x1=0]; imdb/instacart/movielens(vshape) -> contrast = cell_mean(00) - cell_mean(01); plant_xor additionally yields phi (phi_xor interaction)
-# series (6): chainnpm / pertable / privpetal / privbayes / pbpgm / lavaprop. pertable = the manuscript PerTable (per-table PrivMRF + random FK relinking), the only per-table series in the archive; the same series is keyed privmrf in p7_summary.tsv. denorm excluded by user decision; no standalone plant-mode privmrf record exists
+# series (6): chainnpm / pertable / privpetal / privbayes / pbpgm / lavaprop. pertable = the manuscript PrivMRF (per-table PrivMRF + random FK relinking), the only per-table series in the archive; the same series is keyed privmrf in p7_summary.tsv. denorm excluded by user decision; no standalone plant-mode privmrf record exists
 # coverage: plant_product = targets 0.1/0.2/0.316/0.4 x eps 0.8,3.2 x seeds 42-51; plant_xor = target phi 0.8 x eps 0.8,3.2 x seeds 42-51. chainnpm/pertable/privbayes/pbpgm/lavaprop are complete (n=10 per cell); privpetal is a PARTIAL n=3 subset (eps=3.2, seeds 42-44, target 0.316 for product and 0.8 for xor) -> partial=1
 # plant_reused=1: the planted REAL effect at this target equals that of another target of the same (dataset, series, mode, eps) group, so the audit target was not actually varied (imdb reaches the attainable contrast at every requested target: 2-hop contrast 0.12108 at all four; lavaprop carries one realised plant t=0.316 in all four product files on the three vshape datasets). The synthetic side may still differ, in which case the retention error differs even though the audit target does not
 # syn_reused=1: the synthetic effect coincides in the same way (lavaprop on financial: four distinct plants, one identical synthetic effect)
 # source_labels: raw JSON method label(s) actually consumed for the series; n_seeds lists the seeds present
 dataset	mode	eps	t	series	target	n	partial	plant_reused	syn_reused	real_med	syn_med	ret_err_med	ret_err_mean	ret_err_min	ret_err_max	n_seeds	source_labels
-financial	plant_product	0.8	0.100	chainnpm	delta	10	0	0	0	0.089788	-0.018949	1.479204	2.142827	0.638526	8.372412	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	0.8	0.100	chainnpm	delta	10	0	0	0	0.089788	0.066225	0.885667	1.595329	0.071826	8.800500	42,43,44,45,46,47,48,49,50,51	chainnpm
 financial	plant_product	0.8	0.100	pertable	delta	10	0	0	0	0.089788	-0.000182	1.002018	1.001236	0.986881	1.025100	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
 financial	plant_product	0.8	0.100	privbayes	delta	10	0	0	0	0.089788	0.000390	0.995681	0.994309	0.974822	1.021649	42,43,44,45,46,47,48,49,50,51	privbayes
 financial	plant_product	0.8	0.100	pbpgm	delta	10	0	0	0	0.089788	-0.000549	1.006089	1.003455	0.982025	1.016745	42,43,44,45,46,47,48,49,50,51	pbpgm
 financial	plant_product	0.8	0.100	lavaprop	delta	10	0	0	1	0.089788	-0.000123	1.001367	1.000560	0.979310	1.020076	42,43,44,45,46,47,48,49,50,51	lavaprop
-financial	plant_product	0.8	0.200	chainnpm	delta	10	0	0	0	0.183692	-0.020082	1.109209	1.454369	0.268441	4.565349	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	0.8	0.200	chainnpm	delta	10	0	0	0	0.183692	0.103456	0.573634	0.930007	0.036661	4.819124	42,43,44,45,46,47,48,49,50,51	chainnpm
 financial	plant_product	0.8	0.200	pertable	delta	10	0	0	0	0.183692	-0.000383	1.002086	1.001062	0.988852	1.007880	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
 financial	plant_product	0.8	0.200	privbayes	delta	10	0	0	0	0.183692	0.000516	0.997190	0.997943	0.989821	1.009562	42,43,44,45,46,47,48,49,50,51	privbayes
 financial	plant_product	0.8	0.200	pbpgm	delta	10	0	0	0	0.183692	-0.000582	1.003164	1.002585	0.986647	1.011820	42,43,44,45,46,47,48,49,50,51	pbpgm
 financial	plant_product	0.8	0.200	lavaprop	delta	10	0	0	1	0.183692	-0.000123	1.000667	1.000278	0.989916	1.009873	42,43,44,45,46,47,48,49,50,51	lavaprop
-financial	plant_product	0.8	0.316	chainnpm	delta	10	0	0	0	0.324555	-0.022155	1.068359	1.221400	0.273793	2.993245	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	0.8	0.316	chainnpm	delta	10	0	0	0	0.324555	0.188525	0.418649	0.675630	0.009026	3.170270	42,43,44,45,46,47,48,49,50,51	chainnpm
 financial	plant_product	0.8	0.316	pertable	delta	10	0	0	0	0.324555	-0.000154	1.000474	1.000396	0.996789	1.005432	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
 financial	plant_product	0.8	0.316	privbayes	delta	10	0	0	0	0.324555	0.000484	0.998509	0.999130	0.994517	1.005970	42,43,44,45,46,47,48,49,50,51	privbayes
 financial	plant_product	0.8	0.316	pbpgm	delta	10	0	0	0	0.324555	-0.000783	1.002407	1.001716	0.992341	1.005964	42,43,44,45,46,47,48,49,50,51	pbpgm
 financial	plant_product	0.8	0.316	lavaprop	delta	10	0	0	1	0.324555	-0.000123	1.000379	1.000155	0.994296	1.005549	42,43,44,45,46,47,48,49,50,51	lavaprop
-financial	plant_product	0.8	0.400	chainnpm	delta	10	0	0	0	0.371362	-0.023044	1.062186	1.191395	0.358832	2.732018	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	0.8	0.400	chainnpm	delta	10	0	0	0	0.371362	0.216979	0.415324	0.636027	0.003025	2.895237	42,43,44,45,46,47,48,49,50,51	chainnpm
 financial	plant_product	0.8	0.400	pertable	delta	10	0	0	0	0.371362	-0.000334	1.000899	1.001181	0.999048	1.003507	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
 financial	plant_product	0.8	0.400	privbayes	delta	10	0	0	0	0.371362	0.000500	0.998655	0.999015	0.995203	1.003547	42,43,44,45,46,47,48,49,50,51	privbayes
 financial	plant_product	0.8	0.400	pbpgm	delta	10	0	0	0	0.371362	-0.000576	1.001549	1.001146	0.993743	1.005245	42,43,44,45,46,47,48,49,50,51	pbpgm
 financial	plant_product	0.8	0.400	lavaprop	delta	10	0	0	1	0.371362	-0.000123	1.000332	1.000136	0.995016	1.004852	42,43,44,45,46,47,48,49,50,51	lavaprop
-financial	plant_product	3.2	0.100	chainnpm	delta	10	0	0	0	0.089788	0.003535	0.960623	1.101191	0.246379	3.390864	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	3.2	0.100	chainnpm	delta	10	0	0	0	0.089788	0.093717	0.345534	0.489261	0.001884	1.729396	42,43,44,45,46,47,48,49,50,51	chainnpm
 financial	plant_product	3.2	0.100	pertable	delta	10	0	0	0	0.089788	-0.000114	1.001260	0.999748	0.976049	1.030198	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
 financial	plant_product	3.2	0.100	privbayes	delta	10	0	0	0	0.089788	0.000220	0.997546	0.999382	0.989650	1.018475	42,43,44,45,46,47,48,49,50,51	privbayes
 financial	plant_product	3.2	0.100	pbpgm	delta	10	0	0	0	0.089788	-0.000348	1.003870	1.000939	0.973287	1.016435	42,43,44,45,46,47,48,49,50,51	pbpgm
 financial	plant_product	3.2	0.100	lavaprop	delta	10	0	0	1	0.089788	0.000342	0.996193	1.001072	0.990485	1.017656	42,43,44,45,46,47,48,49,50,51	lavaprop
-financial	plant_product	3.2	0.200	chainnpm	delta	10	0	0	0	0.183692	0.002565	0.986007	1.047427	0.630918	2.131284	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	3.2	0.200	chainnpm	delta	10	0	0	0	0.183692	0.177167	0.236944	0.273302	0.020505	0.730356	42,43,44,45,46,47,48,49,50,51	chainnpm
 financial	plant_product	3.2	0.200	pertable	delta	10	0	0	0	0.183692	-0.000423	1.002307	1.002971	0.995573	1.009605	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
 financial	plant_product	3.2	0.200	privbayes	delta	10	0	0	0	0.183692	0.000544	0.997029	0.998805	0.994794	1.009111	42,43,44,45,46,47,48,49,50,51	privbayes
 financial	plant_product	3.2	0.200	pbpgm	delta	10	0	0	0	0.183692	-0.000142	1.000777	1.000224	0.987868	1.009842	42,43,44,45,46,47,48,49,50,51	pbpgm
 financial	plant_product	3.2	0.200	lavaprop	delta	10	0	0	1	0.183692	0.000342	0.998137	1.000520	0.995307	1.008662	42,43,44,45,46,47,48,49,50,51	lavaprop
-financial	plant_product	3.2	0.316	chainnpm	delta	10	0	0	0	0.324555	0.002974	0.990859	1.026026	0.797662	1.604943	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	3.2	0.316	chainnpm	delta	10	0	0	0	0.324555	0.303299	0.189052	0.183202	0.065656	0.327783	42,43,44,45,46,47,48,49,50,51	chainnpm
 financial	plant_product	3.2	0.316	pertable	delta	10	0	0	0	0.324555	-0.000153	1.000473	1.000426	0.997760	1.003911	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
 financial	plant_product	3.2	0.316	privpetal	delta	3	1	0	0	0.325560	0.001098	0.996627	0.994742	0.984094	1.003505	42,43,44	privpetal
 financial	plant_product	3.2	0.316	privbayes	delta	10	0	0	0	0.324555	0.000354	0.998910	0.999422	0.997694	1.005149	42,43,44,45,46,47,48,49,50,51	privbayes
 financial	plant_product	3.2	0.316	pbpgm	delta	10	0	0	0	0.324555	-0.000236	1.000728	1.000455	0.995035	1.005091	42,43,44,45,46,47,48,49,50,51	pbpgm
 financial	plant_product	3.2	0.316	lavaprop	delta	10	0	0	1	0.324555	0.000342	0.998946	1.000294	0.997344	1.004879	42,43,44,45,46,47,48,49,50,51	lavaprop
-financial	plant_product	3.2	0.400	chainnpm	delta	10	0	0	0	0.371362	0.002908	0.992166	1.021399	0.819833	1.515843	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_product	3.2	0.400	chainnpm	delta	10	0	0	0	0.371362	0.345117	0.174795	0.166398	0.066256	0.316665	42,43,44,45,46,47,48,49,50,51	chainnpm
 financial	plant_product	3.2	0.400	pertable	delta	10	0	0	0	0.371362	-0.000152	1.000409	1.000723	0.997465	1.005773	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
 financial	plant_product	3.2	0.400	privbayes	delta	10	0	0	0	0.371362	0.000318	0.999145	0.999423	0.996929	1.004506	42,43,44,45,46,47,48,49,50,51	privbayes
 financial	plant_product	3.2	0.400	pbpgm	delta	10	0	0	0	0.371362	-0.000265	1.000718	1.000600	0.997296	1.003681	42,43,44,45,46,47,48,49,50,51	pbpgm
 financial	plant_product	3.2	0.400	lavaprop	delta	10	0	0	1	0.371362	0.000342	0.999079	1.000259	0.997679	1.004265	42,43,44,45,46,47,48,49,50,51	lavaprop
-financial	plant_xor	0.8	0.800	chainnpm	delta	10	0	0	0	0.051557	-0.017158	1.980351	3.044934	0.144891	13.252931	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_xor	0.8	0.800	chainnpm	delta	10	0	0	0	0.051557	0.042712	1.614359	2.945791	0.264927	15.271521	42,43,44,45,46,47,48,49,50,51	chainnpm
 financial	plant_xor	0.8	0.800	pertable	delta	10	0	0	0	0.051557	0.000086	0.998337	0.995253	0.947720	1.020361	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
 financial	plant_xor	0.8	0.800	privbayes	delta	10	0	0	0	0.051557	0.000399	0.992230	0.993926	0.965833	1.031548	42,43,44,45,46,47,48,49,50,51	privbayes
 financial	plant_xor	0.8	0.800	pbpgm	delta	10	0	0	0	0.051557	-0.000594	1.011803	1.008158	0.953226	1.034263	42,43,44,45,46,47,48,49,50,51	pbpgm
 financial	plant_xor	0.8	0.800	lavaprop	delta	10	0	0	0	0.051557	-0.000123	1.002357	1.001029	0.963855	1.035236	42,43,44,45,46,47,48,49,50,51	lavaprop
-financial	plant_xor	3.2	0.800	chainnpm	delta	10	0	0	0	0.051557	0.003862	0.924635	1.244394	0.211539	4.946781	42,43,44,45,46,47,48,49,50,51	chainnpm
+financial	plant_xor	3.2	0.800	chainnpm	delta	10	0	0	0	0.051557	0.068827	0.845662	1.136098	0.292543	3.741820	42,43,44,45,46,47,48,49,50,51	chainnpm
 financial	plant_xor	3.2	0.800	pertable	delta	10	0	0	0	0.051557	0.000151	0.997077	1.000991	0.983113	1.035310	42,43,44,45,46,47,48,49,50,51	pertable+privmrf
 financial	plant_xor	3.2	0.800	privpetal	delta	3	1	0	0	0.051569	-0.004524	1.087718	1.087592	1.058103	1.116955	42,43,44	privpetal
 financial	plant_xor	3.2	0.800	privbayes	delta	10	0	0	0	0.051557	0.000563	0.989062	0.994367	0.979634	1.032230	42,43,44,45,46,47,48,49,50,51	privbayes

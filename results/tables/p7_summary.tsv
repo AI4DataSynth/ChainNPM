@@ -1,12 +1,12 @@
 # P7-1 summary: natural mode, 2-hop RE = re_median_large[financial=2hop_topbot | imdb=cross_r1r2 | instacart=cross_r1r2 | movielens=cross_r1r2] (large queries, prereg query_seed=123, 150 queries/class, large_count=50)
 # bootstrap: 1000 resamples of per-seed means, RNG seed 42; series labels follow final figures (denorm excluded; PrivMRF = privmrf+pertable, pertable preferred)
 dataset	series	eps	n	mean	median	std	boot_lo	boot_hi
-financial	chainnpm	0.1	10	4.191144	3.881116	2.567239	2.796252	5.859672
-financial	chainnpm	0.2	10	2.905660	2.438363	1.862755	1.883281	4.186369
-financial	chainnpm	0.4	10	1.770722	1.682514	0.989354	1.259174	2.414956
-financial	chainnpm	0.8	10	1.162510	0.905104	0.619929	0.860930	1.551880
-financial	chainnpm	1.6	10	0.700962	0.689924	0.244767	0.563385	0.847339
-financial	chainnpm	3.2	10	0.462003	0.435439	0.137166	0.395582	0.550305
+financial	chainnpm	0.1	10	4.482309	4.341539	2.638436	3.013648	6.033651
+financial	chainnpm	0.2	10	2.671124	2.352837	1.908730	1.735102	3.877492
+financial	chainnpm	0.4	10	1.528544	1.259714	0.916657	1.077799	2.123239
+financial	chainnpm	0.8	10	1.027447	0.955441	0.414180	0.833948	1.299136
+financial	chainnpm	1.6	10	0.710224	0.661351	0.252676	0.571684	0.868345
+financial	chainnpm	3.2	10	0.500659	0.467999	0.195626	0.387127	0.610733
 financial	privpetal	0.1	10	0.287253	0.292124	0.019894	0.275149	0.298427
 financial	privpetal	0.2	10	0.495522	0.508325	0.065606	0.453363	0.529874
 financial	privpetal	0.4	10	0.723903	0.731658	0.042108	0.699813	0.746347

@@ -24,7 +24,8 @@ import eval_newdata as ev
 import baselines as bl
 import plant_audit as pa
 from chain_npm_vshape import ChainNPMV
-from chain_npm_3level import ChainNPM3
+from chain_npm_3level import (ChainNPM3, add_crosshop_args, crosshop_kwargs)
+import chain_npm_absorb as abmod
 
 # Root of the data/result tree (expects <root>/tmp/data/<dataset>/processed and
 # writes <root>/tmp/results/...).  Override with CHAINNPM_ROOT, or per call with
@@ -54,6 +55,22 @@ def build_arg_parser():
     ap.add_argument('--out', type=str, default=None)
     ap.add_argument('--tau', type=int, default=None,
                     help='override pre-registered tau')
+    # absorb arm (chain_npm_absorb): gives Chain-NPM the per-table family's
+    # cardinality and leaf-marginal accuracy.  'off' (default) leaves every
+    # released code path bit-identical; see chain_npm_absorb for the tokens.
+    ap.add_argument('--absorb', type=str, default='off',
+                    help='comma list over totals,pubn,bins[:N],tailbins[:K],repair,'
+                         'rowleaf,szsens,szthresh[:k],exactmarg,'
+                         'growcap,ipf,ratiotop,budget[:w1[:w2]],'
+                         'shrink[:k],szquota, or "all" (all but rowleaf); off = released')
+    ap.add_argument('--arm', type=str, default='',
+                    help='tag appended to the default output file name')
+    # cross-hop (top x bot) marginals for the deep-chain shape.  Default is
+    # the blessed configuration (inner + denominator guard); 'off' restores
+    # the pre-cross-hop behaviour bit for bit.  Only the `chainnpm` branch of
+    # run_chain_pipeline reads these; the vshape datasets go through
+    # ChainNPMV and the baselines ignore them.
+    add_crosshop_args(ap)
     return ap
 
 
@@ -231,7 +248,8 @@ def chain_effects(gt_views, syn_views, cfg):
 # ------------------------------------------------------------------ #
 
 def _materialize_chainnpmv(r1_arr, child_arr, r2_out, cfg, domains, n2_gt,
-                           noisy, seed):
+                           noisy, seed, absorb='off'):
+    exactmarg = abmod.parse(absorb)['exactmarg']
     r2_attrs = cfg['tables']['r2']['attrs']
     child_r2 = np.column_stack([np.asarray(r2_out[a], dtype=int)
                                 for a in r2_attrs]) if r2_out else \
@@ -242,7 +260,8 @@ def _materialize_chainnpmv(r1_arr, child_arr, r2_out, cfg, domains, n2_gt,
         p = noisy.get('P2_' + a)
         if p is not None and p.sum() > 0:
             prob = np.maximum(p, 0); prob = prob / prob.sum()
-            cols.append(rng.choice(len(prob), size=n2_gt, p=prob))
+            cols.append(abmod.exact_draw(rng, prob, n2_gt) if exactmarg
+                        else rng.choice(len(prob), size=n2_gt, p=prob))
         else:
             cols.append(np.zeros(n2_gt, dtype=int))
     r2_tab = np.column_stack(cols)
@@ -313,17 +332,26 @@ def run_vshape_pipeline(cfg, args):
         xp = list(cfg.get('xp_pairs') or [])
         model = ChainNPMV(attrs['r1'], domains['r1'], attrs['r2'], domains['r2'],
                           attrs['c'], domains['c'], xp_pairs=xp,
-                          tau=tau, seed=args.seed)
+                          tau=tau, seed=args.seed,
+                          absorb=getattr(args, 'absorb', 'off'))
         delta = prereg.delta_for(n_leaf)
         model.compute_marginals(tables['r1'], tables['r2'], tables['c'],
                                 args.eps, delta)
         r1s, ch, r2o, tot = model.synthesize()
         syn_r1, syn_r2, syn_c, child_r2 = _materialize_chainnpmv(
             r1s, ch, r2o, cfg, domains, tables['r2'].shape[0],
-            model.noisy, args.seed)
+            model.noisy, args.seed,
+            absorb=getattr(args, 'absorb', 'off'))
         syn_tables = {'r1': syn_r1, 'r2': syn_r2, 'c': syn_c}
         hyper = {'tau': tau, 'Q': model.Q, 'sigma': model.sigma,
-                 'delta': delta, 'k': None}
+                 'delta': delta, 'k': None,
+                 'n_queries': int(model.n_queries),
+                 'absorb': model.absorb,
+                 'adjacency': model.adjacency,
+                 'public_n': bool(model.pub),
+                 'sz_sensitivity': float(model.sz_sens),
+                 'size_bins': (None if model.sz_grid is None
+                               else int(len(model.sz_grid[1])))}
     elif args.method == 'pertable':
         syn_tables, htilde = _baseline_result(
             bl.pertable_vshape(tables, attrs, domains, args.eps, args.seed))
@@ -468,18 +496,40 @@ def run_chain_pipeline(cfg, args):
               for i in range(len(attrs['top'])) for j in range(i + 1, len(attrs['top']))]
         tm = [(a, b) for a in attrs['top'] for b in attrs['mid']]
         mb = [(a, b) for a in attrs['mid'] for b in attrs['bot']]
+        tb, tb_weight, tb_shrink, tb_shrink_denom = crosshop_kwargs(
+            args, attrs['top'], attrs['bot'])
         model = ChainNPM3(attrs['top'], domains['top'], attrs['mid'],
                           domains['mid'], attrs['bot'], domains['bot'],
                           tt_pairs=tt, tm_pairs=tm, mb_pairs=mb,
                           sz1_attrs=attrs['top'], sz2_attrs=attrs['mid'],
-                          tau1=tau1, tau2=tau2, seed=args.seed)
+                          tau1=tau1, tau2=tau2, seed=args.seed,
+                          tb_pairs=tb, tb_weight=tb_weight,
+                          tb_shrink=tb_shrink,
+                          tb_shrink_denom=tb_shrink_denom,
+                          absorb=getattr(args, 'absorb', 'off'))
         delta = prereg.delta_for(n_leaf)
         model.compute_marginals(tables['top'], tables['mid'], tables['bot'],
                                 args.eps, delta)
         ts, ms, bs = model.synthesize()
         syn_tables = {'top': ts, 'mid': ms, 'bot': bs}
         hyper = {'tau1': tau1, 'tau2': tau2, 'sigma': model.sigma,
-                 'delta': delta, 'k': None}
+                 'delta': delta, 'k': None,
+                 'Q': int(model.Q), 'n_queries': int(model.n_queries),
+                 'tb_pairs': len(model.tb_pairs),
+                 'tb_weight': model.tb_weight,
+                 'tb_shrink': model.tb_shrink,
+                 'tb_shrink_denom': model.tb_shrink_denom,
+                 'tb_mass_total': (float(sum(model.tb_mass.values()))
+                                   if model.tb_mass else 0.0),
+                 'absorb': model.absorb,
+                 'adjacency': model.adjacency,
+                 'public_n': bool(model.pub),
+                 'totals_released': sorted(model.tot),
+                 'total_source': dict(model.total_source),
+                 'anchor_source': model.anchor_source,
+                 'sz_sensitivity': float(model.sz_sens),
+                 'size_bins': [None if g is None else int(len(g[1]))
+                               for g in (model.sz1_grid, model.sz2_grid)]}
     elif args.method == 'pertable':
         syn_tables, htilde = _baseline_result(
             bl.pertable_chain(tables, attrs, domains, args.eps, args.seed))
@@ -562,6 +612,13 @@ def run_chain_pipeline(cfg, args):
 
 
 def dump(result, cfg, args, default_name):
+    # --arm tags the default file name so an absorb arm can never overwrite a
+    # released cell; loaders must register the tag explicitly (see results/README)
+    arm = (getattr(args, 'arm', '') or '').strip('_')
+    if arm:
+        result['arm'] = arm
+        if default_name.endswith('.json'):
+            default_name = default_name[:-5] + '_' + arm + '.json'
     out = args.out or os.path.join(PROJECT_ROOT, 'tmp', 'results',
                                    cfg['name'], default_name)
     os.makedirs(os.path.dirname(out), exist_ok=True)

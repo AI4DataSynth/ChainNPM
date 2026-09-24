@@ -1,0 +1,110 @@
+{
+  "dataset": "imdb",
+  "shape": "vshape",
+  "method": "chainnpm",
+  "mode": "natural",
+  "eps": 0.4,
+  "seed": 47,
+  "runtime_sec": 113.48369574546814,
+  "hyper": {
+    "tau": 12,
+    "Q": 22,
+    "sigma": 66.53924880746817,
+    "delta": 8.222480590834566e-07,
+    "k": null,
+    "n_queries": 22,
+    "absorb": "pubn+szthresh+szquota+exactmarg+growcap+rowleaf+repair",
+    "adjacency": "one-child-row",
+    "public_n": true,
+    "sz_sensitivity": 1.4142135623730951,
+    "size_bins": null
+  },
+  "prereg": {
+    "query_seed": 123,
+    "n_queries": 150,
+    "large_count": 50,
+    "tau_choices": [
+      6,
+      8,
+      12
+    ]
+  },
+  "counts": {
+    "r1_gt": 639533,
+    "r2_gt": 110468,
+    "c_gt": 1216178,
+    "r1_syn": 639533,
+    "r2_syn": 110468,
+    "c_syn": 1216972,
+    "syn_orphans_c": 0
+  },
+  "subset": {
+    "subset_frac": 1.0,
+    "subset_seed": null
+  },
+  "re": {
+    "re_median": {
+      "0hop_r1": 0.0015142526422169081,
+      "0hop_r2": 0.0008861381162678556,
+      "0hop_c": 0.0007095631149820747,
+      "1hop_r1c": 0.25119603461591444,
+      "1hop_r2c": 0.05214562459894442,
+      "cross_r1r2": 0.13445650113055352
+    },
+    "re_median_large": {
+      "0hop_r1": 0.0015142526422169081,
+      "0hop_r2": 0.0008861381162678556,
+      "1hop_r1c": 0.12442091330244871,
+      "1hop_r2c": 0.0350148242568505,
+      "cross_r1r2": 0.11863373175334763,
+      "0hop_c": 0.0006851727949838648
+    },
+    "n_queries": {
+      "0hop_r1": 150,
+      "0hop_r2": 150,
+      "0hop_c": 150,
+      "1hop_r1c": 150,
+      "1hop_r2c": 150,
+      "cross_r1r2": 150
+    },
+    "n_queries_large": {
+      "0hop_r1": 150,
+      "0hop_r2": 150,
+      "1hop_r1c": 129,
+      "1hop_r2c": 143,
+      "cross_r1r2": 145,
+      "0hop_c": 146
+    }
+  },
+  "effect": {
+    "contrast_real": {
+      "contrast": 0.12107982540556056,
+      "cell_means": {
+        "00": 0.4773233389524449,
+        "01": 0.3562435135468843,
+        "10": 0.0,
+        "11": 0.0
+      },
+      "share_x1": 0.0,
+      "share_x2": 0.24639732012912582
+    },
+    "contrast_syn": {
+      "contrast": 0.11966009882006651,
+      "cell_means": {
+        "00": 0.4771831305482288,
+        "01": 0.3575230317281623,
+        "10": 0.0,
+        "11": 0.0
+      },
+      "share_x1": 0.0,
+      "share_x2": 0.24670904507252425
+    }
+  },
+  "size_tv": 0.017445542294142784,
+  "mean_size": {
+    "gt": 1.901665746724563,
+    "syn": 1.9029072776541633
+  },
+  "total_runtime_sec": 155.1971790790558,
+  "arm": "pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota"
+}

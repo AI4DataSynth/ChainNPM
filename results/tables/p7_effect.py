@@ -25,7 +25,7 @@ Targets
 Series (6, manuscript labels)
 -----------------------------
 chainnpm / pertable / privpetal / privbayes / pbpgm / lavaprop.
-``pertable`` is the manuscript's \\textsc{PerTable} (per-table PrivMRF + random
+``pertable`` is the manuscript's PrivMRF (per-table PrivMRF + random
 FK relinking) and the only per-table series present in the archive; the same
 series is keyed ``privmrf`` in ``p7_summary.tsv``.  ``denorm`` is excluded by
 user decision (2026-09-18).
@@ -215,7 +215,7 @@ def main():
         'imdb/instacart/movielens(vshape) -> contrast = cell_mean(00) - '
         'cell_mean(01); plant_xor additionally yields phi (phi_xor interaction)',
         '# series (6): chainnpm / pertable / privpetal / privbayes / pbpgm / '
-        'lavaprop. pertable = the manuscript PerTable (per-table PrivMRF + '
+        'lavaprop. pertable = the manuscript PrivMRF (per-table PrivMRF + '
         'random FK relinking), the only per-table series in the archive; the '
         'same series is keyed privmrf in p7_summary.tsv. denorm excluded by '
         'user decision; no standalone plant-mode privmrf record exists',

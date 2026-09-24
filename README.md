@@ -58,6 +58,10 @@ python chain_npm_financial.py --eps 3.2 --seed 42 --mode natural --method chainn
 # planted cross-hop audit: product planting at a given target strength
 python chain_npm_imdb.py --eps 0.8 --seed 42 --mode plant_product --target 0.20
 
+# the reported arm: row-level quota calibration (every paper number uses it)
+python chain_npm_financial.py --eps 3.2 --seed 42 --mode natural --method chainnpm \
+    --absorb 'pubn,rowleaf,szthresh,exactmarg,repair,growcap,szquota'
+
 # the same driver produces every baseline comparison point
 python chain_npm_movielens.py --eps 3.2 --seed 42 --mode natural --method pertable
 ```
@@ -72,6 +76,8 @@ python chain_npm_movielens.py --eps 3.2 --seed 42 --mode natural --method pertab
 | `--data_dir`, `--out` | override the input directory and the output JSON path |
 | `--subset_frac`, `--subset_seed` | run on a random subset of the leaf table (smoke tests) |
 | `--tau` | override the pre-registered truncation threshold |
+| `--absorb` | comma list over `totals,pubn,bins[:N],tailbins[:K],repair,rowleaf,szsens,szthresh[:k],exactmarg,growcap,ipf,ratiotop,budget[:w1[:w2]],shrink[:k],szquota` (or `all`, which excludes `rowleaf`); `off` (default) keeps every released code path |
+| `--arm` | tag appended to the default output file name (per-arm archives) |
 
 Each run writes the synthetic tables and `meta.json` under `result/p4out/` and a
 result JSON with the per-hop errors and the cross-hop effect.
@@ -140,7 +146,10 @@ baseline methods record a degradation instead of failing the pipeline.
 record per experiment cell (metadata, hyper-parameters, per-hop median relative
 errors, cross-hop effect, size statistics, runtime). `results/tables/` aggregates
 them into the summary tables of the paper (median with bootstrap CI, Wilcoxon/Holm
-significance, plant-and-audit retention).
+significance, plant-and-audit retention). `results/arms/absorb/` holds the
+per-cell records of the reported Chain-NPM arm
+(`--absorb 'pubn,rowleaf,szthresh,exactmarg,repair,growcap,szquota'`); see its
+README and `docs/REPRODUCE.md` §3.
 
 ## License
 

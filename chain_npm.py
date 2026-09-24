@@ -89,16 +89,21 @@ def make_sigmas_weighted(epsilon, delta, weights):
     return {'per_query': sigmas, 'gamma_max': gamma_max}
 
 
+_CROSS_MULT = {'cross025': 0.25, 'cross05': 0.5, 'cross2': 2.0,
+               'cross': 4.0, 'cross4': 4.0, 'cross8': 8.0}
+
+
 def alloc_weights(scheme):
-    """Preset importance-weight schemes for ablation."""
+    """Preset importance-weight schemes for ablation.
+
+    'uniform' (default) gives every marginal weight 1; the 'cross*' schemes
+    re-weight the cross-hop marginals (tables ri / rhi) by the multiplier in
+    _CROSS_MULT, so the sweep covers both over- and under-weighting the
+    cross-hop object (0.25, 0.5, 1, 2, 4, 8).
+    """
     w = {name: 1.0 for name, _, _ in MARGINALS}
-    if scheme in ('cross', 'cross4'):
-        mult = 4.0
-    elif scheme == 'cross8':
-        mult = 8.0
-    elif scheme == 'cross2':
-        mult = 2.0
-    else:
+    mult = _CROSS_MULT.get(scheme)
+    if mult is None:
         return w
     for name, (tbl, _), _ in MARGINALS:
         if tbl in ('ri', 'rhi'):

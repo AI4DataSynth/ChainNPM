@@ -28,7 +28,8 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from chain_npm_3level import ChainNPM3  # noqa: E402
+from chain_npm_3level import (ChainNPM3, add_crosshop_args,  # noqa: E402
+                              crosshop_kwargs)
 
 
 def load_deep(data_dir):
@@ -83,6 +84,11 @@ def main():
     ap.add_argument('--tau1', type=int, default=40)
     ap.add_argument('--tau2', type=int, default=8)
     ap.add_argument('--seed', type=int, default=0)
+    ap.add_argument('--absorb', type=str, default='off',
+                    help='absorb-arm spec, see chain_npm_absorb; off = released')
+    # cross-hop (top x bot) marginals: default = blessed configuration
+    # (inner + denominator guard); 'off' restores the pre-cross-hop run
+    add_crosshop_args(ap)
     args = ap.parse_args()
 
     t0 = time.time()
@@ -110,7 +116,10 @@ def main():
                   ('PRIORITY', 'SHIPMODE'), ('STATUS', 'DBIN')],
         sz1_attrs=['NATION', 'SEGMENT', 'ACCTBIN'],
         sz2_attrs=['YEAR', 'STATUS', 'PRIORITY'],
-        tau1=args.tau1, tau2=args.tau2, seed=args.seed)
+        tau1=args.tau1, tau2=args.tau2, seed=args.seed,
+        absorb=args.absorb,
+        **dict(zip(('tb_pairs', 'tb_weight', 'tb_shrink', 'tb_shrink_denom'),
+                   crosshop_kwargs(args, top_attrs, bot_attrs))))
 
     delta = 1.0 / bot.shape[0]
     model.compute_marginals(top, mid, bot, args.epsilon, delta)
@@ -147,7 +156,21 @@ def main():
     stats = {'epsilon': args.epsilon, 'seed': args.seed,
              'runtime_sec': time.time() - t0,
              'n_top': int(top_out.shape[0]), 'n_mid': int(mid_out.shape[0]),
-             'n_bot': int(bot_out.shape[0])}
+             'n_bot': int(bot_out.shape[0]),
+             'Q': int(model.Q), 'n_queries': int(model.n_queries),
+             'sigma': float(model.sigma),
+             'tb_pairs': len(model.tb_pairs),
+             'tb_weight': model.tb_weight,
+             'tb_shrink': model.tb_shrink,
+             'tb_shrink_denom': model.tb_shrink_denom,
+             'tb_mass_total': (float(sum(model.tb_mass.values()))
+                               if model.tb_mass else 0.0),
+             'absorb': model.absorb, 'adjacency': model.adjacency,
+             'anchor_source': model.anchor_source,
+             'total_source': dict(model.total_source),
+             'sz_sensitivity': float(model.sz_sens),
+             'size_bins': [None if g is None else int(len(g[1]))
+                           for g in (model.sz1_grid, model.sz2_grid)]}
     json.dump(stats, open(args.out_prefix + '_stats.json', 'w'), indent=2)
     print(json.dumps(stats, indent=2), flush=True)
 

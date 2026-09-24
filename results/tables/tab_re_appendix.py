@@ -21,7 +21,7 @@ appendix table and the summary cannot drift apart: it *fails* if any of the
 
 Series labels
 -------------
-``pertable`` is the manuscript's \\textsc{PerTable} (per-table PrivMRF + random
+``pertable`` is the manuscript's PrivMRF (per-table PrivMRF + random
 FK relinking); it is the only per-table series in the archive and is keyed
 ``privmrf`` inside ``p7_summary.tsv``.  ``denorm`` is excluded by user decision.
 
@@ -32,6 +32,7 @@ instead of 556, ``c_syn`` = 72K against 1.0M true rows, ``size_tv`` = 1.0,
 2.0 s runtime).  It was re-run and the archive updated; the row below carries
 the repaired value (see the ``note`` column).
 """
+import argparse
 import os
 import sys
 
@@ -42,7 +43,7 @@ OUT = os.path.join(HERE, 'tab_re_appendix.tsv')
 DATASETS = ['financial', 'imdb', 'instacart', 'movielens']
 EPS_ORDER = [0.1, 0.2, 0.4, 0.8, 1.6, 3.2]
 # (tsv series key, manuscript label, order)
-SERIES = [('chainnpm', 'Chain-NPM'), ('pertable', 'PerTable'),
+SERIES = [('chainnpm', 'Chain-NPM'), ('pertable', 'PrivMRF'),
           ('privpetal', 'PrivPetal'), ('privbayes', 'PrivBayes'),
           ('pbpgm', 'PB-PGM'), ('lavaprop', 'PrivLava')]
 SUMMARY_KEY = {'chainnpm': 'chainnpm', 'pertable': 'privmrf',
@@ -53,9 +54,9 @@ HOP2 = {ds: ('2hop_topbot' if ds == 'financial' else 'cross_r1r2')
 NOTE_FIX = '2026-09-18 repaired (was tau=12/c_syn=72K); median unchanged'
 
 
-def read_summary():
+def read_summary(path):
     vals = {}
-    for line in open(SUMMARY):
+    for line in open(path):
         if line.startswith('#'):
             continue
         f = line.rstrip('\n').split('\t')
@@ -69,7 +70,15 @@ def read_summary():
 
 
 def main():
-    vals = read_summary()
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument('--summary', default=SUMMARY,
+                    help="p7_summary.tsv source (default: %s); pass the "
+                         "szquota-arm summary to regenerate the arm version"
+                         % SUMMARY)
+    ap.add_argument('--out', default=OUT,
+                    help="output TSV (default: %s)" % OUT)
+    a = ap.parse_args()
+    vals = read_summary(a.summary)
     missing = []
     for ds in DATASETS:
         for series, _ in SERIES:
@@ -91,7 +100,7 @@ def main():
         'results/tables/p7_summary.tsv, which results/tables/p7_summary.py '
         'recomputes from tmp/results (read only). This script reads only '
         'p7_summary.tsv, so the two cannot drift',
-        '# series: pertable = the manuscript PerTable (per-table PrivMRF + '
+        '# series: pertable = the manuscript PrivMRF (per-table PrivMRF + '
         'random FK relinking); it appears as privmrf in p7_summary.tsv. '
         'denorm excluded by user decision',
         '# n: seeds behind each cell (must be 10); values are medians, 4 dp',
@@ -116,9 +125,9 @@ def main():
                     else '')
             lines.append('%s\t%s\t%s\t%s\t%s\t%s' % (
                 ds, series, label, '\t'.join(med), '\t'.join(ns), note))
-    with open(OUT, 'w') as fh:
+    with open(a.out, 'w') as fh:
         fh.write('\n'.join(lines) + '\n')
-    print('written: %s (%d data rows)' % (OUT, len(DATASETS) * len(SERIES)))
+    print('written: %s (%d data rows)' % (a.out, len(DATASETS) * len(SERIES)))
 
     # ---- self-check: echo the key cell and the envelope ----
     allv = [vals[(ds, SUMMARY_KEY[s], e)]['median']

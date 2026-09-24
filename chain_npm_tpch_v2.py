@@ -69,6 +69,8 @@ def main():
     ap.add_argument('--data_dir', required=True)
     ap.add_argument('--epsilon', type=float, required=True)
     ap.add_argument('--out_prefix', required=True)
+    ap.add_argument('--absorb', type=str, default='off',
+                    help='absorb-arm spec, see chain_npm_absorb; off = released')
     args = ap.parse_args()
 
     t0 = time.time()
@@ -86,7 +88,7 @@ def main():
     model = ChainNPM2(parent_attrs, parent_domains, child_attrs,
                       child_domains, pp_pairs=[('NATION', 'YEAR'),
                                                ('YEAR', 'MONTH')],
-                      tau=8, seed=0)
+                      tau=8, seed=0, absorb=args.absorb)
     n_ind = child.shape[0]
     delta = 1.0 / n_ind
     t1 = time.time()
@@ -157,7 +159,18 @@ def main():
     syn_l.to_csv(args.out_prefix + '_syn_l.csv', index=False)
     meta = {'epsilon': args.epsilon, 'delta': delta,
             'n_orders_syn': int(n_orders), 'n_lineitem_syn': int(n_l),
-            'n_queries_in_phase1': 42, 'runtime_s': time.time() - t0}
+            'n_queries_in_phase1': 42, 'runtime_s': time.time() - t0,
+            # 42 is correct for THIS rail: 5 P + 2 PP + 5 C + 25 PC + 5 SZ
+            # (cc_pairs empty), which is what main.tex:1478/1605/1731 states.
+            # The model's own count is recorded next to it so the claim is
+            # checkable from the artifact; note the v1 driver
+            # (chain_npm_tpch.py, 4 child attrs) builds 36 while its meta also
+            # hardcodes 42.
+            'n_queries_model': int(getattr(model, 'n_queries', 0) or 0),
+            'Q_model': int(getattr(model, 'Q', 0) or 0),
+            'absorb': model.absorb, 'adjacency': model.adjacency,
+            'anchor_source': model.anchor_source,
+            'total_source': dict(model.total_source)}
     json.dump(meta, open(args.out_prefix + '_meta.json', 'w'), indent=2)
     print('SAVED', args.out_prefix, meta, flush=True)
 

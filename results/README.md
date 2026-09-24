@@ -15,7 +15,7 @@ experiment cell, exactly the cells that entered the paper:
 | `size_tv`, `mean_size` | group-size distribution statistics |
 
 `method` values: `chainnpm`, `pertable` (per-table PrivMRF + author-protocol FK
-re-linking, the paper's PerTable), `privmrf` (single-table PrivMRF), `privpetal`,
+re-linking, the paper's PrivMRF), `privmrf` (single-table PrivMRF), `privpetal`,
 `lavaprop` (PrivLava), `privbayes`, `pbpgm`. `denorm` records (an internal control)
 are not shipped. `mode` values: `natural`, `plant_product`, `plant_xor`,
 `plant_family:<rule>`.
@@ -39,7 +39,7 @@ Two naming notes:
 
 * the per-table baseline series appears as **`pertable`** in `by_dataset/`,
   `p7_effect.tsv` and `tab_re_appendix.tsv`, but as **`privmrf`** in
-  `p7_summary.tsv`; both denote the manuscript's *PerTable* (per-table PrivMRF
+  `p7_summary.tsv`; both denote the manuscript's *PrivMRF* (per-table PrivMRF
   with author-protocol FK re-linking), and the alias is also recorded in the
   header of `tab_re_appendix.tsv`;
 * the planted-mode grid is only shipped as the aggregated tables and figures —

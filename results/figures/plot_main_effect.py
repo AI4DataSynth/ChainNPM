@@ -30,8 +30,10 @@ Reading the panel
 Honesty requirements carried by the figure
 ------------------------------------------
 * Six series, complete grid except ``PrivPetal``, which is a partial n = 3
-  subset (eps = 3.2, seeds 42-44, target 0.316 for product and 0.8 for xor):
-  it is drawn as a lone mark at its slot and labelled ``n = 3``.
+  subset (eps = 3.2, seeds 42-44, target 0.316 for product and 0.8 for xor): it
+  is drawn as a lone mark at its slot and its legend entry carries ``(n = k)``
+  with ``k`` read off the data, so it becomes ``(n = 10)`` by itself once the
+  plant campaign is complete.
 * Some requested targets were never realised as distinct plants -- the
   ``plant_reused`` flag in ``../tables/p7_effect.tsv``.  On imdb the attainable
   contrast is already reached at every requested target (one realisation), and
@@ -39,8 +41,10 @@ Honesty requirements carried by the figure
   on the three vshape datasets.  Those series are therefore flat over the
   target slots; each affected panel says so instead of hiding it.  No value is
   ever invented for a missing cell.
-* The financial panel is the archived negative case: no method separates
-  from 1.0 there, Chain-NPM included.  It is annotated, not smoothed.
+* The financial panel annotation is generated from the plotted medians, not
+  written by hand: it states the Chain-NPM range at $\varepsilon=3.2$ and adds
+  the per-fork level only when the per-table family really sits on it.  The
+  panel is annotated, never smoothed.
 
 Data source: ``tmp/results/<dataset>/*.json`` (read only).  denorm is excluded
 by user decision.  Per-cell coverage is written next to the figure.
@@ -82,9 +86,12 @@ PARTIAL_SEEDS = [42, 43, 44]
 
 # series -> display label, colour, marker (same conventions as
 # plot_main_crosshop.py so the manuscript figures read as one family)
+# 2026-09-19: the per-table baseline is displayed as "PrivMRF" (manuscript
+# rename); only the display label changed -- the archive key stays "pertable"
+# in the JSON records, in SERIES_LABELS below and in the coverage report.
 META = {
     "chainnpm":  ("Chain-NPM", "#1d4ed8", "o"),
-    "pertable":  ("PerTable",  "#be123c", "v"),
+    "pertable":  ("PrivMRF",   "#be123c", "v"),
     "privpetal": ("PrivPetal", "#b45309", "s"),
     "privbayes": ("PrivBayes", "#166534", "^"),
     "pbpgm":     ("PB-PGM",    "#0891b2", "P"),
@@ -126,6 +133,8 @@ def excludes(path):
         return "macOS resource fork"
     if "_sub" in name:
         return "'_sub' subset run"
+    if "_xhoff" in name:
+        return "cross-hop ablation arm (not manuscript data)"
     for pat in ("legacy", "degraded"):
         if pat in name:
             return "marker '%s'" % pat
@@ -388,6 +397,45 @@ def draw_panel(ax, per, cells, ds, logy, notes):
                     fontsize=6.2, color="#555555", va="bottom", ha="left")
 
 
+def series_max_n(per, series):
+    """Largest seed count any single plotted cell of ``series`` carries."""
+    ns = [len(v) for (ds, s, mode, t, eps), v in per.items()
+          if s == series and t in T_PROD + [XOR_PHI] and v]
+    return max(ns) if ns else 0
+
+
+def financial_note(per):
+    """Panel annotation for the chain-shape dataset, derived from the data.
+
+    financial is the dataset the cross-hop marginal targets, so the annotation
+    states what the chain-aware series achieves there at both plotted budgets,
+    and the envelope of every other series, instead of any hand-written claim
+    that a re-run could falsify.  Returns None when the data cannot support a
+    statement (then no annotation is drawn).
+    """
+    def slot_range(series, eps):
+        vals = [med(per, "financial", series, "plant_product", t, eps)
+                for t in T_PROD]
+        vals = [v for v in vals if v is not None]
+        return (min(vals), max(vals)) if vals else None
+
+    parts = []
+    hi = slot_range("chainnpm", EPS_FILLED)
+    if hi:
+        parts.append("Chain-NPM recovers the cross-hop effect\n"
+                     "at $\\varepsilon=3.2$: %.2f--%.2f" % hi)
+    lo = slot_range("chainnpm", 0.8)
+    if lo:
+        parts.append("($\\varepsilon=0.8$: %.2f--%.2f)" % lo)
+    mine = [slot_range(s, EPS_FILLED) for s in SERIES_ORDER
+            if s != "chainnpm"]
+    mine = [m for m in mine if m]
+    if mine:
+        parts.append("the other five series stay at\n~1.0 (%.2f--%.2f)"
+                     % (min(m[0] for m in mine), max(m[1] for m in mine)))
+    return "\n".join(parts) if parts else None
+
+
 def render(per, cells, meta, out_pdf, out_png, logy=True):
     apply_style()
     # the drawn quantity is the per-cell median over seeds; the axis guard is
@@ -401,15 +449,31 @@ def render(per, cells, meta, out_pdf, out_png, logy=True):
         sys.exit("plotted median envelope %.4g..%.4g falls outside the y "
                  "limits %s: refusing to clip silently"
                  % (min(env), max(env), Y_LIM))
+    # a median retention error of exactly 0 is not representable on a log axis
+    # and matplotlib would drop the mark without complaint: name every such
+    # cell so its absence from the plot is a stated fact, not a silent loss.
+    zero_cells = sorted(
+        (ds, series, mode, t, eps) for (ds, series, mode, t, eps), vals
+        in per.items() if t in T_PROD + [XOR_PHI] and vals
+        and float(np.median(list(vals.values()))) <= 0.0)
+    if zero_cells:
+        print("WARNING: %d plotted cell(s) have a median retention error of "
+              "exactly 0 and cannot appear on the log axis:" % len(zero_cells))
+        for c in zero_cells:
+            print("   %s/%s %s t=%g eps=%g" % c)
+    else:
+        print("zero-valued plotted cells: none (no mark is lost to the log "
+              "axis)")
 
     fig, axes = plt.subplots(2, 2, figsize=(7.0, 4.5), sharex=True, sharey=True)
     axes = np.asarray(axes).ravel()
     panel_notes = {
-        "financial": [("no method recovers the planted effect:\n"
-                       "all six series lie at ~1.0", (0.02, 0.55))],
         "imdb": [("planted contrast saturates: the same real\n"
                   "effect at every requested target", (0.02, 0.02))],
     }
+    fin = financial_note(per)
+    if fin:
+        panel_notes["financial"] = [(fin, (0.02, 0.55))]
     for ax, ds in zip(axes, DATASETS):
         draw_panel(ax, per, cells, ds, logy, panel_notes.get(ds, []))
         shape, rows = meta.get(ds, (None, None))
@@ -426,12 +490,19 @@ def render(per, cells, meta, out_pdf, out_png, logy=True):
         ax.set_ylabel("retention error  $|\\mathrm{syn}-\\mathrm{real}|"
                       "/|\\mathrm{real}|$")
 
-    handles = [Line2D([], [], color=META[s][1], marker=META[s][2], ls="none",
-                      markersize=4.4, markerfacecolor=META[s][1],
-                      markeredgecolor="white", markeredgewidth=0.5,
-                      label=(META[s][0] + " (n = 3)" if s == "privpetal"
-                             else META[s][0]))
-               for s in SERIES_ORDER]
+    handles = []
+    for s in SERIES_ORDER:
+        label = META[s][0]
+        n = series_max_n(per, s)
+        if n and n < len(FULL_SEEDS):
+            # partial series: derive the parenthetical from the actual seed
+            # coverage instead of hard-coding it
+            label += " (n = %d)" % n
+        handles.append(Line2D([], [], color=META[s][1], marker=META[s][2],
+                              ls="none", markersize=4.4,
+                              markerfacecolor=META[s][1],
+                              markeredgecolor="white", markeredgewidth=0.5,
+                              label=label))
     leg1 = fig.legend(handles=handles, loc="upper center",
                       bbox_to_anchor=(0.5, 1.008), ncol=6, frameon=False,
                       handletextpad=0.35, columnspacing=1.0,
@@ -572,7 +643,7 @@ def write_coverage(per, cells, info, meta):
     lines.append("  102 rows (of 241) repeat their whole per-seed synthetic "
                  "effect at another target, i.e. the audit target is invisible "
                  "in the synthetic data:")
-    lines.append("  * the per-table family (PerTable and PB-PGM on all three "
+    lines.append("  * the per-table family (PrivMRF and PB-PGM on all three "
                  "vshape datasets, PrivBayes additionally on imdb and "
                  "movielens) and PrivLava on the three vshape datasets: the "
                  "plant is calibrated with plant.onehop_exact = true and "
@@ -580,7 +651,7 @@ def write_coverage(per, cells, info, meta):
                  "present the SAME one-hop marginals; for these series the "
                  "synthetic 2-hop effect repeats across targets at fixed seed "
                  "-> the retention error is pinned at 1.0. Verified example: "
-                 "instacart / PerTable / eps=3.2 / seed 42 -- r1_syn = 38,491, "
+                 "instacart / PrivMRF / eps=3.2 / seed 42 -- r1_syn = 38,491, "
                  "c_syn = 1,516,279 and all four synthetic cell means identical "
                  "to 8 decimals at every one of the four targets, while the "
                  "planted real effect moves 0.101 -> 0.407.")
@@ -596,7 +667,7 @@ def write_coverage(per, cells, info, meta):
     seed_env = [x for (d, s, m, t, e), vals in per.items()
                 if t in T_PROD + [XOR_PHI] for x in vals.values()]
     lines.append("within each target slot the six methods are offset from "
-                 "left to right in legend order (Chain-NPM, PerTable, "
+                 "left to right in legend order (Chain-NPM, PrivMRF, "
                  "PrivPetal, PrivBayes, PB-PGM, PrivLava).")
     lines.append("drawn quantity = median over seeds per cell.")
     lines.append("medians actually drawn: %.4f .. %.4f"
@@ -615,6 +686,17 @@ def write_coverage(per, cells, info, meta):
                  % (Y_LIM, "medians inside, no clipping"
                     if min(med_env) >= Y_LIM[0] and max(med_env) <= Y_LIM[1]
                     else "OUTSIDE -- FIX Y_LIM"))
+    zero_cells = sorted(
+        (d, s, m, t, e) for (d, s, m, t, e), vals in per.items()
+        if t in T_PROD + [XOR_PHI] and vals
+        and float(np.median(list(vals.values()))) <= 0.0)
+    lines.append("median retention error exactly 0 (not representable on the "
+                 "log axis): %s"
+                 % ("none" if not zero_cells else
+                    ", ".join("%s/%s %s t=%g eps=%g" % c for c in zero_cells)))
+    lines.append("legend seed counts: %s"
+                 % ", ".join("%s=%d" % (META[s][0], series_max_n(per, s))
+                             for s in SERIES_ORDER))
     lines.append("")
     lines.append("-- panel scale (ground-truth rows, from record 'counts') --")
     for ds in DATASETS:

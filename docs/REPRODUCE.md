@@ -78,6 +78,32 @@ class (`prereg.QUERY_SEED`), and reports the median relative error over all quer
 and over large-count queries (`answer >= prereg.LARGE_COUNT`). Recorded results
 reproduce the files shipped in `results/by_dataset/`.
 
+**The reported arm.**  The paper's Chain-NPM numbers enable one extra
+post-processing step:
+
+```bash
+--absorb 'pubn,rowleaf,szthresh,exactmarg,repair,growcap,szquota'
+```
+
+`szquota` recalibrates the drawn child group sizes against the per-parent-value
+row counts read off the row-level adjacent marginals the mechanism already
+releases; `rowleaf` makes those marginals row-level, which is the
+**one-individual** adjacency the paper uses throughout (`all` deliberately
+excludes `rowleaf` because it changes the adjacency, so it must be requested
+explicitly).  The step spends no budget and changes no released marginal or
+query; with the extra flag the loop above becomes
+
+```bash
+python chain_npm_${ds}.py --eps $eps --seed $seed --mode natural \
+    --method chainnpm \
+    --absorb 'pubn,rowleaf,szthresh,exactmarg,repair,growcap,szquota'
+```
+
+and the per-cell archives land in `results/arms/absorb/natural/` (these feed
+Table `tab:re-appendix` and Figures `fig:dataset_sweep` / `fig:query_class_sweep`).
+Without the flag the default run is bit-identical to the plain release
+(verified byte-for-byte; `results/by_dataset/` is that default arm).
+
 ## 4. Plant-and-Audit (cross-hop retention)
 
 `plant_audit.py` keeps every real one-hop marginal and all FK cardinalities exact
@@ -161,10 +187,18 @@ baseline runs take hours.
   identical as a multiset and per-table marginal TVDs stay below 1%. Seeds are
   therefore a Monte-Carlo handle, not a bit-level reproducibility handle, for that
   baseline; the aggregate statistics (medians over 10 seeds) are unaffected.
-* **PerTable naming.** The per-table baseline appears as `pertable` in
+* **PrivMRF naming.** The per-table baseline appears as `pertable` in
   `results/by_dataset/`, `results/tables/p7_effect.tsv` and
   `results/tables/tab_re_appendix.tsv`, and as `privmrf` in
-  `results/tables/p7_summary.tsv`; both are the manuscript's *PerTable*.
-* **Planted-mode cells.** The planted grid is shipped as aggregated tables and
-  figures only; the per-cell planted records live in the live campaign tree
-  (`tmp/results/<dataset>/`), which is not part of this repository.
+  `results/tables/p7_summary.tsv`; both are the manuscript's *PrivMRF*.
+* **Planted-mode cells.** The per-cell planted records of the reported arm are
+  shipped under `results/arms/absorb/plant/` (the released-arm planted cells live
+  in `results/by_dataset/`, where the planted grid also enters as aggregated
+  tables and figures).
+* **The reported arm and the adjacency convention.** Every Chain-NPM number that
+  enters the paper comes from the `--absorb 'pubn,rowleaf,szthresh,exactmarg,
+  repair,growcap,szquota'` run archived under `results/arms/absorb/`, and every
+  number — arm or default — is under the **one-individual** adjacency (a single
+  base-record insertion or deletion). `rowleaf` is what makes the row-level
+  objects the arm reads exact under that convention; the cascade convention is
+  not used anywhere in the paper.

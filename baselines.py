@@ -92,10 +92,13 @@ def privmrf_table(data, attr_names, domain_dict, epsilon, name, seed=0):
 # every synthetic child row draws its parent from it (rng.choice), so each
 # parent's expected synthetic degree tracks its true noisy degree.
 # DP accounting (same split as the authors): a child row enters its own table
-# model (0.8*eps) and exactly one FK histogram (0.2*eps) -> <= 1 * eps by
-# basic composition; a top/parent row enters only its table model (0.8*eps).
-# Advanced composition would only lower the total, so the 80/20 split is a
-# valid per-cell epsilon upper bound identical to the author text.
+# model (0.8*eps) and the H~ histogram(s) of its FK(s) (0.2*eps in total).  In
+# a CHAIN each row has one FK, so the total is 1.0*eps by basic composition.
+# In a STAR the child row has two FKs and enters both histograms, so each
+# histogram takes 0.1*eps and the total is again 1.0*eps (_relink_vshape);
+# charging 0.2 per histogram would make star cells spend 1.2*eps.
+# Advanced composition would only lower the total, so 1.0*eps is a valid
+# per-cell epsilon upper bound identical to the author text.
 
 def _true_group_counts(child_fk, parent_pk, n_parent):
     """True per-parent-row child counts of an FK.
@@ -340,7 +343,7 @@ def lavaprop_vshape(tables, attrs, domains, epsilon, seed=0, tau=None, k=4):
 # ------------------------------------------------------------------ #
 # Method mapping (per manuscript alignment, see campaign report):
 #   - 'privmrf':  per-table PrivMRF + author-protocol FK re-linking == the
-#                 manuscript's \textsc{PerTable}.  Uses the eps-aware
+#                 manuscript's PrivMRF (archive key 'pertable').  Uses the
 #                 privmrf_table above (Gaussian mechanism, sigma from
 #                 analytic_gaussian_gamma(eps, delta=1/n)); the P5.5 aligned
 #                 grid reruns this recipe under its 'pertable' name with the
@@ -405,13 +408,23 @@ def _relink_chain(tables, s_top, s_mid, s_bot, epsilon, seed):
     return syn, htilde
 
 
-def _relink_vshape(tables, s1, s2, sc, epsilon, seed):
+def _relink_vshape(tables, s1, s2, sc, epsilon, seed, fk_hist_frac=0.1):
     """Author-protocol FK re-linking for the star (r1 <- c -> r2).
 
     Same H~ protocol as _relink_chain; both FKs share the child-table delta
-    1/n_c.  Returns (syn_tables, htilde)."""
+    1/n_c.  Returns (syn_tables, htilde).
+
+    Budget: the author text gives the FK histograms one "remaining 20%" share
+    in total ("a noisy histogram H~ ... for each private foreign key ... with
+    the remaining 20% of the privacy cost", PrivPetal Sec.6.1).  A star's
+    child row populates TWO such histograms, so the share must be split
+    between them: fk_hist_frac = 0.1 each, giving 0.8 (table models) + 0.1 +
+    0.1 = 1.0 * epsilon by basic composition.  With 0.2 each the same row
+    would enter two 0.2-epsilon histograms and the cell would spend 1.2 *
+    epsilon; those cells are archived as the results/arms/vshape_eps12 arm.
+    """
     n1, n2, nc = s1.shape[0], s2.shape[0], sc.shape[0]
-    eps_h = 0.2 * epsilon
+    eps_h = fk_hist_frac * epsilon
     delta_c = 1.0 / max(nc, 1)
     true_c1 = _true_group_counts(tables['c'][:, 1], tables['r1'][:, 0], n1)
     fk1, h1 = relink_with_group_sizes(tables['c'][:, 1], true_c1, eps_h,
@@ -425,7 +438,7 @@ def _relink_vshape(tables, s1, s2, sc, epsilon, seed):
         'c': np.column_stack([np.arange(nc), fk1, fk2, sc]),
     }
     htilde = {'c_per_r1': h1, 'c_per_r2': h2,
-              'table_frac': 0.8, 'fk_hist_frac': 0.2}
+              'table_frac': 0.8, 'fk_hist_frac': fk_hist_frac}
     return syn, htilde
 
 
@@ -440,7 +453,7 @@ def _table_cols(tables, attrs, role):
 
 
 def privmrf_chain(tables, attrs, domains, epsilon, seed=0):
-    """PrivMRF == per-table PrivMRF + author-protocol re-link (PerTable).
+    """PrivMRF == per-table PrivMRF + author-protocol re-link (archive key 'pertable').
 
     Identical recipe to pertable_chain; registered under its own name so the
     figure's 'PrivMRF' series has a dedicated method tag.  Uses the
