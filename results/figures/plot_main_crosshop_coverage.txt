@@ -1,6 +1,6 @@
 Coverage report -- fig_main_crosshop_natural (natural mode, 2-hop median RE)
-source: <repo>/results/by_dataset
-records read: 1500 files | excluded 60 | degraded 0 | wrong mode 0 | unknown method 0 | unexpected eps 0 | unreadable 0
+source: /Users/yunting/Documents/重要/codebase/隐私保护合成/results/by_dataset
+records read: 1660 files | excluded 60 | degraded 0 | wrong mode 160 | unknown method 0 | unexpected eps 0 | unreadable 0
 cells in grid: 1440 (expected 1440 = 4 datasets x 6 series x 6 budgets x 10 seeds)
 
 -- per-cell seed coverage (n = seeds present) --
@@ -42,21 +42,21 @@ financial  PB-PGM       1.000[ 0.168, 1.000]   0.851[ 0.354, 1.000]   0.691[ 0.2
 imdb       Chain-NPM    0.230[ 0.207, 0.242]   0.197[ 0.187, 0.215]   0.178[ 0.167, 0.187]   0.161[ 0.155, 0.169]   0.151[ 0.148, 0.164]   0.149[ 0.144, 0.161]
 imdb       PrivPetal    0.641[ 0.463, 0.678]   0.306[ 0.257, 0.340]   0.313[ 0.272, 0.370]   0.293[ 0.239, 0.346]   0.332[ 0.257, 0.603]   0.364[ 0.316, 0.554]
 imdb       PrivLava     0.999[ 0.999, 0.999]   0.999[ 0.999, 0.999]   0.999[ 0.999, 0.999]   0.999[ 0.999, 0.999]   0.999[ 0.999, 0.999]   0.999[ 0.999, 0.999]
-imdb       PrivMRF      0.207[ 0.197, 0.224]   0.203[ 0.194, 0.215]   0.201[ 0.191, 0.207]   0.200[ 0.192, 0.216]   0.196[ 0.193, 0.206]   0.199[ 0.192, 0.205]
-imdb       PrivBayes    0.224[ 0.209, 0.240]   0.216[ 0.203, 0.224]   0.210[ 0.200, 0.227]   0.204[ 0.195, 0.213]   0.204[ 0.185, 0.215]   0.204[ 0.194, 0.219]
-imdb       PB-PGM       0.224[ 0.192, 0.240]   0.210[ 0.201, 0.224]   0.213[ 0.199, 0.221]   0.206[ 0.199, 0.222]   0.202[ 0.195, 0.224]   0.205[ 0.200, 0.221]
+imdb       PrivMRF      0.205[ 0.199, 0.225]   0.203[ 0.199, 0.209]   0.205[ 0.189, 0.214]   0.200[ 0.195, 0.210]   0.195[ 0.184, 0.203]   0.195[ 0.186, 0.207]
+imdb       PrivBayes    0.220[ 0.204, 0.239]   0.222[ 0.200, 0.233]   0.211[ 0.205, 0.225]   0.203[ 0.191, 0.215]   0.198[ 0.187, 0.214]   0.197[ 0.185, 0.217]
+imdb       PB-PGM       0.223[ 0.193, 0.239]   0.213[ 0.201, 0.228]   0.210[ 0.195, 0.226]   0.216[ 0.204, 0.225]   0.202[ 0.196, 0.209]   0.207[ 0.195, 0.222]
 instacart  Chain-NPM    0.567[ 0.369, 0.765]   0.558[ 0.427, 0.647]   0.419[ 0.374, 0.461]   0.348[ 0.306, 0.416]   0.383[ 0.351, 0.440]   0.452[ 0.416, 0.494]
 instacart  PrivPetal    1.207[ 1.139, 1.247]   1.032[ 0.974, 1.090]   0.454[ 0.427, 0.485]   0.444[ 0.425, 0.465]   0.443[ 0.423, 0.450]   0.438[ 0.434, 0.446]
 instacart  PrivLava     0.904[ 0.893, 0.926]   0.901[ 0.896, 0.916]   0.908[ 0.903, 0.920]   0.920[ 0.916, 0.927]   0.934[ 0.925, 0.943]   0.953[ 0.944, 0.963]
-instacart  PrivMRF      0.506[ 0.471, 0.517]   0.497[ 0.441, 0.584]   0.471[ 0.424, 0.538]   0.502[ 0.456, 0.578]   0.491[ 0.421, 0.534]   0.481[ 0.440, 0.585]
-instacart  PrivBayes    0.666[ 0.594, 0.782]   0.548[ 0.521, 0.579]   0.501[ 0.437, 0.589]   0.488[ 0.467, 0.498]   0.479[ 0.411, 0.582]   0.481[ 0.464, 0.495]
-instacart  PB-PGM       0.501[ 0.469, 0.579]   0.477[ 0.448, 0.495]   0.469[ 0.430, 0.528]   0.479[ 0.459, 0.492]   0.479[ 0.416, 0.517]   0.476[ 0.461, 0.495]
+instacart  PrivMRF      0.491[ 0.470, 0.508]   0.498[ 0.462, 0.562]   0.478[ 0.440, 0.510]   0.504[ 0.450, 0.564]   0.492[ 0.426, 0.531]   0.479[ 0.436, 0.592]
+instacart  PrivBayes    0.662[ 0.619, 0.776]   0.559[ 0.507, 0.613]   0.501[ 0.463, 0.568]   0.492[ 0.442, 0.580]   0.466[ 0.414, 0.574]   0.471[ 0.423, 0.568]
+instacart  PB-PGM       0.502[ 0.471, 0.571]   0.485[ 0.445, 0.514]   0.469[ 0.433, 0.508]   0.477[ 0.432, 0.526]   0.482[ 0.413, 0.516]   0.477[ 0.398, 0.528]
 movielens  Chain-NPM    0.976[ 0.746, 1.002]   0.777[ 0.678, 0.999]   0.727[ 0.635, 0.809]   0.665[ 0.569, 0.815]   0.616[ 0.490, 0.774]   0.516[ 0.443, 0.642]
 movielens  PrivPetal    0.667[ 0.634, 0.703]   0.774[ 0.743, 0.962]   0.818[ 0.810, 0.969]   0.801[ 0.794, 0.904]   0.811[ 0.803, 0.829]   0.817[ 0.810, 0.835]
 movielens  PrivLava     0.981[ 0.970, 0.985]   0.983[ 0.977, 0.988]   0.982[ 0.970, 0.991]   0.969[ 0.962, 0.984]   0.974[ 0.967, 0.985]   0.963[ 0.955, 0.974]
-movielens  PrivMRF      0.389[ 0.356, 0.443]   0.354[ 0.327, 0.389]   0.347[ 0.289, 0.404]   0.341[ 0.307, 0.363]   0.338[ 0.289, 0.381]   0.331[ 0.298, 0.351]
-movielens  PrivBayes    0.411[ 0.347, 0.528]   0.381[ 0.298, 0.416]   0.361[ 0.342, 0.396]   0.344[ 0.327, 0.371]   0.346[ 0.303, 0.389]   0.327[ 0.315, 0.360]
-movielens  PB-PGM       0.453[ 0.345, 0.558]   0.393[ 0.350, 0.416]   0.379[ 0.327, 0.404]   0.342[ 0.322, 0.377]   0.351[ 0.307, 0.398]   0.326[ 0.311, 0.339]
+movielens  PrivMRF      0.389[ 0.353, 0.446]   0.359[ 0.327, 0.389]   0.352[ 0.292, 0.404]   0.344[ 0.300, 0.370]   0.341[ 0.294, 0.378]   0.331[ 0.303, 0.352]
+movielens  PrivBayes    0.409[ 0.353, 0.522]   0.374[ 0.287, 0.433]   0.362[ 0.343, 0.401]   0.351[ 0.314, 0.374]   0.348[ 0.299, 0.386]   0.332[ 0.304, 0.389]
+movielens  PB-PGM       0.468[ 0.352, 0.544]   0.389[ 0.346, 0.447]   0.383[ 0.338, 0.403]   0.349[ 0.300, 0.382]   0.350[ 0.303, 0.399]   0.335[ 0.309, 0.383]
 
 -- anomalies --
 none: every (dataset, series, eps) cell carries all 10 seeds 42-51
@@ -122,13 +122,173 @@ EXCLUDED by_dataset/financial/chainnpm_natural_eps3.20_seed48_xhoff.json (cross-
 EXCLUDED by_dataset/financial/chainnpm_natural_eps3.20_seed49_xhoff.json (cross-hop ablation arm (not manuscript data))
 EXCLUDED by_dataset/financial/chainnpm_natural_eps3.20_seed50_xhoff.json (cross-hop ablation arm (not manuscript data))
 EXCLUDED by_dataset/financial/chainnpm_natural_eps3.20_seed51_xhoff.json (cross-hop ablation arm (not manuscript data))
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps0.8_seed42.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps0.8_seed43.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps0.8_seed44.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps0.8_seed45.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps0.8_seed46.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps0.8_seed47.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps0.8_seed48.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps0.8_seed49.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps0.8_seed50.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps0.8_seed51.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps3.2_seed42.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps3.2_seed43.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps3.2_seed44.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps3.2_seed45.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps3.2_seed46.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps3.2_seed47.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps3.2_seed48.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps3.2_seed49.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps3.2_seed50.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_product_eps3.2_seed51.json (mode=plant_product)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps0.8_seed42.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps0.8_seed43.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps0.8_seed44.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps0.8_seed45.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps0.8_seed46.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps0.8_seed47.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps0.8_seed48.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps0.8_seed49.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps0.8_seed50.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps0.8_seed51.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps3.2_seed42.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps3.2_seed43.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps3.2_seed44.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps3.2_seed45.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps3.2_seed46.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps3.2_seed47.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps3.2_seed48.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps3.2_seed49.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps3.2_seed50.json (mode=plant_xor)
+WRONG-MODE by_dataset/financial/privpetal_plant_xor_eps3.2_seed51.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps0.8_seed42.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps0.8_seed43.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps0.8_seed44.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps0.8_seed45.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps0.8_seed46.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps0.8_seed47.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps0.8_seed48.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps0.8_seed49.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps0.8_seed50.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps0.8_seed51.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps3.2_seed42.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps3.2_seed43.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps3.2_seed44.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps3.2_seed45.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps3.2_seed46.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps3.2_seed47.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps3.2_seed48.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps3.2_seed49.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps3.2_seed50.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_product_eps3.2_seed51.json (mode=plant_product)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps0.8_seed42.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps0.8_seed43.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps0.8_seed44.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps0.8_seed45.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps0.8_seed46.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps0.8_seed47.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps0.8_seed48.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps0.8_seed49.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps0.8_seed50.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps0.8_seed51.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps3.2_seed42.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps3.2_seed43.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps3.2_seed44.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps3.2_seed45.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps3.2_seed46.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps3.2_seed47.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps3.2_seed48.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps3.2_seed49.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps3.2_seed50.json (mode=plant_xor)
+WRONG-MODE by_dataset/imdb/privpetal_plant_xor_eps3.2_seed51.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps0.8_seed42.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps0.8_seed43.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps0.8_seed44.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps0.8_seed45.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps0.8_seed46.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps0.8_seed47.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps0.8_seed48.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps0.8_seed49.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps0.8_seed50.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps0.8_seed51.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps3.2_seed42.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps3.2_seed43.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps3.2_seed44.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps3.2_seed45.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps3.2_seed46.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps3.2_seed47.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps3.2_seed48.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps3.2_seed49.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps3.2_seed50.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_product_eps3.2_seed51.json (mode=plant_product)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps0.8_seed42.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps0.8_seed43.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps0.8_seed44.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps0.8_seed45.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps0.8_seed46.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps0.8_seed47.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps0.8_seed48.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps0.8_seed49.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps0.8_seed50.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps0.8_seed51.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps3.2_seed42.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps3.2_seed43.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps3.2_seed44.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps3.2_seed45.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps3.2_seed46.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps3.2_seed47.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps3.2_seed48.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps3.2_seed49.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps3.2_seed50.json (mode=plant_xor)
+WRONG-MODE by_dataset/instacart/privpetal_plant_xor_eps3.2_seed51.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps0.8_seed42.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps0.8_seed43.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps0.8_seed44.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps0.8_seed45.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps0.8_seed46.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps0.8_seed47.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps0.8_seed48.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps0.8_seed49.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps0.8_seed50.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps0.8_seed51.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps3.2_seed42.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps3.2_seed43.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps3.2_seed44.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps3.2_seed45.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps3.2_seed46.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps3.2_seed47.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps3.2_seed48.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps3.2_seed49.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps3.2_seed50.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_product_eps3.2_seed51.json (mode=plant_product)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps0.8_seed42.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps0.8_seed43.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps0.8_seed44.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps0.8_seed45.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps0.8_seed46.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps0.8_seed47.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps0.8_seed48.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps0.8_seed49.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps0.8_seed50.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps0.8_seed51.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps3.2_seed42.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps3.2_seed43.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps3.2_seed44.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps3.2_seed45.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps3.2_seed46.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps3.2_seed47.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps3.2_seed48.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps3.2_seed49.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps3.2_seed50.json (mode=plant_xor)
+WRONG-MODE by_dataset/movielens/privpetal_plant_xor_eps3.2_seed51.json (mode=plant_xor)
 
 -- plotted envelope vs paper y-axis limits --
 paper figure y limits (log10 axis): 0.020 .. 20.0
 financial  min-max band envelope 0.0354 .. 9.0325
 imdb       min-max band envelope 0.1441 .. 0.9994
 instacart  min-max band envelope 0.3057 .. 1.2466
-movielens  min-max band envelope 0.2886 .. 1.0016
+movielens  min-max band envelope 0.2871 .. 1.0016
 global envelope 0.0354 .. 9.0325 -> inside the axis limits (no clipping)
 
 -- panel scale (ground-truth rows, from record 'counts') --

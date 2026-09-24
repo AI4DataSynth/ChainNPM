@@ -33,9 +33,13 @@ user decision (2026-09-18).
 Coverage
 --------
 plant_product: 4 targets (0.1 / 0.2 / 0.316 / 0.4) x eps in {0.8, 3.2} x seeds
-42-51; plant_xor: phi = 0.8 x eps in {0.8, 3.2} x seeds 42-51.  Five series are
-complete; ``privpetal`` is a *partial* n=3 subset (eps = 3.2, seeds 42-44,
-target 0.316 for product and 0.8 for xor) and is flagged ``partial=1``.
+42-51; plant_xor: phi = 0.8 x eps in {0.8, 3.2} x seeds 42-51.  All six series
+are complete at n = 10 seeds.  ``privpetal`` has no target dimension of its own
+(its plant cells are named by privacy budget only), so it contributes the
+single ``t = 0.316`` product column and the ``phi_xor = 0.8`` xor column at both
+budgets: its remaining product targets are simply absent rather than flagged.
+``partial=1`` therefore now means only "fewer than the full seed set in this
+cell", which no series currently triggers.
 
 Flags (nothing is silently averaged away)
 -----------------------------------------
@@ -60,6 +64,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from p7_common import (iter_files, canonical_series, hop2_re, effect_scalars,
                        DATASETS, PLANT_PRODUCT_T)
+import szquota_common
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'p7_effect.tsv')
 
@@ -79,9 +84,8 @@ SERIES_LABELS = {
 }
 SERIES_ORDER = ['chainnpm', 'pertable', 'privpetal', 'privbayes', 'pbpgm',
                 'lavaprop']
-# expected seeds per (series, mode, t, eps); privpetal is the partial subset
+# expected seeds per (series, mode, t, eps); every series is complete
 FULL_SEEDS = list(range(42, 52))
-PARTIAL_SEEDS = [42, 43, 44]
 
 
 def resolve_t(rec, path):
@@ -106,15 +110,28 @@ def label_group(label):
     return None
 
 
-def load_cells():
-    """(dataset, series, mode, t, eps) -> list[(seed, target, real, syn)].."""
+def load_cells(src=None):
+    """(dataset, series, mode, t, eps) -> list[(seed, target, real, syn)]..
+    src='szquota' reads the campaign_plant_szquota grid (chainnpm only);
+    src=None reads the released campaign tree (all series)."""
     raw = defaultdict(list)        # dedup key -> [(target, real, syn)]
     seen_key = {}
     stats = {'files': 0, 'noplant': 0, 'offgrid_eps': 0, 'no_t': 0,
-             'degraded': 0, 'nometrics': 0, 'duplicate': 0,
-             'label_pref': 0, 'datasets_field': 0}
+             'degraded': 0, 'nometrics': 0, 'unlabelled': 0,
+             'duplicate': 0, 'label_pref': 0, 'datasets_field': 0}
 
-    for rec in iter_files():
+    it = iter_files()
+    if src == 'szquota':
+        # campaign grid first (dedup keeps the FIRST usable record on a
+        # same-label duplicate), then the released tree minus the three
+        # vshape chainnpm plant cells the campaign replaces
+        szq = list(szquota_common.szquota_plant_records())
+        rel = [d for d in iter_files()
+               if not (d['_dataset'] in ('imdb', 'instacart', 'movielens')
+                       and canonical_series(d.get('method')) == 'chainnpm'
+                       and d.get('mode') in MODES)]
+        it = szq + rel
+    for rec in it:
         path = rec.get('_file', '')
         mode = rec.get('mode')
         if mode not in MODES:
@@ -122,7 +139,9 @@ def load_cells():
         stats['files'] += 1
         series = label_group(rec.get('method'))
         if series is None:
-            stats['nometrics'] += 1
+            # a raw label that is not one of the six plotted series: only
+            # `denorm` is expected here, excluded by user decision
+            stats['unlabelled'] += 1
             continue
         ds = rec.get('_dataset')
         if rec.get('dataset') != ds:
@@ -176,13 +195,22 @@ def ret_err(real, syn):
 
 
 def main():
-    cells, stats = load_cells()
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument('--arm', choices=['released', 'szquota'],
+                    default='released',
+                    help="planted-effect source: released campaign tree or "
+                         "the szquota plant grid (chainnpm only); default "
+                         "released")
+    a = ap.parse_args()
+    cells, stats = load_cells('szquota' if a.arm == 'szquota' else None)
     print('plant records read: %d | off-grid eps: %d | no target: %d | '
           'no effect scalar: %d | degraded (no 2-hop metric): %d | '
+          'unlabelled (not a plotted series): %d | '
           'duplicate cells: %d | dataset-field mismatches: %d'
           % (stats['files'], stats['offgrid_eps'], stats['no_t'],
-             stats['nometrics'], stats['degraded'], stats['duplicate'],
-             stats['datasets_field']))
+             stats['nometrics'], stats['degraded'], stats['unlabelled'],
+             stats['duplicate'], stats['datasets_field']))
 
     # per (dataset, series, mode, eps, target): the multiset of per-seed
     # real / syn values at each target, so that "reused" means *the whole
@@ -221,9 +249,12 @@ def main():
         'user decision; no standalone plant-mode privmrf record exists',
         '# coverage: plant_product = targets 0.1/0.2/0.316/0.4 x eps 0.8,3.2 x '
         'seeds 42-51; plant_xor = target phi 0.8 x eps 0.8,3.2 x seeds 42-51. '
-        'chainnpm/pertable/privbayes/pbpgm/lavaprop are complete (n=10 per '
-        'cell); privpetal is a PARTIAL n=3 subset (eps=3.2, seeds 42-44, '
-        'target 0.316 for product and 0.8 for xor) -> partial=1',
+        'All six series are complete at n=10 seeds per cell. privpetal has no '
+        'target dimension of its own (cells are named by budget only): it '
+        'contributes the t=0.316 product column and the phi_xor=0.8 xor column '
+        'at both eps, and is absent at the other product targets rather than '
+        'flagged. partial=1 means only "seed set short of 10" and no cell '
+        'triggers it',
         '# plant_reused=1: the planted REAL effect at this target equals that '
         'of another target of the same (dataset, series, mode, eps) group, so '
         'the audit target was not actually varied (imdb reaches the attainable '
@@ -263,7 +294,7 @@ def main():
                             errs = np.array([e for e in
                                              (ret_err(r[2], r[3]) for r in recs)
                                              if e is not None])
-                            partial = 1 if series == 'privpetal' else 0
+                            partial = 1 if len(seeds) < len(FULL_SEEDS) else 0
                             rk = (ds, series, mode, eps, target)
                             same_real = reused(real_of, rk, t)
                             same_syn = reused(syn_of, rk, t)
@@ -296,14 +327,17 @@ def main():
                 for eps in EPS_ORDER:
                     for t in tlist:
                         if series == 'privpetal' and (
-                                eps != 3.2 or t not in (0.316, XOR_PHI)):
+                                t not in (0.316, XOR_PHI)):
+                            # privpetal plant cells carry no target dimension:
+                            # only the t=0.316 product column and the xor
+                            # column exist, so the other product targets are
+                            # absent by design, not a coverage problem
                             continue
                         recs = [r for r in cells.get(
                             (ds, series, mode, t, eps), [])
                             if not (mode == 'plant_xor'
                                     and r[1] == 'phi' and ds == 'financial')]
-                        want = (PARTIAL_SEEDS if series == 'privpetal'
-                                else FULL_SEEDS)
+                        want = FULL_SEEDS
                         got = sorted(set(r[0] for r in recs))
                         if got != want:
                             problems.append((ds, series, mode, t, eps, got, want))

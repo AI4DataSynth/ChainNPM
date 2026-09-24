@@ -1,0 +1,36 @@
+panel title basis: leaf-table `_gt` = evaluation-instance rows (chain: bot_gt, vshape: c_gt), NOT the sum of every `*_gt` in the record
+cells cross-checked against p7_summary_szquota.tsv: 144 (expected 144 = 4 datasets x 6 series x 6 eps)
+none: every plotted median matches the summary table and every value lies inside one of the two axis segments
+
+-- panel scale (leaf-table `_gt` = evaluation-instance rows; NOT the sum of all ground-truth tables) --
+financial  shape=chain   leaf=bot_gt  rows=1.06M
+imdb       shape=vshape  leaf=c_gt    rows=1.22M
+instacart  shape=vshape  leaf=c_gt    rows=1.52M
+movielens  shape=vshape  leaf=c_gt    rows=1.00M
+
+-- plotted medians --
+dataset    series         0.1     0.2     0.4     0.8     1.6     3.2
+financial  chainnpm     0.277   0.212   0.187   0.098   0.097   0.066
+financial  privmrf      0.288   0.218   0.170   0.097   0.136   0.156
+financial  privpetal    0.292   0.508   0.732   0.842   0.917   0.943
+financial  privbayes    0.518   0.496   0.402   0.138   0.173   0.119
+financial  pbpgm        1.000   0.851   0.691   0.280   0.267   0.137
+financial  lavaprop     0.340   0.380   0.343   0.369   0.330   0.343
+imdb       chainnpm     0.132   0.129   0.117   0.116   0.113   0.111
+imdb       privmrf      0.207   0.203   0.201   0.200   0.196   0.199
+imdb       privpetal    0.641   0.306   0.313   0.293   0.332   0.364
+imdb       privbayes    0.224   0.216   0.210   0.204   0.204   0.204
+imdb       pbpgm        0.224   0.210   0.213   0.206   0.202   0.205
+imdb       lavaprop     0.999   0.999   0.999   0.999   0.999   0.999
+instacart  chainnpm     0.032   0.027   0.028   0.025   0.026   0.025
+instacart  privmrf      0.506   0.497   0.471   0.502   0.491   0.481
+instacart  privpetal    1.207   1.032   0.454   0.444   0.443   0.438
+instacart  privbayes    0.666   0.548   0.501   0.488   0.479   0.481
+instacart  pbpgm        0.501   0.477   0.469   0.479   0.479   0.476
+instacart  lavaprop     0.904   0.901   0.908   0.920   0.934   0.953
+movielens  chainnpm     0.213   0.169   0.159   0.135   0.129   0.130
+movielens  privmrf      0.389   0.354   0.347   0.341   0.338   0.331
+movielens  privpetal    0.667   0.774   0.818   0.801   0.811   0.817
+movielens  privbayes    0.411   0.381   0.361   0.344   0.346   0.327
+movielens  pbpgm        0.453   0.393   0.379   0.342   0.351   0.326
+movielens  lavaprop     0.981   0.983   0.982   0.969   0.974   0.963

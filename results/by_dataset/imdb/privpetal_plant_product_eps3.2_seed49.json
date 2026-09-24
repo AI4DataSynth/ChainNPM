@@ -1,0 +1,139 @@
+{
+  "dataset": "imdb",
+  "shape": "vshape",
+  "method": "privpetal",
+  "mode": "plant_product",
+  "eps": 3.2,
+  "seed": 49,
+  "runtime_sec": 26971.8834400177,
+  "hyper": {
+    "sample_sizes": {
+      "r1": 60,
+      "r2": 60
+    },
+    "theta": 1.0,
+    "tau": 12,
+    "delta": 8.222480590834566e-07,
+    "privpetal_budget": 0.46374626159667975
+  },
+  "prereg": {
+    "query_seed": 123,
+    "n_queries": 150,
+    "large_count": 50,
+    "tau_choices": [
+      6,
+      8,
+      12
+    ]
+  },
+  "counts": {
+    "r1_gt": 639533,
+    "r2_gt": 110468,
+    "c_gt": 1216178,
+    "r1_syn": 639562,
+    "r2_syn": 110528,
+    "c_syn": 1247101,
+    "syn_orphans_c": 0
+  },
+  "re": {
+    "re_median": {
+      "0hop_r1": 0.00814398469064909,
+      "0hop_r2": 0.0035749600669354223,
+      "0hop_c": 0.018839171308622206,
+      "1hop_r1c": 0.1749172164775915,
+      "1hop_r2c": 0.0355067766587505,
+      "cross_r1r2": 0.37780038516816405
+    },
+    "re_median_large": {
+      "0hop_r1": 0.00814398469064909,
+      "0hop_r2": 0.0035749600669354223,
+      "0hop_c": 0.018839171308622206,
+      "1hop_r1c": 0.1749172164775915,
+      "1hop_r2c": 0.0355067766587505,
+      "cross_r1r2": 0.30395886499837643
+    },
+    "n_queries": {
+      "0hop_r1": 150,
+      "0hop_r2": 150,
+      "0hop_c": 150,
+      "1hop_r1c": 150,
+      "1hop_r2c": 150,
+      "cross_r1r2": 150
+    },
+    "n_queries_large": {
+      "0hop_r1": 150,
+      "0hop_r2": 150,
+      "0hop_c": 150,
+      "1hop_r1c": 150,
+      "1hop_r2c": 150,
+      "cross_r1r2": 146
+    }
+  },
+  "size_tv": 0.0026398405257015527,
+  "mean_size": {
+    "gt": 1.901665746724563,
+    "syn": 2.03343730688394
+  },
+  "privpetal_meta": {
+    "pass_timings_sec": {
+      "r1": 2856.774735212326,
+      "r2": 24083.25100159645
+    },
+    "counts": {
+      "r1_syn": 639562,
+      "r2_syn": 110528,
+      "c_syn": 1247101
+    },
+    "host": "302-GPU6",
+    "gpu": "0",
+    "tuple_num": 2,
+    "process_num": 2
+  },
+  "effect": {
+    "contrast_real": {
+      "contrast": 0.12107982540556056,
+      "cell_means": {
+        "00": 0.4773233389524449,
+        "01": 0.3562435135468843,
+        "10": 0.0,
+        "11": 0.0
+      },
+      "share_x1": 0.0,
+      "share_x2": 0.24639732012912582
+    },
+    "contrast_syn": {
+      "contrast": 0.11153960576430139,
+      "cell_means": {
+        "00": 0.479403032580726,
+        "01": 0.3678634268164246,
+        "10": 0.0,
+        "11": 0.0
+      },
+      "share_x1": 0.0,
+      "share_x2": 0.25429696552243963
+    }
+  },
+  "plant": {
+    "mode": "product",
+    "metric": "contrast",
+    "p": 0.999755859375,
+    "effect": 0.12107982540556056,
+    "contrast_x1u": 0.12107982540556056,
+    "tv_x1a": 0.0,
+    "tv_ua": 0.0,
+    "x1_share": 0.0,
+    "x2_share": 0.9673073946145078,
+    "u_share": 0.3570355215990151,
+    "a_share": 0.4474895944508123,
+    "fk_exact": true,
+    "onehop_exact": true,
+    "forced_swaps": 0,
+    "n": 1216178,
+    "u_attr": "TITLETYPE",
+    "calib_p": 0.999755859375,
+    "calib_effect": 0.12107982540556056,
+    "target": 0.316,
+    "plant_seed": 42,
+    "calibrate_sec": 7.1
+  }
+}

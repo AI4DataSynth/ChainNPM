@@ -105,8 +105,6 @@ def main():
                     rec['p_raw'] = None
                     rec['note'] = ('insufficient nonzero pairs n=%d (<%d)'
                                    % (len(nz), MIN_N))
-                    if b == 'privpetal':
-                        rec['note'] += '; PrivPetal n=3 证据不足'
                     comparisons.append(rec)
                     continue
                 res = stats.wilcoxon(nz)
@@ -134,7 +132,6 @@ def main():
         'holm_family': 'per dataset (all present eps x baseline cells)',
         'comparisons': comparisons,
         'notes': {
-            'privpetal': '仅 seeds 42/43/44（n=3），任何 p 值都不足以下显著结论',
             'privmrf': '系列 = privmrf+pertable 合并，pertable 优先；privmrf 单文件已并入',
             'lavaprop': '仅 financial 有 re；vshape 三数据集为预注册降级（无 re）',
             'direction': 'median_diff = median(chain - baseline)（2-hop RE，越低越好）',

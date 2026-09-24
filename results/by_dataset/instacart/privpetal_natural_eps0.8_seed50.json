@@ -84,7 +84,7 @@
       "r2_syn": 149920,
       "c_syn": 566686
     },
-    "host": "cluster",
+    "host": "302-GPU6",
     "gpu": "2",
     "tuple_num": 2,
     "process_num": 2

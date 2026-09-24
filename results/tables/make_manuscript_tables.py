@@ -144,7 +144,8 @@ def re_body():
 
 
 def patch(text, tag, body):
-    begin, end = "%% BEGIN GENERATED %s" % tag, "%% END GENERATED %s" % tag
+    begin = "% BEGIN GENERATED " + tag
+    end = "% END GENERATED " + tag
     i, j = text.find(begin), text.find(end)
     if i < 0 or j < 0:
         raise SystemExit("markers for %s not found in main.tex" % tag)

@@ -6,27 +6,27 @@
 # n: seeds behind each cell (must be 10); values are medians, 4 dp
 # note on 2026-09-18: the movielens/chainnpm/eps=3.2 cell was a degenerate archive record (tau=12 vs 556, c_syn=72,408 vs 1,000,209, size_tv=1.0). It was re-run; the value below is the repaired one. Its median is unchanged (0.5158) while the mean moves 0.5569 -> 0.5164 and the std 0.1419 -> 0.0579
 dataset	method	method_label	eps_0.1	eps_0.2	eps_0.4	eps_0.8	eps_1.6	eps_3.2	n_0.1	n_0.2	n_0.4	n_0.8	n_1.6	n_3.2	note
-financial	chainnpm	Chain-NPM	4.3415	2.3528	1.2597	0.9554	0.6614	0.4680	10	10	10	10	10	10	
+financial	chainnpm	Chain-NPM	0.2774	0.2123	0.1868	0.0977	0.0969	0.0665	10	10	10	10	10	10	
 financial	pertable	PrivMRF	0.2875	0.2183	0.1698	0.0969	0.1357	0.1555	10	10	10	10	10	10	
 financial	privpetal	PrivPetal	0.2921	0.5083	0.7317	0.8421	0.9166	0.9430	10	10	10	10	10	10	
 financial	privbayes	PrivBayes	0.5180	0.4960	0.4017	0.1383	0.1734	0.1186	10	10	10	10	10	10	
 financial	pbpgm	PB-PGM	1.0000	0.8510	0.6907	0.2802	0.2667	0.1367	10	10	10	10	10	10	
 financial	lavaprop	PrivLava	0.3402	0.3798	0.3429	0.3686	0.3304	0.3430	10	10	10	10	10	10	
-imdb	chainnpm	Chain-NPM	0.2304	0.1972	0.1776	0.1607	0.1514	0.1489	10	10	10	10	10	10	
-imdb	pertable	PrivMRF	0.2065	0.2031	0.2012	0.2001	0.1963	0.1988	10	10	10	10	10	10	
+imdb	chainnpm	Chain-NPM	0.1323	0.1286	0.1172	0.1157	0.1133	0.1106	10	10	10	10	10	10	
+imdb	pertable	PrivMRF	0.2050	0.2029	0.2049	0.2004	0.1954	0.1948	10	10	10	10	10	10	
 imdb	privpetal	PrivPetal	0.6410	0.3064	0.3127	0.2925	0.3318	0.3642	10	10	10	10	10	10	
-imdb	privbayes	PrivBayes	0.2239	0.2155	0.2096	0.2040	0.2038	0.2040	10	10	10	10	10	10	
-imdb	pbpgm	PB-PGM	0.2244	0.2103	0.2129	0.2055	0.2018	0.2052	10	10	10	10	10	10	
+imdb	privbayes	PrivBayes	0.2205	0.2221	0.2114	0.2028	0.1983	0.1974	10	10	10	10	10	10	
+imdb	pbpgm	PB-PGM	0.2230	0.2132	0.2101	0.2157	0.2024	0.2072	10	10	10	10	10	10	
 imdb	lavaprop	PrivLava	0.9992	0.9992	0.9993	0.9992	0.9991	0.9993	10	10	10	10	10	10	
-instacart	chainnpm	Chain-NPM	0.5674	0.5583	0.4189	0.3484	0.3834	0.4518	10	10	10	10	10	10	
-instacart	pertable	PrivMRF	0.5060	0.4970	0.4711	0.5021	0.4905	0.4806	10	10	10	10	10	10	
+instacart	chainnpm	Chain-NPM	0.0317	0.0275	0.0281	0.0254	0.0260	0.0254	10	10	10	10	10	10	
+instacart	pertable	PrivMRF	0.4912	0.4984	0.4780	0.5037	0.4915	0.4791	10	10	10	10	10	10	
 instacart	privpetal	PrivPetal	1.2073	1.0324	0.4536	0.4443	0.4428	0.4383	10	10	10	10	10	10	
-instacart	privbayes	PrivBayes	0.6660	0.5479	0.5014	0.4882	0.4787	0.4814	10	10	10	10	10	10	
-instacart	pbpgm	PB-PGM	0.5009	0.4772	0.4692	0.4794	0.4791	0.4761	10	10	10	10	10	10	
+instacart	privbayes	PrivBayes	0.6624	0.5591	0.5011	0.4919	0.4662	0.4709	10	10	10	10	10	10	
+instacart	pbpgm	PB-PGM	0.5016	0.4854	0.4692	0.4766	0.4821	0.4768	10	10	10	10	10	10	
 instacart	lavaprop	PrivLava	0.9044	0.9008	0.9083	0.9198	0.9337	0.9534	10	10	10	10	10	10	
-movielens	chainnpm	Chain-NPM	0.9758	0.7772	0.7269	0.6653	0.6162	0.5158	10	10	10	10	10	10	2026-09-18 repaired (was tau=12/c_syn=72K); median unchanged
-movielens	pertable	PrivMRF	0.3886	0.3541	0.3475	0.3406	0.3382	0.3311	10	10	10	10	10	10	
+movielens	chainnpm	Chain-NPM	0.2127	0.1690	0.1590	0.1345	0.1291	0.1301	10	10	10	10	10	10	2026-09-18 repaired (was tau=12/c_syn=72K); median unchanged
+movielens	pertable	PrivMRF	0.3894	0.3589	0.3521	0.3444	0.3409	0.3314	10	10	10	10	10	10	
 movielens	privpetal	PrivPetal	0.6667	0.7739	0.8181	0.8007	0.8106	0.8166	10	10	10	10	10	10	
-movielens	privbayes	PrivBayes	0.4110	0.3810	0.3605	0.3441	0.3461	0.3266	10	10	10	10	10	10	
-movielens	pbpgm	PB-PGM	0.4534	0.3928	0.3794	0.3420	0.3505	0.3257	10	10	10	10	10	10	
+movielens	privbayes	PrivBayes	0.4087	0.3736	0.3620	0.3515	0.3480	0.3322	10	10	10	10	10	10	
+movielens	pbpgm	PB-PGM	0.4679	0.3886	0.3829	0.3493	0.3503	0.3353	10	10	10	10	10	10	
 movielens	lavaprop	PrivLava	0.9805	0.9827	0.9819	0.9686	0.9742	0.9634	10	10	10	10	10	10	

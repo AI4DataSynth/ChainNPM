@@ -80,7 +80,7 @@
       "mid_syn": 3715,
       "bot_syn": 55848
     },
-    "host": "cluster",
+    "host": "302-GPU6",
     "gpu": "0",
     "tuple_num": 2,
     "process_num": 2

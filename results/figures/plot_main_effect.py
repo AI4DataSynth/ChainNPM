@@ -29,11 +29,11 @@ Reading the panel
 
 Honesty requirements carried by the figure
 ------------------------------------------
-* Six series, complete grid except ``PrivPetal``, which is a partial n = 3
-  subset (eps = 3.2, seeds 42-44, target 0.316 for product and 0.8 for xor): it
-  is drawn as a lone mark at its slot and its legend entry carries ``(n = k)``
-  with ``k`` read off the data, so it becomes ``(n = 10)`` by itself once the
-  plant campaign is complete.
+* Six series, complete grid at n = 10 seeds.  ``PrivPetal`` carries no target
+  dimension of its own (its plant cells are named by budget only), so it
+  contributes a single ``plant_product`` mark at t = 0.316 per budget and the
+  ``plant_xor`` mark at 0.8.  A legend entry gains ``(n = k)`` only if a cell
+  ever holds fewer than 10 seeds, ``k`` being read off the data.
 * Some requested targets were never realised as distinct plants -- the
   ``plant_reused`` flag in ``../tables/p7_effect.tsv``.  On imdb the attainable
   contrast is already reached at every requested target (one realisation), and
@@ -82,7 +82,13 @@ EPS_FILLED = 3.2                    # filled marker = primary budget
 T_PROD = [0.1, 0.2, 0.316, 0.4]
 XOR_PHI = 0.8
 FULL_SEEDS = list(range(42, 52))
-PARTIAL_SEEDS = [42, 43, 44]
+# Leaf (evaluation-instance) table of each schema: the chain shape bottoms out
+# in "bot", the vshape schemas in the "c" child table.  The panel title reports
+# this table's ground truth, not the sum over every ground-truth table.
+LEAF_GT_KEYS = ("bot_gt", "c_gt")
+# The archive stores the schema kind as a code token ("chain"/"vshape"); panel
+# titles must show the manuscript's spelling, so map it at draw time only.
+SHAPE_LABEL = {"chain": "chain", "vshape": "V-shaped"}
 
 # series -> display label, colour, marker (same conventions as
 # plot_main_crosshop.py so the manuscript figures read as one family)
@@ -112,8 +118,8 @@ XOR_REGION = (3.85, 5.45)
 DODGE = 0.19                        # horizontal offset between method columns
 X_LIM = (-0.62, 5.87)
 
-Y_TICKS = [0.01, 0.03, 0.1, 0.3, 1.0, 3.0]
-Y_LIM = (0.006, 3.0)
+Y_TICKS = [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0]
+Y_LIM = (0.0005, 3.0)
 REF = 1.0
 
 
@@ -178,14 +184,15 @@ def hop2_re(rec):
     return large
 
 
-def load_grid():
+def load_grid(data_dir=None):
     """cells[(ds, series, mode, t, eps)] -> list[(seed, real, syn)]."""
+    data_dir = data_dir or DATA_DIR
     raw = {}
     info = {"files": 0, "excluded": [], "wrong_mode": [], "unknown": [],
             "degraded": [], "bad_eps": [], "no_t": [], "unreadable": [],
             "duplicates": [], "dataset_mismatch": []}
     for ds in DATASETS:
-        for path in sorted(glob.glob(os.path.join(DATA_DIR, ds, "*.json"))):
+        for path in sorted(glob.glob(os.path.join(data_dir, ds, "*.json"))):
             info["files"] += 1
             reason = excludes(path)
             if reason:
@@ -285,7 +292,21 @@ def plant_reused(per, cells, ds, series, mode, eps, target_mode_t):
 
 
 def dataset_meta():
-    """rows / shape per dataset, read from the archive."""
+    """rows / shape per dataset, read from the archive.
+
+    ``rows`` is the size of the *evaluation instance*: the leaf table's ground
+    truth.  The leaf is named by key -- ``bot_gt`` on the chain schema
+    (financial) and ``c_gt`` on the vshape schemas (imdb / instacart /
+    movielens) -- rather than derived by summing every ground-truth table of
+    the record (user ruling 2026-09-22: panel titles report the
+    evaluation-instance size, not the whole-schema row total).
+
+    The archive carries no explicit ``n`` field, so the leaf ``*_gt`` is the
+    definition.  Each record is checked before its count is used: the leaf must
+    exist and must also be the largest ``*_gt`` in the record.  If any record
+    contradicts that, the figure refuses to be drawn rather than label a panel
+    with a row count the archive does not support.
+    """
     out = {}
     for ds in DATASETS:
         for path in sorted(glob.glob(os.path.join(DATA_DIR, ds, "*.json"))):
@@ -294,12 +315,26 @@ def dataset_meta():
                     rec = json.load(fh)
             except Exception:
                 continue
+            if not isinstance(rec, dict):
+                continue
             counts = rec.get("counts") or {}
-            gt = [v for k, v in counts.items()
-                  if k.endswith("_gt") and isinstance(v, (int, float))]
-            if gt and ds not in out:
-                out[ds] = (rec.get("shape"), int(sum(gt)))
-                break
+            gt = {k: v for k, v in counts.items()
+                  if k.endswith("_gt") and isinstance(v, (int, float))}
+            leaf = {k: v for k, v in gt.items() if k in LEAF_GT_KEYS}
+            if not leaf:
+                continue
+            if len(leaf) != 1:
+                sys.exit("leaf table ambiguous in %s: leaf candidates %s "
+                         "-- refusing to guess which table defines the "
+                         "evaluation instance" % (path, sorted(leaf)))
+            (leaf_key, leaf_rows), = leaf.items()
+            if leaf_rows != max(gt.values()):
+                sys.exit("leaf %s = %d is not the largest *_gt in %s (%s): "
+                         "refusing to label the panel with a row count the "
+                         "archive contradicts"
+                         % (leaf_key, leaf_rows, path, sorted(gt.items())))
+            if ds not in out:
+                out[ds] = (rec.get("shape"), int(leaf_rows))
     return out
 
 
@@ -382,7 +417,7 @@ def draw_panel(ax, per, cells, ds, logy, notes):
 
     ax.set_xlim(*X_LIM)
     ax.set_xticks(SLOT_X)
-    ax.set_xticklabels(["0.10", "0.20", "0.316", "0.40", "0.80\n(XOR)"])
+    ax.set_xticklabels(["0.10", "0.20", "0.316", "0.40", "0.80\n(plant_xor)"])
     if logy:
         ax.set_yscale("log")
         ax.set_ylim(*Y_LIM)
@@ -408,10 +443,12 @@ def financial_note(per):
     """Panel annotation for the chain-shape dataset, derived from the data.
 
     financial is the dataset the cross-hop marginal targets, so the annotation
-    states what the chain-aware series achieves there at both plotted budgets,
-    and the envelope of every other series, instead of any hand-written claim
-    that a re-run could falsify.  Returns None when the data cannot support a
-    statement (then no annotation is drawn).
+    reports the chain-aware series' range of medians there at both plotted
+    budgets and the envelope of every other series, instead of any hand-written
+    claim that a re-run could falsify.  Only the numbers are stated: no reading
+    of them is asserted here, so the annotation cannot pre-empt the prose
+    findings.  Returns None when the data cannot support a statement (then no
+    annotation is drawn).
     """
     def slot_range(series, eps):
         vals = [med(per, "financial", series, "plant_product", t, eps)
@@ -422,8 +459,7 @@ def financial_note(per):
     parts = []
     hi = slot_range("chainnpm", EPS_FILLED)
     if hi:
-        parts.append("Chain-NPM recovers the cross-hop effect\n"
-                     "at $\\varepsilon=3.2$: %.2f--%.2f" % hi)
+        parts.append("Chain-NPM: %.2f--%.2f at $\\varepsilon=3.2$" % hi)
     lo = slot_range("chainnpm", 0.8)
     if lo:
         parts.append("($\\varepsilon=0.8$: %.2f--%.2f)" % lo)
@@ -473,11 +509,15 @@ def render(per, cells, meta, out_pdf, out_png, logy=True):
     }
     fin = financial_note(per)
     if fin:
-        panel_notes["financial"] = [(fin, (0.02, 0.55))]
+        # the financial panel's ink starts at a median retention error of 0.415
+        # (~0.67 of the log axis, which spans 0.006-3.0), so the region below
+        # ~0.6 is empty: the annotation goes there instead of into the band the
+        # Chain-NPM curve occupies (it used to overlap the curve above it).
+        panel_notes["financial"] = [(fin, (0.02, 0.045))]
     for ax, ds in zip(axes, DATASETS):
         draw_panel(ax, per, cells, ds, logy, panel_notes.get(ds, []))
         shape, rows = meta.get(ds, (None, None))
-        title = ("%s (%s, %s rows)" % (ds, shape, fmt_rows(rows))
+        title = ("%s (%s, %s rows)" % (ds, SHAPE_LABEL.get(shape, shape), fmt_rows(rows))
                  if shape and rows else ds)
         ax.set_title(title, pad=3.0)
     for i, ax in enumerate(axes):
@@ -485,7 +525,7 @@ def render(per, cells, meta, out_pdf, out_png, logy=True):
         ax.tick_params(axis="y", labelleft=(col == 0))
         ax.tick_params(axis="x", labelbottom=(row == 1))
     for ax in axes[2:]:
-        ax.set_xlabel("planted-effect target (plant_product / XOR $\\varphi$)")
+        ax.set_xlabel("planted-effect target (plant_product / plant_xor)")
     for ax in axes[::2]:
         ax.set_ylabel("retention error  $|\\mathrm{syn}-\\mathrm{real}|"
                       "/|\\mathrm{real}|$")
@@ -588,17 +628,15 @@ def write_coverage(per, cells, info, meta):
                         n = len(per.get(key, {}))
                         row += "%9s" % (n if n else "-")
                         # cells that this campaign never ran are not
-                        # anomalies: PrivPetal only exists at eps=3.2 with
-                        # target 0.316 (product) and 0.8 (xor)
-                        if series == "privpetal" and (eps != 3.2 or t not in
-                                                      (0.316, XOR_PHI)):
+                        # anomalies: PrivPetal has no target dimension, so only
+                        # the t=0.316 product slot and the xor slot exist
+                        if series == "privpetal" and t not in (0.316, XOR_PHI):
                             continue
                         if mode == "plant_xor" and t != XOR_PHI:
                             continue
                         if mode == "plant_product" and t == XOR_PHI:
                             continue
-                        want = (PARTIAL_SEEDS if series == "privpetal"
-                                else FULL_SEEDS)
+                        want = FULL_SEEDS
                         got = sorted(per.get(key, {}).keys())
                         if got != want:
                             anomalies.append((ds, series, mode, t, eps, got,
@@ -614,8 +652,9 @@ def write_coverage(per, cells, info, meta):
                                           got, want))
     else:
         lines.append("none: every expected cell carries exactly its seed set "
-                     "(10 seeds 42-51; PrivPetal only the partial 3-seed "
-                     "subset at eps=3.2, target 0.316 / XOR 0.8)")
+                     "(10 seeds 42-51; PrivPetal has no target dimension, so "
+                     "it covers only the t=0.316 product slot and the xor "
+                     "slot, at both budgets)")
     lines.append("")
     lines.append("-- reused planted realisations (plant_reused) --")
     dup_note = 0
@@ -698,7 +737,8 @@ def write_coverage(per, cells, info, meta):
                  % ", ".join("%s=%d" % (META[s][0], series_max_n(per, s))
                              for s in SERIES_ORDER))
     lines.append("")
-    lines.append("-- panel scale (ground-truth rows, from record 'counts') --")
+    lines.append("-- panel scale (evaluation-instance rows = leaf-table "
+                 "ground truth, from record 'counts') --")
     for ds in DATASETS:
         shape, rows = meta.get(ds, (None, None))
         lines.append("%-10s shape=%-7s rows=%s" % (ds, shape, fmt_rows(rows)))
@@ -711,9 +751,12 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--outdir", default=HERE)
     ap.add_argument("--yscale", choices=["log", "linear"], default="log")
+    ap.add_argument("--data-dir", default=DATA_DIR,
+                    help="campaign tree with <dataset>/*.json (default: %s)"
+                         % DATA_DIR)
     args = ap.parse_args(argv)
 
-    cells, info = load_grid()
+    cells, info = load_grid(args.data_dir)
     if not cells:
         sys.exit("no usable planted records under %s" % DATA_DIR)
     per = aggregate(cells)

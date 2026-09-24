@@ -12,9 +12,12 @@ over the archived seeds 42-51 (n = 10).
 
 Provenance
 ----------
-Every number is transcribed 1:1 from the ``median`` column of
-``results/tables/p7_summary.tsv``, which ``results/tables/p7_summary.py``
-recomputes from the campaign tree ``tmp/results`` (read only) together with
+Every number is transcribed 1:1 from the ``median`` column of the summary
+TSV selected by ``--summary`` (default ``results/tables/p7_summary.tsv``, the
+released arm; the reported-arm table passes ``p7_summary_szquota.tsv``, whose
+chainnpm rows come from the szquota campaign grids).  The summary itself is
+recomputed by ``p7_summary.py``
+from the campaign tree ``tmp/results`` (read only) together with
 its own bootstrap CI.  This script never reads the campaign tree itself, so the
 appendix table and the summary cannot drift apart: it *fails* if any of the
 4 x 6 x 6 cells is absent, instead of silently emitting a hole.

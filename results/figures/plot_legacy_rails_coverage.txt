@@ -1,0 +1,18 @@
+values are transcribed from the three hand-written tables in VLDB-submission/manuscript/main.tex; each is checked below for literal presence in that file so the figure cannot silently drift from the paper
+literal presence check: OK
+
+-- plotted values --
+panel: TPC-H (2 private tables)   eps: ['0.2', '3.2']
+  Chain-NPM  2-hop  -   ['0.044', '0.031']
+  PrivPetal  2-hop  -   ['0.083', '0.015']
+panel: deep TPC-H (3 private tables)   eps: ['0.2', '3.2']
+  Chain-NPM  3-hop  -   ['0.336', '0.054']
+  PrivPetal  3-hop  -   ['0.126', '0.040']
+panel: ACS PUMS (2 private tables)   eps: ['0.8', '3.2']
+  Chain-NPM  2-hop  -   ['0.196', '0.198']
+  Chain-NPM  1-hop  --  ['0.105', '0.102']
+  PrivPetal  2-hop  -   ['0.090', '0.058']
+  PrivPetal  1-hop  --  ['0.020', '0.015']
+
+legend: one entry per method (Chain-NPM, PrivPetal), each a solid line in its method colour; the solid/dashed hop encoding is carried by the manuscript caption, because every dashed line in the ACS panel is drawn in its method colour (no grey reference line exists in the plot).
+density note: the legacy rails have only two budgets each and at most two query classes, so this figure is deliberately sparser than the four-database sweep figures; it summarises the tables rather than replacing them.
