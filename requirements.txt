@@ -1,3 +1,7 @@
+# Core dependencies for synthesis and evaluation.
 numpy>=1.24,<2.0
 pandas>=2.0
 scipy>=1.10
+
+# Only needed by the plotting scripts under results/figures/ (optional).
+matplotlib>=3.6
