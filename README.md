@@ -33,7 +33,9 @@ privacy budget. Chain-NPM instead
 | `make_planted_csvs.py`, `make_deep_gt.py` | planted-input generation (for third-party baselines) and deep-TPC-H ground truth |
 | `baselines.py` | baseline adapters: per-table PrivMRF + FK re-linking, full denormalization, LavaProp |
 | `prereg.py`, `stats_utils.py` | pre-registered query seeds/thresholds; bootstrap and Wilcoxon helpers |
+| `multihop_gap_experiment.py` | the controlled multi-hop benchmark (`REGION <- HOUSEHOLD <- INDIVIDUAL`, planted latent structure; no input data needed) |
 | `results/by_dataset/` | per-cell metrics for every (dataset, method, mode, ε, seed) reported in the paper |
+| `results/controlled/` | ten-run aggregates of the controlled benchmark, one JSON per budget |
 | `results/tables/` | summary tables (median + bootstrap CI, significance, effect retention) |
 | `docs/REPRODUCE.md` | data preparation and exact reproduction commands |
 | `preprocess/` | rebuilds the discretized inputs of every dataset from the public raw sources, with a per-source licence review; `preprocess/MANIFEST.md` lists the reference build's file hashes |

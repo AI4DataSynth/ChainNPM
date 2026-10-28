@@ -202,3 +202,57 @@ baseline runs take hours.
   base-record insertion or deletion). `rowleaf` is what makes the row-level
   objects the arm reads exact under that convention; the cascade convention is
   not used anywhere in the paper.
+
+## 8. The controlled multi-hop benchmark
+
+`multihop_gap_experiment.py` runs the self-contained controlled benchmark
+(`REGION <- HOUSEHOLD <- INDIVIDUAL`, 200 regions, planted latent-mediated
+two-hop structure, 150 pre-registered random conjunctive queries per hop class).
+It needs no input data — the planted database is generated from the seeds — and
+it feeds the controlled-benchmark results of the paper: Figure
+`fig:controlled` (both panels: the Δ-preservation ratio and the 2-hop query error)
+and, in the appendix, the allocation study `fig:alloc` and the ancestor-size sweep
+`tab:scale`.
+
+The paper's grid is ten runs (seeds 42–51) at ε ∈ {0.8, 3.2, 8.0}. One JSON per
+budget, as shipped in `results/controlled/`:
+
+```bash
+for eps in 0.8 3.2 8.0; do
+  # the two Chain-NPM variants (the reported arm: sampled-object budget split,
+  # household count derived from RH_SIZE, EMP calibration after drawing)
+  python multihop_gap_experiment.py --n_regions 200 --epsilons $eps --runs 10 \
+      --n_queries 150 --methods chain_direct,chain_mixture \
+      --out results/controlled/chain_results_eps${eps}_10run.json
+done
+```
+
+The four comparison methods (`pertable`, `lava_asis`, `lava_prop`, `denorm`) run
+through the same driver and write `base_results_eps<ε>_10run.json`; they need the
+third-party backends (a PrivLava checkout plus `unified_comparison.py`), which are
+not vendored — point `CHAINNPM_BASELINES` at the directory holding them:
+
+```bash
+export CHAINNPM_BASELINES=/path/to/baseline-repos   # contains unified_comparison.py
+python multihop_gap_experiment.py --n_regions 200 --epsilons 0.8 --runs 10 \
+    --n_queries 150 --methods pertable,lava_asis,lava_prop,denorm \
+    --out results/controlled/base_results_eps0.8_10run.json
+```
+
+Runtime: about **2 s per cell** on one core (measured 1.1–1.7 s for the Chain-NPM
+methods at this scale); the ten-run, two-method, three-budget grid is therefore
+under a minute, and the comparison methods are slower but still CPU-only except
+where their own backends require a GPU. Every run is deterministic given its seed:
+re-running the grid reproduces both the medians and the per-seed entries
+(`runs[]`) of the shipped files exactly, so a partial grid can be checked against
+the archive without re-running all ten seeds — `--runs 2` reproduces the first two
+`runs[]` entries of every cell bit-for-bit.
+
+**The ARM the benchmark measures.** `chain_npm.py` here is the reported arm: the
+γ²-split covers only the eight objects the samplers actually consume
+(`RB`, `RH_OWN`, `RH_SIZE`, `RI_URB_EMP`, `RHI_U_O_E`, `RHI_U_O_A`, `RHI_U_S_E`,
+`II_AGE_EDU`) plus the households-per-region count; the mean household count is
+derived from the released `RH_SIZE` table rather than noised separately; and after
+drawing, EMP is re-weighted within each `(URBAN, OWN)` group by a bisection
+multiplier so the synthetic URBAN–EMP contrast matches the noisy `RI_URB_EMP`
+marginal. Both steps are pure post-processing of the released statistics.

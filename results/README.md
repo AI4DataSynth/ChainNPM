@@ -45,3 +45,20 @@ Two naming notes:
 * the planted-mode grid is only shipped as the aggregated tables and figures —
   the per-cell planted records live in the live campaign tree, not in
   `by_dataset/`.
+
+## `controlled/` — the controlled multi-hop benchmark
+
+`controlled/` holds the aggregates of the controlled three-table benchmark
+(`REGION <- HOUSEHOLD <- INDIVIDUAL`, 200 regions, 150 pre-registered queries) that
+the mechanism-isolation results are computed from. The protocol is: ten runs, seeds
+42–51, ε ∈ {0.8, 3.2, 8.0}, one JSON per budget written by
+`multihop_gap_experiment.py`; each method block keeps both the median over the ten
+runs and the ten per-seed records (`runs[]`), so any figure can be re-aggregated
+and any single cell re-checked. `chain_results_eps*_10run.json` are the two
+Chain-NPM variants (`chain_direct`, `chain_mixture`, the arm with the sampled-object
+budget split, the derived household count and the EMP calibration) and
+`base_results_eps*_10run.json` are the four comparison methods (`pertable`,
+`lava_asis`, `lava_prop`, `denorm`). Unlike the rest of this archive, these files
+are aggregates of the benchmark rather than per-cell records of a dataset driver;
+the per-seed entries are the reproducibility handle, and re-running the driver with
+`--runs 10` reproduces them bit-for-bit.

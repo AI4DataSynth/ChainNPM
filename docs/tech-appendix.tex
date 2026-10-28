@@ -1,0 +1,1083 @@
+% Technical appendix (companion) for the Chain-NPM PVLDB submission.
+%
+% Purpose: hold the material the 12-page submission cannot carry, so that the
+% submission shrinks without losing evidence.  Every item here is cited from
+% the corresponding place in the submission; the moved blocks are the
+% submission's own text, with cross-references resolved through xr.
+%
+% This file lives next to main.tex so that it uses the VLDB-bundled
+% acmart.cls and the same refs.bib / figs/.
+%
+% Build order: main.tex first (its main.aux is imported by xr), then
+%   latexmk -xelatex tech-appendix.tex
+
+\documentclass[sigconf, nonacm]{acmart}
+
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{xspace}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xr}
+\externaldocument[P-]{main}
+
+\setlength{\emergencystretch}{2em}
+
+\newcommand{\chainnpm}{\textsc{Chain-NPM}\xspace}
+\newcommand{\privlava}{\textsc{PrivLava}\xspace}
+\newcommand{\privpetal}{\textsc{PrivPetal}\xspace}
+\newcommand{\privmrf}{\textsc{PrivMRF}\xspace}
+\newcommand{\privmrfden}{\privmrf(denorm)\xspace}
+
+% Cross-document references: P-<label> is the submission's label imported by
+% xr, so \pref{tab:tpch} prints the submission's number for that table.
+\newcommand{\pref}[1]{\ref{P-#1}}
+\newcommand{\psec}[1]{Section~\ref{P-sec:#1} of the submission}
+\newcommand{\pfig}[1]{Figure~\ref{P-fig:#1} of the submission}
+\newcommand{\ptab}[1]{Table~\ref{P-tab:#1} of the submission}
+\newcommand{\pprop}[1]{Proposition~\ref{P-prop:#1} of the submission}
+
+\title{Chain-NPM: Technical Appendix}
+\subtitle{Supplementary material for the submitted paper}
+
+\author{Sheng Xiang}
+\affiliation{%
+  \institution{Tongji University}
+}
+\email{xiangsheng@tongji.edu.cn}
+
+\author{Weihao Wang}
+\affiliation{%
+  \institution{Tongji University}
+}
+\email{2634137@tongji.edu.cn}
+
+\author{Yunpeng Wang}
+\affiliation{%
+  \institution{Tongji University}
+}
+\email{2251739@tongji.edu.cn}
+
+\author{Ying Zhang}
+\affiliation{%
+  \institution{Zhejiang Gongshang University}
+}
+\email{ying.zhang@zjgsu.edu.cn}
+\thanks{Corresponding author.}
+
+\author{Changjun Jiang}
+\affiliation{%
+  \institution{Tongji University}
+}
+\email{cjjiang@tongji.edu.cn}
+
+\begin{document}
+
+\begin{abstract}
+This companion holds the material that the page-limited submission cannot
+carry: the witness table for the identifiability barrier, the Phase-2
+walk-through, the numeric tables behind the controlled-benchmark figure, the
+deep TPC-H and ACS rails, the planted-effect and natural-mode tables, the
+three real-benchmark rails figure, and the budget-allocation, ancestor-scale
+and cost--effect ablations.  The submission cites each item where it is
+relevant; nothing here adds a new claim.  Section, figure, table and
+proposition numbers written as ``of the submission'' refer to the paper and
+are resolved at build time.
+\end{abstract}
+
+\maketitle
+
+%=======================================================================
+\section{Sensitivity constants and total-variation statements}
+\label{app:proofs}
+
+\begin{proof}[Proof of Lemma~\pref{lem:sens}]
+Fix neighboring databases $D,D'$ differing in a single individual tuple
+$i^\star$ of group $g^\star$ (size $s=\min(|g^\star|,\tau)\ge1$). Every
+released marginal is a sum over groups of a per-group normalized
+contribution, and only the $g^\star$ term differs.
+\emph{(i) Intra-table 1-way.} The affected count changes by $1$, and the
+public-free normalization denominator by $1$; the $\ell_2$ change of the
+vector is $\le1$.
+\emph{(ii) Adjacent- and cross-hop group-normalized marginals.} The
+per-group term is $c_g=\frac{1}{s_g}\sum_{i\in g}x_i$ with $x_i$ a one-hot
+attribute vector. Adding $i^\star$ (with $s<\tau$) changes $c_{g^\star}$ by
+$\|x-c\|_1/(s+1)\le2/(s+1)\le1$; with $s=\tau$ the clipped count changes by
+$\le1/\tau\le1$; removing $i^\star$ changes it by $\|x-c\|_1/s\le2/s$, which
+equals $1$ when $s=1$ (the group vanishes) and is $\le1$ otherwise. Hence
+the $\ell_2$ sensitivity is $\le1$.
+\emph{(iii) Within-group pair marginals.} The per-group pair term changes
+only through pairs involving $i^\star$: at most $2(s-1)/s^2\le1$ in mass,
+plus a renormalization term $\le1$ when $s$ crosses the truncation; the
+worst case ($s=2$ removal) gives $\ell_2$ change $\le2$.
+Since only one group term moves in each case, the stated bounds are the
+$\ell_2$ sensitivities.
+\end{proof}
+
+\begin{lemma}[Tight $\ell_2$ sensitivities]
+\label{lem:sens-tight}
+Under the one-individual adjacency of Lemma~\pref{lem:sens}, let $s$ be the
+truncated size of the affected group. Then:
+(i) intra-table 1-way marginals have $\Delta_2=1$;
+(ii) adjacent- and cross-hop group-normalized marginals have
+$\Delta_2=1$, attained by removal of a single-individual group, while any
+addition satisfies $\Delta_2\le2/(s+1)<1$;
+(iii) within-group pair marginals have $\Delta_2=2$ in the statement of
+Lemma~\pref{lem:sens}, with the maximizing case a removal at $s=2$; for
+$s\ge3$ the per-group change is at most $2(s-1)/s^2\le3/4$ plus a
+$O(1/s^2)$ renormalization term.
+\end{lemma}
+\begin{proof}
+The three cases are precisely the per-group computations of
+Lemma~\pref{lem:sens}; the values above record the supremum over $s$ and
+over add/remove together with explicit witnesses (single-individual group
+removal for (i)--(ii), two-individual group removal for (iii)), hence the
+bounds are tight.
+\end{proof}
+
+\begin{corollary}[Total variation of released marginals]
+\label{cor:tv}
+Let $M\in\mathbb{R}^d$ be any marginal of Lemma~\pref{lem:sens} with
+$\ell_2$ sensitivity $\Delta_2$, released as
+$\hat M=M+\mathcal{N}(0,\sigma^2 I)$. With probability $\ge1-\beta$,
+$\|\hat M-M\|_\infty\le\sigma\sqrt{2\ln(2d/\beta)}$; if $M$ is normalized
+by a group count of magnitude $n_1 m_{\min}$, then
+$\mathrm{TV}(\hat M/\|\hat M\|_1,\;M/\|M\|_1)
+\le \frac{d\,\sigma}{n_1 m_{\min}}\sqrt{2\ln(2d/\beta)}$.
+\end{corollary}
+\begin{proof}
+A union bound over the $d$ Gaussian coordinates gives the
+$\ell_\infty$ statement. Total variation is at most half the $\ell_1$
+difference of the normalized vectors, hence at most
+$\frac{d}{2}\|\cdot\|_\infty$; dividing by a mass of magnitude
+$n_1m_{\min}$ converts absolute to relative error, absorbing the
+normalization perturbation into the same order.
+\end{proof}
+
+\begin{lemma}[TV decay along the chain of posteriors]
+\label{lem:tvdecay}
+Consider a $k$-hop chain with true channels $P_{Z_i|Z_{i-1}}$ and
+synthesized channels $\hat P_{Z_i|Z_{i-1}}$ satisfying
+$\max_{z_{i-1}}\mathrm{TV}(\hat P_{Z_i|z_{i-1}},\,P_{Z_i|z_{i-1}})
+\le\eta_i$. Then the synthesized endpoint joint satisfies
+$\mathrm{TV}(\hat P_{Z_0,Z_k},\,P_{Z_0,Z_k})
+\le 1-\prod_{i=1}^k(1-\eta_i)\le\sum_{i=1}^k\eta_i$, and the recoverable
+endpoint correlation obeys
+$|\Delta_{\mathrm{syn}}|\le\prod_i(1-\eta_i)\,\Delta_{\mathrm{real}}
++2\sum_i\eta_i$. Each $\eta_i$ is lower-bounded by the minimax TV risk of
+estimating the hop's channel from its budget slice under the Gaussian
+mechanism, hence is bounded away from $0$ at any fixed total budget.
+\end{lemma}
+\begin{proof}
+Write the joint as a Markov chain and telescope: replacing the $i$-th
+channel changes the joint distribution by at most $\eta_i$ times the mass
+that reaches hop $i$, which is at most the product of the survival
+factors $(1-\eta_j)$ of the preceding hops plus the channel error itself;
+induction yields the product form, and the data-processing inequality for
+TV gives the additive relaxation. The correlation bound follows by
+writing $\Delta$ as a linear functional of the endpoint joint and
+bounding by TV. The minimax claim is the standard Gaussian-mean lower
+bound (Le Cam's method applied to the channel entries at the hop's
+$\gamma_i$ slice).
+\end{proof}
+
+%=======================================================================
+\section{Planting protocol, V-shaped sensitivity, and statistical conventions}
+\label{app:plant}
+
+\textbf{Planting protocol.} To instantiate the barrier of
+Proposition~\pref{prop:barrier} on real schemas, we plant cross-hop
+structure while leaving every one-hop object untouched. On a chain
+$R_0{\leftarrow}R_1{\leftarrow}R_2$ we pick two balanced root anchors
+$X_1,X_2$ and set the latent $Z=X_1\oplus X_2$ (pure interaction, no main
+effects) under \emph{plant\_xor}, or $Z=X_1$ under \emph{plant\_product}.
+The leaf response $A$ is rewritten
+with probability $p$ by the rule ($A\sim\mathrm{Bern}(r_Z)$ or
+$A=U\oplus Z$) and kept real otherwise; then, within each value class of
+a middle attribute, count-preserving swaps restore the
+$(R_1\text{-attr}\times A)$ contingency exactly. Hence the FK
+cardinalities and every one-hop marginal the per-FK family consumes are
+unchanged by construction, while the cross-hop functional moves by a
+calibrated amount; $p$ is chosen by bisection over seeds so that the
+planted effect hits $\Delta\in\{0.10,0.20,0.316,0.40\}$ under
+\emph{plant\_product}, or the XOR target value $0.8$ under
+\emph{plant\_xor}. Repeating the protocol with the rule family
+$\{\oplus,\ \bmod k,\ \mathbf 1[\cdot\ge t],\ \vee\}$ forms the
+non-linearity scan.
+
+\textbf{V-shaped sensitivity.} For a star $R_1{\leftarrow}C{\to}R_2$, the
+star workload adds the cross-parent marginal $R_1{\times}R_2$ and the
+triple $R_1{\times}R_2{\times}C$, each child row weighted by the inverse
+of its $R_1$-group size (truncated at $\tau$). For a neighbor obtained by
+adding or removing one $R_1$ tuple together with its $C$ rows, each star
+query's $\ell_2$ sensitivity is at most $1$ by the per-group argument of
+Lemma~\pref{lem:sens}; the $R_2$-side neighbor follows by the same
+argument with roles swapped.
+
+\textbf{Statistical conventions.} Ten seeds per configuration with common
+random numbers (data, query-workload, and planting seeds shared across
+methods); medians with bootstrap 95\% confidence intervals; per-seed
+paired Wilcoxon signed-rank tests with Holm correction over the family
+``\chainnpm{} vs.\ each baseline'' per dataset, $\varepsilon$, and metric.
+Seeds,
+$\varepsilon$ grids, and metric definitions are fixed before baseline
+tuning and released with the artifact.
+
+%=======================================================================
+\section{The deep-chain normalization study}
+\label{app:normalization}
+
+Measuring a cross-hop marginal is not sufficient on its own; two normalization
+choices matter, and both show up as failures of effect retention. (i) The
+cross-hop marginal must be normalized \emph{once}, by the FK group it is
+traversed through. Normalizing a second time by the ancestor group collapses
+the released cross-hop mass from $54{,}369$ to $1{,}000$ while the noise is
+unchanged, leaving the measured object at signal-to-noise ratio $O(1)$---and
+the resulting retention error returns to $1.145$, i.e.\ \emph{worse} than not
+measuring the marginal at all ($1.027$), against $0.380$ under the rule the
+paper adopts. (ii) The lift denominator is itself a noised one-way marginal of
+a small table, so an unguarded cross-hop lift manufactures a spurious contrast
+of $+0.15$--$+0.20$ at $\varepsilon\le0.4$ where the true contrast is
+$\approx-0.004$; the existing SNR shrinkage cuts that artefact by a factor of
+$1.9$--$4.9$ at $\varepsilon{=}0.2$--$0.8$. It is not a cure everywhere: at
+$\varepsilon{=}0.1$ the guard barely moves the artefact
+($+0.197\to+0.177$), because the noised root marginal sits far above the noise
+scale, and the natural-mode two-hop error there also worsens
+($3.88\to4.34$, both measured without the quota calibration), so at
+$\varepsilon{=}0.1$ the cross-hop object costs more than it returns. The
+row-level quota calibration of \pref{sec:setup} addresses exactly this cell:
+the natural two-hop error drops from $4.34$ to $0.28$ without changing a
+released marginal. With both rules the planted effect on the deep chain is
+recovered ($1.027\to0.380$), and the guard is inert on the other three
+datasets, whose V-shaped path already measured its cross-parent object. Two
+further costs of the rule are worth stating plainly: the twelve extra
+cross-hop marginals raise the released-marginal count from $31$ to $43$ and,
+under an equal budget split, the noise on every query by $17\%$; and where the
+guard does not bite the extra marginals dilute accuracy, as the deep TPC-H
+rail below shows.
+
+\section{The identifiability barrier on a witness construction}
+\label{app:barrier}
+
+\pprop{barrier} is proved by a two-database witness that a reader can verify
+row by row; the submission states the barrier and defers the table to this
+companion.
+
+\begin{table}[t]
+\centering
+\caption{A minimal instantiation of the identifiability barrier
+(\pref{prop:barrier}). Two databases $\mathcal{D}^+$ and
+$\mathcal{D}^-$ over the same three-level chain ($2$ regions \penalty0$\times$\penalty0
+$2$ households \penalty0$\times$\penalty0 $2$ individuals per household, uniform group
+sizes) share \emph{every} per-FK view---all table marginals are
+uniform, $Z\perp U$ makes the $R_0{\to}R_1$ view coincide, and the
+within-group composition of the $R_1{\to}R_2$ view is identical because
+the sign of $A$ is symmetric in $U$ (the $Z{=}0$ households swap roles
+between the two databases). Yet the two-hop join functional
+$\varphi=\Pr[A=U\oplus Z]$ equals $1$ on $\mathcal{D}^+$ and $0$ on
+$\mathcal{D}^-$. Any synthesizer whose input is the multiset of per-FK
+views receives identical input in the two cases and therefore errs by at
+least $1/2$ on $\varphi$ for one of them, at any budget.}
+\label{tab:barrier}
+\begin{tabular}{cccc}
+\toprule
+$U$ ($R_0$) & $Z$ ($R_1$) & $A$ in $\mathcal{D}^+$ & $A$ in $\mathcal{D}^-$ \\
+\midrule
+0 & 0 & 0 & 1 \\
+0 & 0 & 0 & 1 \\
+\cmidrule(lr){1-4}
+0 & 1 & 1 & 0 \\
+0 & 1 & 1 & 0 \\
+\cmidrule(lr){1-4}
+1 & 0 & 1 & 0 \\
+1 & 0 & 1 & 0 \\
+\cmidrule(lr){1-4}
+1 & 1 & 0 & 1 \\
+1 & 1 & 0 & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%=======================================================================
+\section{Phase-2 walk-through}
+\label{app:emwalk}
+
+The submission describes the EM soft assignment and the ancestral sampler in
+prose; the figure below traces one refinement-and-sampling step on the
+running example's micro-instance.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figs/fig4_walk.pdf}
+\caption{Walk-through of Phase~2 on the running example's micro-instance:
+the noisy cross-hop marginal $\tilde f$ (left, Line~3) is fed to the EM
+soft assignment of each cell $c$ to the latent household type
+$z\in\{1,0\}$ with weights $w_{c,z}$ (middle), and the fitted conditionals
+then drive ancestral synthesis $\hat r\to\hat h\to\hat\imath$ (right).
+Both stages operate solely on the released noisy statistics---pure
+post-processing---and therefore consume zero additional privacy budget
+(Algorithms~\pref{alg:em}--\pref{alg:ancestral}).}
+\label{fig:emwalk}
+\end{figure}
+
+%=======================================================================
+\section{Numeric tables for the controlled multi-hop benchmark}
+\label{app:controlled}
+
+The submission reports the controlled benchmark of \psec{gap-evidence} as a
+figure (\pfig{controlled}) and quotes the per-cell numbers in its prose.
+The two tables below are the same runs and medians in tabular form.
+
+\begin{table}[t]
+\centering
+\caption{Two-hop $\Delta$-preservation ratio $\Delta_{\mathrm{syn}}/\Delta_{\mathrm{real}}$.
+Per-FK family stays within the $\pm 0.2$ per-run band of the no-cross-table
+level at every $\varepsilon$; the joint reference is consistently positive.
+The \privlava{} row is its released code; a faithful implementation of its
+Algorithm~3 stays within $0.04$ of it in these cells.}
+\label{tab:gap}
+\begin{tabular}{lccc}
+\toprule
+Method & $\varepsilon{=}0.8$ & $\varepsilon{=}3.2$ & $\varepsilon{=}8.0$ \\
+\midrule
+\privmrf{} (lower bound) & $0.035$ & $0.002$ & $0.009$ \\
+\privlava & $0.009$ & $0.038$ & $-0.011$ \\
+\shortstack[l]{\privmrfden{}\\ (joint ref.)} & $\mathbf{0.205}$ & $\mathbf{0.239}$ & $\mathbf{0.248}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Query relative error (large-count queries, $\varepsilon{=}3.2$),
+reported per hop class ($1$-hop R$\Join$H, $1$-hop H$\Join$I, $2$-hop
+R$\Join$H$\Join$I), for each method, with the two \chainnpm{} variants grouped
+below the baselines. \privlava{} is its released code; a faithful
+implementation of its Algorithm~3 stays within $0.12$ of it here.}
+\label{tab:re32}
+\begin{tabular}{lccc}
+\toprule
+Method & 1-hop RE & 1-hop RE & 2-hop RE \\
+ & (R$\Join$H) & (H$\Join$I) & (R$\Join$H$\Join$I) \\
+\midrule
+\privmrf & $0.240$ & $0.117$ & $0.212$ \\
+\shortstack[l]{\privmrfden{}\\ (joint ref.)} & $\mathbf{0.058}$ & $0.323$ & $0.404$ \\
+\privlava & $0.285$ & $0.256$ & $0.190$ \\
+\midrule
+\chainnpm-direct & $0.105$ & $\mathbf{0.060}$ & $\mathbf{0.089}$ \\
+\chainnpm-mixture & $0.098$ & $0.063$ & $0.095$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%=======================================================================
+\section{TPC-H rails (standard and deep)}
+\label{app:tpch-rails}
+
+\textbf{Standard rail: what TPC-H does and does not separate.} \label{app:tpch}
+
+We use the TPC-H benchmark (SF=1) with the correlation-planting
+transformations of~\cite{cai2023privlava} (adopted by
+PrivPetal~\cite{cai2025privpetal}): (i) lineitem prices/quantities are
+scaled by part-type and part-brand weights; (ii) each year's orders are
+concentrated on a random 15\% subset of customers, coupling
+\emph{customer nation} to \emph{order year}; (iii) orders are dropped
+unless their size matches the order year, coupling \emph{order size} to
+\emph{order year}. Private relations: Orders and Lineitem; public:
+Customer, Nation, Part. This yields 536K orders and 2.1M lineitems.
+Ground truth for evaluation is the planted database converted back to the
+original schema (identical to PrivPetal's own postprocessing).
+
+\chainnpm runs on this schema with the nation attribute joined into Orders
+(public joins are free), $Q{=}42$ joint chain marginals in one budget pass,
+$\delta=1/n_{\mathrm{leaf}}$. PrivPetal is run with its official code
+(tuple\_num$=$2, process\_num$=$4). Metrics: median relative error of
+multi-hop conjunctive count queries (2-hop Nation$\Join$Orders$\Join$Lineitem
+and 1-hop Orders$\Join$Lineitem), and preservation ratios of the planted
+associations.
+
+\noindent Additional planted-association preservation (ratios,
+$\varepsilon{=}0.2$ / $\varepsilon{=}3.2$): order-size\penalty0$\leftrightarrow$\penalty0year
+$1.02$ / $0.98$ (PrivPetal), $1.16$ / $1.16$ (\chainnpm); mean lineitem
+quantity $1.01$ / $1.01$ (PrivPetal), $0.98$ / $0.96$ (\chainnpm).
+PrivPetal shows noticeable run-to-run variance at low budget (a repeat
+$\varepsilon{=}0.2$ run gave 2-hop RE $0.072$ and 1-hop RE $0.019$);
+we report the clean rerun and note the stochasticity.
+
+\paragraph{Discussion: what TPC-H does and does not separate.}
+On the standard TPC-H setup, PrivPetal performs well---and so does
+\chainnpm. This is expected and informative: with only \emph{two} private
+relations (Orders, Lineitem) and all upstream tables public, every planted
+correlation lives within a single FK pair after the public join (the
+nation\penalty0$\leftrightarrow$\penalty0year association is carried by Orders' foreign key to
+the public Customer table), so per-FK models \emph{can} express it. The two
+methods are indeed comparable here (per-cell numbers in the
+technical appendix): \chainnpm has a
+slight edge on two-hop
+query error at low budget ($0.044$ vs $0.083$), PrivPetal a slight edge at
+high budget ($0.015$ vs $0.031$), and both preserve all planted
+associations. The structural gap of Section~\ref{P-sec:limit-mech} instead requires
+\emph{deep private chains}---as in the controlled three-table benchmark of
+Section~\ref{P-sec:gap-evidence}, where the per-FK family's $\Delta$-recovery
+stays at $\approx 0$ regardless of budget. The next paragraph tests this on
+the real schema.
+
+\paragraph{Deep-chain variant: \textsc{Customer} private.}
+A deep variant with a \emph{three}-level private chain
+$\textsc{Customer}\to\textsc{Orders}\to\textsc{Lineitem}$---the real-schema
+instance of the structure Section~\ref{P-sec:limit-mech} identifies---is
+reported in full in the technical appendix. \chainnpm answers $3$-hop
+queries at $5.4\%$ median relative error at $\varepsilon{=}3.2$ against
+PrivPetal's $4.0\%$, and pays for the cross-hop object at the low budget
+($33.6\%$ against $12.6\%$): its twelve extra marginals dilute the same
+single budget. Where it differs from the latent-chain baseline is cost and
+coverage---$\approx 22$--$24$ seconds of synthesis on one CPU against
+$1.7$--$2.3$ hours per budget on an A800 GPU, one budget pass over $46$
+marginals rather than a three-way split, and all $150$K customers
+synthesized, including the $50$K without orders, where PrivPetal emits only
+the $99{,}847$ with orders.
+
+\paragraph{Efficiency.}
+\chainnpm's entire pipeline (one budget pass over $42$ joint marginals plus
+post-processing synthesis of $536$K orders and $2.1$M lineitems) completes in
+$\approx 2.2$ minutes on a single CPU. PrivPetal's official implementation
+takes $1.8$--$2.1$ hours per budget on two A800 GPUs for the same schema---a
+$\approx 50\times$ wall-clock gap, which the hardware asymmetry makes
+conservative for \chainnpm{} while our exclusion of the evaluation from the
+timed window shades it the other way---mirroring the single-pass-vs-iterative
+contrast on the controlled benchmark and following directly from EM being
+post-processing rather than a budget-consuming loop. The deep-chain variant
+shows the same pattern: $1.7$--$2.3$ hours per budget on one A800 for
+PrivPetal versus $\approx 22$--$24$ seconds for \chainnpm.
+\label{app:tpch-deep}
+
+\textbf{Standard rail (Orders and Lineitem private).}
+\begin{table}[t]
+\centering
+\caption{TPC-H (planted, SF=1). $\Delta$-ratio $=$ preserved/true
+planted association (1.0 $=$ perfect); RE $=$ median relative error of
+multi-hop count queries (2-hop
+Nation\penalty0$\times$\penalty0Orders\penalty0$\times$\penalty0Lineitem).}
+\label{tab:tpch}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+ & \multicolumn{2}{c}{$\varepsilon{=}0.2$} & \multicolumn{2}{c}{$\varepsilon{=}3.2$} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+Method & 2-hop RE & nat\penalty0$\leftrightarrow$\penalty0yr & 2-hop RE & nat\penalty0$\leftrightarrow$\penalty0yr \\
+\midrule
+PrivPetal (official) & $0.083$ & $1.05$ & $0.015$ & $0.99$ \\
+\chainnpm (ours) & $0.044$ & $1.04$ & $0.031$ & $1.01$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Deep rail (\textsc{Customer} private).} We build a deep TPC-H variant with a \emph{three}-level private chain
+$\textsc{Customer}\to\textsc{Orders}\to\textsc{Lineitem}$: Customer carries
+nation, market segment, and account-balance-bin attributes; the existing
+plantings (nation\penalty0$\leftrightarrow$\penalty0year across Customer\penalty0$\to$\penalty0Orders,
+size\penalty0$\leftrightarrow$\penalty0year and part-ratio-scaled quantities across
+Orders\penalty0$\to$\penalty0Lineitem) are retained, and a new within-Customer
+segment\penalty0$\leftrightarrow$\penalty0nation association is planted, so the composition
+segment\penalty0$\to$\penalty0nation\penalty0$\to$\penalty0year\penalty0$\to$\penalty0quantity spans all three private tables.
+Evaluation adds 3-hop conjunctive counts
+(Nation\penalty0$\times$\penalty0Segment\penalty0$\times$\penalty0Year\penalty0$\times$\penalty0Quantity-bin) over the 3-table
+join. \chainnpm extends to a three-level chain ($Q{=}46$ marginals, one
+budget pass, intermediate rows sampled once and conditioning both hops, by
+the construction of \psec{beyond});
+PrivPetal runs its official multi-stage pipeline (budget split
+$0.5/0.25/0.25$ over its Customer--Orders, Orders--Lineitem, and
+Partsupp--Lineitem stages).
+
+\begin{table}[t]
+\centering
+\caption{Deep TPC-H (Customer private, SF=1). 3-hop RE $=$ median relative
+error of Nation\penalty0$\times$\penalty0Segment\penalty0$\times$\penalty0Year\penalty0$\times$\penalty0Qbin join counts;
+seg\penalty0$\leftrightarrow$\penalty0year is the three-table composition signal
+(preserved/true, 1.0 $=$ perfect).}
+\label{tab:tpch-deep}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+ & \multicolumn{2}{c}{$\varepsilon{=}0.2$} & \multicolumn{2}{c}{$\varepsilon{=}3.2$} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+Method & 3-hop RE & seg\penalty0$\leftrightarrow$\penalty0yr & 3-hop RE & seg\penalty0$\leftrightarrow$\penalty0yr \\
+\midrule
+PrivPetal (official) & $0.126$ & $1.12$ & $0.040$ & $0.98$ \\
+\chainnpm (ours) & $0.336$ & $1.72$ & $0.054$ & $1.73$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Both methods handle the deep chain. PrivPetal's multi-stage latent
+pipeline answers 3-hop queries at $4.0\%$ median relative error at
+$\varepsilon{=}3.2$ ($0.126$ at $\varepsilon{=}0.2$) and preserves all
+planted associations (ratios $0.98$--$1.12$). \chainnpm attains $0.054$ at
+$\varepsilon{=}3.2$ but pays for the cross-hop object at the low budget
+($0.336$): its twelve extra marginals dilute the same single budget
+(\pref{sec:four-datasets}), so at $\varepsilon{=}0.2$ the latent-chain
+baseline is ahead on query error while \chainnpm remains ahead on cost and
+coverage. This contrast is honest and informative:
+PrivPetal is itself a chain-aware model---its child stage is conditioned
+on the synthetic parent rows, so composed correlations propagate---and the
+structural collapse of \psec{limit-mech} is the failure mode of the
+PrivLava-style per-FK family (Table~\ref{tab:gap}), not of
+PrivPetal-style
+latent chains. Where \chainnpm differs is cost and coverage: the deep rail's
+synthesis completes in $\approx 22$--$24$ seconds on a single CPU versus
+$1.7$--$2.3$ hours per budget for \privpetal{}'s own pipeline on an A800 GPU
+($\approx 300\times$ on the bases stated in \ref{tab:perbasis-cost}); it
+consumes one
+budget pass over $46$ marginals rather than a three-way split; and it
+synthesizes all $150$K customers, including the $50$K without orders,
+whereas PrivPetal emits only the $99{,}847$ customers with orders
+(customer-only segment counts then incur RE $0.33$).
+\chainnpm's segment\penalty0$\leftrightarrow$\penalty0year ratio slightly exceeds $1$
+because the absolute composition signal is small (total-variation $0.33$
+across $35$ cells) and both noise and lift-composition inflate small
+values; the 3-hop query errors are the primary evidence. Deep chains are
+intrinsically harder at low budget: at $\varepsilon{=}0.2$ the single pass
+must spread $\sigma \approx 194$ Gaussian noise over $46$ marginals whose
+effective mass is set by the $100$K customer level rather than the $536$K
+order level. Two of the composition ratios thereby leave the band we would
+like---the mean-lineitem-quantity ratio reaches $1.46$ at
+$\varepsilon{=}0.2$, against $1.00$ at $\varepsilon{=}3.2$---and the
+synthesized order and lineitem counts shrink by $6$--$8\%$; the correlation
+structure itself is retained. This is the same correlations-cheap,
+counts-expensive pattern as on the controlled benchmark, seen from the other
+side.
+
+%=======================================================================
+\section{ACS PUMS California}
+\label{app:acs-rail}
+
+\textbf{The rail.}
+
+To verify that \chainnpm works beyond engineered benchmarks, we run it on
+the ACS PUMS 2022 California microdata: $151$K occupied households and
+$383$K persons (vacant units excluded), with $7$ discretized attributes on
+each table (household type\slash tenure\slash income\slash structure, person
+age\slash sex\slash education\slash employment\slash relationship\slash hours). This is a natural
+two-level chain with heavy-tailed group sizes (max $20$) and strong
+size--attribute coupling---the stress case for the size model.
+\chainnpm uses $Q{=}74$ marginals ($7$ one-way per table, $5$ parent pairs,
+$49$ parent$\times$child cells, $6$ size histograms) with the size-itself
+attribute excluded from size conditioning; PrivPetal runs its official
+Census pipeline.
+
+\chainnpm answers 2-hop conjunctive counts at $\approx 20\%$ median
+relative error (large counts) and person-level marginals at around $10\%$
+at both budgets (the technical appendix tabulates the rail), with
+household-size totals within
+$7\%$ of truth; 0-hop
+household marginals stay below $2\%$. This trails the latent baseline:
+PrivPetal reaches $5.8$--$9.0\%$ 2-hop and $1.5$--$2.0\%$ 1-hop relative
+error with nearly exact counts ($-0.7\%$), at the price of hours of GPU
+time per budget. The score is informative. The controlled benchmark of
+Section~\ref{P-sec:gap-evidence} isolates the \emph{structural} per-FK
+failure; ACS has no planted correlations to lose, so both methods are
+learning the same $7{\times}7$-attribute joint, and PrivPetal's
+per-stage latent models simply fit a two-level join more efficiently than
+our single-pass pairwise marginals---a budget-allocation effect, not a
+structural one. Two-hop joins over a $7{\times}7$ attribute product with
+only $151$K parent rows are noise-limited at these budgets, and the
+contrast confirms the mechanism's limitations on skewed, heavy-tailed
+microdata while an exactly-calibrated size model and a single-pass
+pipeline retain their cost and simplicity advantages.
+\chainnpm uses $Q{=}74$ marginals ($7$ one-way per table, $5$ parent pairs,
+$49$ parent$\times$child cells, $6$ size histograms) with the size-itself
+attribute excluded from size conditioning; PrivPetal runs its official
+Census pipeline.
+
+\begin{table}[t]
+\centering
+\caption{ACS PUMS California 2022. RE (\pref{sec:setup}) on random
+conjunctive counts with true answer $\ge 50$ (2-hop: household\penalty0$\times$\penalty0person
+over the join; 1-hop: person-only).}
+\label{tab:acs}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+ & \multicolumn{2}{c}{$\varepsilon{=}0.8$} & \multicolumn{2}{c}{$\varepsilon{=}3.2$} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+Method & 2-hop RE & 1-hop RE & 2-hop RE & 1-hop RE \\
+\midrule
+PrivPetal (official) & $0.090$ & $0.020$ & $0.058$ & $0.015$ \\
+\chainnpm (ours) & $0.196$ & $0.105$ & $0.198$ & $0.102$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%=======================================================================
+\section{Ablations and efficiency}
+\label{app:ablations}
+
+\paragraph{Budget allocation across marginals.}
+\label{sec:abl-alloc}
+We ablate the equal $\gamma^2$-split by re-weighting the seven
+cross-hop marginals (four RI, three RHI) by a factor $w$ relative to the
+rest, in \emph{both} directions, $w\in\{0.25,0.5,1,2,4,8\}$. The equal split
+is the measured minimum of the resulting curve: at $\varepsilon{=}0.8$ the
+median two-hop RE runs $0.93 \to 0.84 \to \mathbf{0.79} \to 1.01 \to 1.19 \to
+1.79$ and at $\varepsilon{=}3.2$ $0.10 \to 0.14 \to \mathbf{0.04} \to 0.14
+\to 0.21 \to 0.42$ as $w$ increases through that order, so both directions
+lose. Concentrating budget on the cross-hop objects starves the
+single/adjacent-hop marginals, and join-count utility is set by the noisiest
+factor in the join; starving the cross-hop object instead inflates its own
+error and erodes $\Delta$-recovery (at $\varepsilon{=}0.8$, $0.44$ at
+$w{=}0.25$ and $0.68$ at
+$w{=}0.5$, against $0.87$ at $w{=}1$, while for $w\ge1$ recovery stays within
+the run-to-run spread, $0.80$--$1.05$). Equal splitting is thus not a
+convenience but the empirical optimum of the sweep; workload-driven minimax
+allocation is left as future work.
+The technical appendix reports this ablation in full, as a
+white-box check that the default we adopt is a property of the join rather
+than of our tuning.
+
+\paragraph{Other ablations.}
+The route-A vs route-B comparison agreed as the design ablation is already
+realized by our two synthesis modes: \chainnpm-direct (explicit cross-hop
+marginals, no latent mixture $\approx$ route A) vs \chainnpm-mixture
+(latent mixture, route B). On the ten-run grid the two modes are indistinguishable at
+$\varepsilon{=}3.2$ (Household$\Join$Individual RE $0.060$ direct vs $0.063$
+mixture; $\Delta$-recovery $0.98$ vs $0.94$), so on this benchmark the EM
+step is not what carries recovery.
+\paragraph{Mechanism ablations.}
+\emph{(i) Removing the cross-hop marginals.} Replacing the cross-hop
+marginals with adjacent one-hop marginals---so that the child attribute is
+still measured---collapses $\Delta$-recovery from $0.98$--$1.01$ to
+$0.06$--$0.10$ at every budget in direct mode, while 2-hop RE degrades to
+the per-FK level ($0.30$--$0.31$, against $0.19$--$0.31$ for the
+baselines): the cross-hop marginals are the sole carrier of the multi-hop
+signal, and the residual ($\le0.10$) is exactly the observed mediation
+URBAN\penalty0$\to$\penalty0OWN\penalty0$\to$\penalty0EMP that per-FK models
+also enjoy.
+\emph{(ii) EM iterations under a fixed budget.} Sweeping the EM
+iteration cap $T\in\{1,2,5,10,20\}$ at fixed $(\varepsilon,\delta)$
+leaves \chainnpm-mixture bit-identical---the mixture reaches its fixed
+point in one iteration on this benchmark---whereas the PrivLava-style
+accounting (fresh budget per iteration, per-iteration noise inflated by
+$\sqrt{T}$) degrades Household$\Join$Individual RE from
+$0.146$ to $0.313$ at $\varepsilon{=}0.8$ as $T$ grows $1\to20$: budget
+dilution, not optimization, governs iterative EM.
+\emph{(iii) Types and truncation.}\label{sec:abl-types} $\Delta$-recovery and within-group
+RE are nearly invariant to $k\in\{2,3,4,6\}$ and $\tau\in\{4,6,8,12\}$ (at
+$\tau{=}4$ the 1-hop RE moves $0.030\to0.031$ and the 2-hop RE by about $5\%$); on this planted
+structure the latent types are symmetric and hence unidentifiable, so
+recovery is carried entirely by the cross-hop marginals---consistent
+with (i).
+
+\subsection{Efficiency}
+\label{app:efficiency}
+\chainnpm's single budget pass of $Q$ low-order marginals costs
+$\mathcal{O}(Q \cdot \sum (n\cdot d))$ time and negligible memory, and
+the post-processing stage vectorizes over rows. On TPC-H SF=1, the full
+pipeline ($42$ marginals over $536$K orders and $2.1$M lineitems)
+completes in $\approx 2.2$ minutes on one CPU; the deep
+three-table variant's synthesis takes $\approx 22$--$24$ seconds. PrivPetal's
+official implementation needs $1.8$--$2.1$ hours per budget on two A800 GPUs
+and $1.7$--$2.3$ hours on one A800 for the deep variant ($\approx 50\times$
+wall-clock gap on the standard rail, $\approx 300\times$ on the deep one), and
+PrivLava's iterative EM carries the same budget cost.
+The gap follows directly from EM being post-processing rather than a
+budget-consuming loop.
+
+\paragraph{Cost--effectiveness.} Read as a cost--effect frontier, the same
+numbers place \chainnpm{} alone in the region that preserves the effect
+(the technical appendix plots the frontier). On the four databases its
+retention error leaves the no-cross-table level at both budgets ($0.011$ at
+$\varepsilon{=}0.8$ and $0.009$ at $\varepsilon{=}3.2$, against $\approx1.0$
+for all five others) while it finishes in under a minute per budget, and
+\privpetal{} is dominated at both: $75$--$119\times$ the wall clock for the
+same effect level ($1.0006$, i.e.\ no effect retained). On the controlled
+benchmark, where all six methods run on one machine, \chainnpm{} is also the
+cheapest point in the panel ($2.0$--$2.2$\,s of driver wall clock per run, load included,
+against the per-table baseline's $\approx2.5$\,s) and the only series above $\Delta$-recovery
+$0.72$. The mechanism thus does not buy effect preservation with wall clock;
+the axis on which it pays is query error at low budget
+(Section~\ref{P-sec:gap-evidence}).
+
+%=======================================================================
+
+\section{Budget-allocation ablation}
+\label{app:alloc}
+
+The submission adopts the equal $\gamma^2$-split of the cross-hop marginals
+as its default and reports the sweep in prose; the figure below is the full
+ablation of that choice.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figs/fig_alloc_sweep3.pdf}
+\caption{Budget-allocation ablation (\chainnpm-direct; three runs per point,
+segments span the range; two budgets only, $\varepsilon\in\{0.8,3.2\}$, so
+the curves carry no six-budget claim). The cross-hop weight $w$ runs over
+$\{0.25,0.5,1,2,4,8\}$ on a logarithmic axis. \emph{(a)} Median two-hop query
+RE, lowest at $w{=}1$, the equal split, at both budgets. \emph{(b)}
+$\Delta$-recovery: unchanged within the run-to-run spread for $w\ge1$
+($0.80$--$1.05$) and lower below it. \emph{(c)} The two adjacent-hop classes
+(solid region$\times$household, dashed household$\times$individual), both
+worse at the two ends of the sweep than at $w{=}1$ and not monotone in
+between.}
+\label{fig:alloc}
+\end{figure*}
+
+%=======================================================================
+\section{Ancestor-scale sweep}
+\label{app:scale}
+
+The submission quotes the endpoints of this sweep in the conclusion of
+\psec{gap-evidence}; the table below reports it in full.
+
+\begin{table*}[t]
+\centering
+\caption{Ancestor-scale sweep of the controlled benchmark (median over $3$
+runs; the same query workload and one stack per column): median two-hop query
+relative error by ancestor-table size, for the two \chainnpm{} variants and
+the per-table lower bound (\privmrf{}). The smallest scale matches the deep
+chain's ancestor
+cardinality; there the per-individual marginals saturate (one-hop error $1.0$)
+and no method recovers the planted effect, so that column is reported for
+completeness rather than compared.}
+\label{tab:scale}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+ & $77$ & $200$ & $700$ & $2500$ \\
+\midrule
+\multicolumn{5}{@{}l}{$\varepsilon{=}0.8$}\\
+\privmrf{} (per-table) & $0.102$ & $0.229$ & $0.241$ & $0.240$ \\
+\chainnpm-direct & $1.644$ & $0.791$ & $0.444$ & $0.293$ \\
+\chainnpm-mixture & $1.525$ & $0.772$ & $0.438$ & $0.319$ \\
+\midrule
+\multicolumn{5}{@{}l}{$\varepsilon{=}3.2$}\\
+\privmrf{} (per-table) & $0.186$ & $0.209$ & $0.252$ & $0.272$ \\
+\chainnpm-direct & $0.426$ & $0.037$ & $0.032$ & $0.015$ \\
+\chainnpm-mixture & $0.447$ & $0.114$ & $0.008$ & $0.018$ \\
+\midrule
+\multicolumn{5}{@{}l}{$\varepsilon{=}8.0$}\\
+\privmrf{} (per-table) & $0.212$ & $0.235$ & $0.269$ & $0.294$ \\
+\chainnpm-direct & $0.150$ & $0.062$ & $0.043$ & $0.030$ \\
+\chainnpm-mixture & $0.219$ & $0.024$ & $0.039$ & $0.030$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+%=======================================================================
+\section{Cost--effect frontier}
+\label{app:pareto}
+
+The submission states the cost--effectiveness conclusion in prose and
+refers here for the frontier itself; the efficiency discussion behind it
+is Section~\ref{app:ablations}.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figs/fig_pareto.pdf}
+\caption{Cost against effect preservation. \emph{(a)} The controlled
+benchmark, the same $18$ cells as \pfig{controlled}: $y$ is
+$\Delta_{\mathrm{syn}}/\Delta_{\mathrm{real}}$ (median over the three runs;
+dotted rule $y{=}0$, dashed rule $y{=}1$) and $x$ the per-cell wall clock the
+driver recorded, so all cells come from one machine and one runner. \emph{(b)}
+The four real databases: $x$ is the median
+over the databases of the per-database median of the synthesis-phase wall
+clock (the evaluation is excluded), and $y$ the retention error on the common
+basis---\emph{plant\_product} at $t{=}0.316$ and \emph{plant\_xor} at the XOR
+target value $0.8$, ten seeds each, pooled per method, dataset and
+budget---with the dashed rule at the no-cross-table level.
+\privpetal{}'s $x$ is that method's own wall clock on A800 GPUs while the
+other five are single-CPU numbers, the asymmetry of
+\ref{tab:perbasis-cost}, which is conservative for \chainnpm{}. Each cell's retention error
+is relative to that cell's own measured real effect, as everywhere in this
+paper; the six methods do not share one realized planted database (the four
+per-table and per-FK methods redraw it per seed), and pooling every cell onto
+a single denominator moves each mark by at most $0.018$ and leaves
+\chainnpm{} the lowest at both budgets. Marker fill encodes the budget
+(hollow $\varepsilon{=}0.8$, filled $\varepsilon{=}3.2$, and, in panel (a)
+only, half-filled $\varepsilon{=}8.0$), each panel carries its own legend, and
+panel (b) uses the palette of
+\pfig{four-ds-effect} and~\ref{fig:query-class}.}
+\label{fig:pareto}
+\end{figure*}
+
+%=======================================================================
+\section{Wall-clock cost per basis}
+\label{app:timings}
+
+The row-level quota calibration used for every four-database \chainnpm{}
+number in the paper is the released flag set
+\texttt{--absorb 'pubn,\allowbreak rowleaf,\allowbreak szthresh,\allowbreak
+exactmarg,\allowbreak repair,\allowbreak growcap,\allowbreak szquota'};
+the default flags reproduce the plain release exactly (verified
+field-by-field).
+
+The submission's efficiency section states the cost--accuracy
+conclusions and plots the frontier; the per-basis table below is the
+timing reference behind its claims. Timings compare within a row, never across
+rows, because each row is timed on its own reference chain
+implementation.
+
+\begin{table*}[t]
+\centering
+\caption{Wall-clock cost per budget, stated per basis rather than netted
+out---the timing reference behind the submission's efficiency section, with the
+chain structure of \ptab{datasets}; each row is timed on its
+own reference chain implementation, so timings compare within a row, not
+across rows. The \chainnpm{} column
+times the end-to-end pipeline on one CPU core (the TPC-H and ACS rows include
+restore and CSV output; the four-database rows isolate synthesis; evaluation is
+excluded); the
+\privpetal{} column is that method's own wall-clock on A800 GPU(s).
+``---'': not run on this benchmark.}
+\label{tab:perbasis-cost}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+Dataset & Private chain & Scale (rows) & $\varepsilon$ grid & \chainnpm & \privpetal \\
+\midrule
+\multicolumn{6}{@{}l}{\emph{Established benchmarks}:}\\
+Controlled (planted) & R$\leftarrow$H$\leftarrow$I
+  & 200 / $\sim$800 / $\sim$2400 & 0.8, 3.2, 8.0 & $\approx$1.1\,s & --- \\
+TPC-H SF=1 & Orders, Lineitem
+  & 536K / 2.1M & 0.2, 3.2 & 134--136\,s & 1.8--2.1\,h (2\penalty0$\times$\penalty0A800) \\
+TPC-H deep & Customer, Orders, Lineitem
+  & 150K / 536K / 2.1M & 0.2, 3.2 & $\approx$22--24\,s & 1.7--2.3\,h (1\penalty0$\times$\penalty0A800) \\
+ACS PUMS CA'22 & Household, Person
+  & 151K / 383K & 0.8, 3.2 & $\approx$20\,s & hours (A800) \\
+\midrule
+\multicolumn{6}{@{}l}{\emph{Four real databases}:}\\
+Financial (PKDD'99) & District$\leftarrow$Account$\leftarrow$Trans
+  & 77 / 4.5K / 1.06M & 0.1--3.2 & 6--9\,s & 20--36\,min \\
+IMDb & Names$\leftarrow$Principals$\rightarrow$Titles
+  & 640K / 1.22M / 110K & 0.1--3.2 & 115--117\,s & 56--106\,min \\
+Instacart & Products$\leftarrow$Order-Products$\rightarrow$Orders
+  & 38K / 1.52M / 150K & 0.1--3.2 & 141--143\,s & 1.7--3.7\,h \\
+MovieLens-1M & Users$\leftarrow$Ratings$\rightarrow$Movies
+  & 6.0K / 1.00M / 3.9K & 0.1--3.2 & 46--47\,s & 14--67\,min \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\section{Planted-effect results on the four real databases}
+\label{app:four-ds}
+
+\textbf{Full planted-effect table.} Table~\ref{tab:four-ds} is the full version of \pfig{four-ds-effect}: retention error per
+dataset, protocol, budget and method, with the single-strength note and the
+($^{\ddagger}$) marker explained in its caption.
+
+\begin{table*}[t]
+\centering
+\caption{Planted-effect retention error (median over $10$ seeds; $0$ $=$
+effect survives intact, $1$ $=$ lost to the no-cross-table level, $>1$ $=$
+distorted) on four real databases under two planting protocols. The deep
+chain (financial) reports the contrast $\Delta$; the V-shaped schemas report
+the cross-parent cell contrast. Each \emph{plant\_product} cell is the range
+over the four planting strengths ($t = 0.1, 0.2, 0.316, 0.4$), so that no
+single strength is privileged, except for \privpetal{}, whose planting
+protocol varies the privacy budget only and therefore contributes the single
+strength
+$t{=}0.316$; each \emph{plant\_xor} cell is a single value
+at the XOR target value $0.8$, the only strength used.
+$^{\ddagger}$the synthetic effect coincides across planting strengths, the
+signature of a method whose measured objects do not depend on the planting
+(see \pref{sec:four-datasets} for the two benchmark-side caveats that
+also produce it).}
+\label{tab:four-ds}
+\small
+\begin{tabular}{@{}llcccccc@{}}
+\toprule
+Dataset & $\varepsilon$ & \chainnpm & \privmrf & PrivBayes & PB-PGM & PrivLava & \privpetal \\
+\midrule
+% BEGIN GENERATED tab:four-ds -- do not hand-edit; regenerate with
+% results/tables/make_manuscript_tables.py (single source: results/tables/*.tsv)
+\multicolumn{8}{@{}l}{\emph{plant\_product}: }\\
+financial & 0.8 & 0.415--0.886 & 1.000--1.002 & 0.996--0.999 & 1.002--1.006 & 1.000--1.001$^{\ddagger}$ & 0.998 \\
+financial & 3.2 & 0.175--0.346 & 1.000--1.002 & 0.997--0.999 & 1.001--1.004 & 0.996--0.999$^{\ddagger}$ & 1.000 \\
+imdb & 0.8 & 0.007--0.011 & 1.003$^{\ddagger}$ & 0.999$^{\ddagger}$ & 1.001$^{\ddagger}$ & 1.011$^{\ddagger}$ & 0.223 \\
+imdb & 3.2 & 0.005--0.007 & 0.997$^{\ddagger}$ & 0.998$^{\ddagger}$ & 0.999$^{\ddagger}$ & 1.005$^{\ddagger}$ & 0.055 \\
+instacart & 0.8 & 0.007--0.018 & 0.993--0.998$^{\ddagger}$ & 0.997--0.999 & 0.988--0.997$^{\ddagger}$ & 0.996$^{\ddagger}$ & 1.003 \\
+instacart & 3.2 & 0.005--0.020 & 1.003--1.013$^{\ddagger}$ & 0.997--0.999 & 1.000--1.001$^{\ddagger}$ & 0.997$^{\ddagger}$ & 1.000 \\
+movielens & 0.8 & 0.007--0.021 & 1.003--1.007$^{\ddagger}$ & 1.003--1.007$^{\ddagger}$ & 0.998--0.999$^{\ddagger}$ & 1.002$^{\ddagger}$ & 0.994 \\
+movielens & 3.2 & 0.004--0.021 & 0.995--0.998$^{\ddagger}$ & 1.000--1.001$^{\ddagger}$ & 0.999--1.000$^{\ddagger}$ & 0.998$^{\ddagger}$ & 1.010 \\
+\midrule
+\multicolumn{8}{@{}l}{\emph{plant\_xor}: }\\
+financial & 0.8 & 1.614 & 0.998 & 0.992 & 1.012 & 1.002 & 1.049 \\
+financial & 3.2 & 0.846 & 0.997 & 0.989 & 1.006 & 0.993 & 1.048 \\
+imdb & 0.8 & 0.010 & 1.003 & 0.999 & 1.001 & 1.010 & 0.249 \\
+imdb & 3.2 & 0.017 & 0.997 & 0.998 & 0.999 & 1.006 & 0.302 \\
+instacart & 0.8 & 0.001 & 1.001 & 1.000 & 1.001 & 1.001 & 1.002 \\
+instacart & 3.2 & 0.001 & 0.999 & 1.001 & 1.000 & 1.001 & 1.000 \\
+movielens & 0.8 & 0.003 & 1.001 & 1.001 & 1.000 & 1.001 & 1.000 \\
+movielens & 3.2 & 0.002 & 0.999 & 1.000 & 1.000 & 0.999 & 0.999 \\
+% END GENERATED tab:four-ds
+\bottomrule
+\end{tabular}
+\end{table*}
+
+%=======================================================================
+\section{Natural-mode tables and the query-class stratification}
+\label{app:natural}
+
+\textbf{Natural-mode query error.} Table~\ref{tab:re-appendix} tabulates the
+natural-mode $2$-hop query error of the same four databases, and
+Figure~\ref{fig:query-class} gives the same view stratified by query class,
+for all six methods and all six budgets. The \chainnpm{} rows are produced by
+the row-level quota-calibration arm of \psec{setup}: free post-processing
+that spends no budget and changes no released marginal. With it \chainnpm{} is
+the most accurate method on the $2$-hop class on $22$ of the $24$
+dataset--budget cells (financial ties \privmrf{} at
+$\varepsilon{=}0.4$ and $0.8$, the two gaps $\le 0.02$)---the deep
+chain's error collapses from $4.34$ at $\varepsilon{=}0.1$ under the released
+arm to $0.28$, and the V-shaped schemas lead their per-table baselines
+throughout (Table~\ref{tab:re-appendix}); on the class-stratified medians of
+Figure~\ref{fig:query-class} it leads every cross-table class ($2$-hop,
+both $1$-hop spans, and the two-parent class) at every budget, and the
+zero-hop class it was weakest in no longer shows the released arm's
+order-of-magnitude gap on the V-shaped schemas. Natural-mode query accuracy
+is therefore not a liability we qualify away: the correlation the per-FK
+family cannot represent is preserved (Table~\ref{tab:four-ds}), and
+carrying
+it no longer costs query accuracy, as the submission's planted-effect
+figure (\pfig{four-ds-effect}) and Table~\ref{tab:re-appendix}
+show.
+
+\begin{table*}[t]
+\centering
+\caption{Natural mode (no planting): $2$-hop large-query median relative
+error over $10$ seeds, i.e.\ the cross-hop class
+(\textsc{District}$\times$\textsc{Trans} for financial; the two-parent class
+for the V-shaped schemas). Lower is better. \chainnpm{} rows use the
+row-level quota-calibration arm of \psec{setup} (the released
+default is bit-identical to the plain release); the arm spends no budget and
+changes no marginal, and it removes the released version's natural-mode
+query-accuracy gap on all four databases. The table is reported in full
+because the ranking is now part of the result, not a caveat to it.}
+\label{tab:re-appendix}
+\small
+\begin{tabular}{@{}llcccccc@{}}
+\toprule
+Method & Dataset & $\varepsilon{=}0.1$ & $\varepsilon{=}0.2$ & $\varepsilon{=}0.4$ & $\varepsilon{=}0.8$ & $\varepsilon{=}1.6$ & $\varepsilon{=}3.2$ \\
+\midrule
+% BEGIN GENERATED tab:re-appendix -- do not hand-edit; regenerate with
+% results/tables/make_manuscript_tables.py (single source: results/tables/*.tsv)
+\chainnpm & financial & 0.2774 & 0.2123 & 0.1868 & 0.0977 & 0.0969 & 0.0665 \\
+PrivMRF & financial & 0.2875 & 0.2183 & 0.1698 & 0.0969 & 0.1357 & 0.1555 \\
+PrivBayes & financial & 0.5180 & 0.4960 & 0.4017 & 0.1383 & 0.1734 & 0.1186 \\
+PB-PGM & financial & 1.0000 & 0.8510 & 0.6907 & 0.2802 & 0.2667 & 0.1367 \\
+PrivLava & financial & 0.3402 & 0.3798 & 0.3429 & 0.3686 & 0.3304 & 0.3430 \\
+\privpetal & financial & 0.2921 & 0.5083 & 0.7317 & 0.8421 & 0.9166 & 0.9430 \\
+\midrule
+\chainnpm & imdb & 0.1323 & 0.1286 & 0.1172 & 0.1157 & 0.1133 & 0.1106 \\
+PrivMRF & imdb & 0.2050 & 0.2029 & 0.2049 & 0.2004 & 0.1954 & 0.1948 \\
+PrivBayes & imdb & 0.2205 & 0.2221 & 0.2114 & 0.2028 & 0.1983 & 0.1974 \\
+PB-PGM & imdb & 0.2230 & 0.2132 & 0.2101 & 0.2157 & 0.2024 & 0.2072 \\
+PrivLava & imdb & 0.9992 & 0.9992 & 0.9993 & 0.9992 & 0.9991 & 0.9993 \\
+\privpetal & imdb & 0.6410 & 0.3064 & 0.3127 & 0.2925 & 0.3318 & 0.3642 \\
+\midrule
+\chainnpm & instacart & 0.0317 & 0.0275 & 0.0281 & 0.0254 & 0.0260 & 0.0254 \\
+PrivMRF & instacart & 0.4912 & 0.4984 & 0.4780 & 0.5037 & 0.4915 & 0.4791 \\
+PrivBayes & instacart & 0.6624 & 0.5591 & 0.5011 & 0.4919 & 0.4662 & 0.4709 \\
+PB-PGM & instacart & 0.5016 & 0.4854 & 0.4692 & 0.4766 & 0.4821 & 0.4768 \\
+PrivLava & instacart & 0.9044 & 0.9008 & 0.9083 & 0.9198 & 0.9337 & 0.9534 \\
+\privpetal & instacart & 1.2073 & 1.0324 & 0.4536 & 0.4443 & 0.4428 & 0.4383 \\
+\midrule
+\chainnpm & movielens & 0.2127 & 0.1690 & 0.1590 & 0.1345 & 0.1291 & 0.1301 \\
+PrivMRF & movielens & 0.3894 & 0.3589 & 0.3521 & 0.3444 & 0.3409 & 0.3314 \\
+PrivBayes & movielens & 0.4087 & 0.3736 & 0.3620 & 0.3515 & 0.3480 & 0.3322 \\
+PB-PGM & movielens & 0.4679 & 0.3886 & 0.3829 & 0.3493 & 0.3503 & 0.3353 \\
+PrivLava & movielens & 0.9805 & 0.9827 & 0.9819 & 0.9686 & 0.9742 & 0.9634 \\
+\privpetal & movielens & 0.6667 & 0.7739 & 0.8181 & 0.8007 & 0.8106 & 0.8166 \\
+% END GENERATED tab:re-appendix
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figs/fig_query_class_sweep.pdf}
+\caption{The natural-mode runs stratified by query class: $2$-hop
+conjunctive, $1$-hop predicate, $0$-hop marginal, and size-distribution
+total variation. A class value averages that schema's member metrics
+arithmetically (the chain's two adjacent-hop objects, a V-shaped schema's
+two or three one-way marginals), then the $10$ seeds are reduced to their
+median, then the four
+databases to theirs. Each curve is therefore the median over the datasets on
+which \emph{all six} methods report that class, so no curve inside a panel is
+aggregated over a different basis than its neighbours; the size-distribution
+panel consequently reduces to the deep chain, the only database where all six
+report it. Vertical scales differ between panels and must not be compared
+across them.}
+\label{fig:query-class}
+\end{figure*}
+
+%=======================================================================
+\section{Positioning of representative mechanisms}
+\label{app:position}
+
+The paper's related-work discussion carries the positioning; the table
+below is its tabular form.
+
+\begin{table*}[t]
+\centering
+\caption{Positioning of representative DP relational synthesis
+mechanisms. \emph{Cross-table object}: the statistical object each
+mechanism explicitly models across foreign keys; \emph{budget pattern}:
+iterative budget consumption vs.\ a single measurement pass followed by
+free post-processing; \emph{evaluated private depth}: the deepest
+private join path measured in the original evaluation; ``---'': not
+reported in the cited work.}
+\label{tab:position}
+\small
+\begin{tabular}{@{}p{2.1cm}p{4.7cm}p{3.3cm}p{2.7cm}p{2.7cm}@{}}
+\toprule
+Method & Cross-table object & Budget pattern & Evaluated private depth & Runtime order \\
+\midrule
+\privlava (SIGMOD'23) & per-FK latent models (EM); cross-hop only via
+estimated $\hat Z$ ($\le 16$ values) & iterative: each EM iteration
+consumes fresh budget & 1 private FK (upstream tables public) &
+infeasible at EP scale \\
+\privpetal (SIGMOD'25) & per-FK permutation marginals; stages condition
+on synthetic parents; no joint object across two FKs & per-stage split
+(e.g., $0.5/0.25/0.25$) & 1 FK hop (query classes) & 1.7--2.3\,h per
+budget (A800) \\
+Adapted single-table \cite{alimohammadi2024adapting} & pairwise
+cross-table marginals only & --- & --- & --- \\
+\chainnpm (ours) & joint chain marginals incl.\ cross-hop
+$R_0{\times}R_2$; latent mixture refines only & single pass; EM as free
+post-processing & 3 private tables & $\approx$22--24\,s (1 CPU) \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\section{The three real-benchmark rails}
+\label{app:rails}
+
+Figure~\ref{fig:legacy-rails} collects the three real-benchmark rails of
+Sections~\ref{app:tpch-rails}--\ref{app:acs-rail}---standard TPC-H, the deep
+three-table variant, and ACS PUMS---in one place: each panel plots query
+relative error against the budgets that rail was actually run at, with one
+line per method and per hop class. The rails were run at two budgets each, so
+this summary is deliberately sparser than the four-database sweep of
+Table~\ref{tab:re-appendix} and the class-stratified view below, and is meant to
+be read
+together with the submission's tables for the same rails, not instead of
+them.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figs/fig_legacy_rails.pdf}
+\caption{The three real-benchmark rails on one page: standard TPC-H (two
+private tables), the deep three-table variant, and ACS PUMS. Each panel uses
+that rail's own budgets ($\varepsilon\in\{0.2,3.2\}$ for the two TPC-H
+variants, $\{0.8,3.2\}$ for ACS) and plots query relative error; solid lines
+are the deepest hop that rail reports (two-hop for TPC-H and ACS, three-hop for
+the deep variant), and the dashed line is ACS's one-hop class. Values are the
+median relative errors tabulated in \ref{tab:tpch} and Table~\ref{tab:acs}.}
+\label{fig:legacy-rails}
+\end{figure*}
+
+% The moved prose cites the mechanisms it compares against, so the companion
+% needs the same bibliography as the paper (BibTeX lists only what is cited).
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{refs}
+
+\end{document}

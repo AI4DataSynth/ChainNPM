@@ -49,10 +49,24 @@ Honesty requirements carried by the figure
 Data source: ``tmp/results/<dataset>/*.json`` (read only).  denorm is excluded
 by user decision.  Per-cell coverage is written next to the figure.
 
+Layout
+------
+``1x4`` (default) is the manuscript layout: one row of four panels, figsize
+7.0 x 2.05 in, printed 1:1 at ``\textwidth``, so the figure takes 2.06 in of
+page height instead of the ``2x2`` grid's 4.52 in.  It costs four things, none
+of which touches the data: the panel titles wrap to two lines, the tick labels
+step down to 6.2pt, the last tick loses its second label line (the shared x
+label already names both planting modes), and the shared x label gets its own
+band above the key legend.  ``--layout 2x2`` reproduces the older grid.
+
 Usage
 -----
-    python plot_main_effect.py
+    python plot_main_effect.py                      # 1x4, the manuscript layout
+    python plot_main_effect.py --layout 2x2         # the older 2x2 grid
     python plot_main_effect.py --yscale linear      # review aid only
+
+Every run ends with a layout audit: text that leaves the canvas, or two text
+boxes that overlap, fails the run instead of shipping a collided figure.
 """
 
 import argparse
@@ -74,6 +88,7 @@ RESULTS_DIR = os.path.dirname(HERE)                        # results
 ROOT = os.path.dirname(RESULTS_DIR)                        # project root
 DATA_DIR = os.path.join(ROOT, "tmp", "results")
 BASE_NAME = "fig_main_effect_plant"
+LAYOUT = "1x4"       # set from --layout in main(); the manuscript layout
 COVERAGE_TXT = os.path.join(HERE, "plot_main_effect_coverage.txt")
 
 DATASETS = ["financial", "imdb", "instacart", "movielens"]
@@ -417,7 +432,12 @@ def draw_panel(ax, per, cells, ds, logy, notes):
 
     ax.set_xlim(*X_LIM)
     ax.set_xticks(SLOT_X)
-    ax.set_xticklabels(["0.10", "0.20", "0.316", "0.40", "0.80\n(plant_xor)"])
+    xl = ["0.10", "0.20", "0.316", "0.40", "0.80\n(plant_xor)"]
+    if LAYOUT == "1x4":
+        # the four-panel row has no room for a second label line under the
+        # last tick, and the shared x label already names both modes
+        xl[-1] = "0.80"
+    ax.set_xticklabels(xl)
     if logy:
         ax.set_yscale("log")
         ax.set_ylim(*Y_LIM)
@@ -472,6 +492,117 @@ def financial_note(per):
     return "\n".join(parts) if parts else None
 
 
+
+
+def audit_layout(fig, axes, layout, tol_pt=1.2, min_pt=0.8):
+    """Lay the figure out and report text that overflows the canvas or collides.
+
+    Text-only guard.  Window extents come back in device pixels, so the
+    thresholds are converted with the figure's dpi: tol_pt is the slack allowed
+    outside the canvas (matplotlib clips a fraction of a legend's padding),
+    min_pt is how far two boxes must overlap in BOTH directions before the pair
+    counts -- the ascent/descent padding of stacked tick labels and of the
+    successive lines of one paragraph stay below it, real collisions do not.
+    A legend is a container and is never reported against its own entries.
+    In-panel annotations covering drawn data points are reported separately.
+    """
+    fig.canvas.draw()
+    rend = fig.canvas.get_renderer()
+    sc = fig.dpi / 72.0
+    fb = fig.bbox
+    tol, smin = tol_pt * sc, min_pt * sc
+    from matplotlib.text import Text
+    legend_of = {}
+    for leg in fig.legends:
+        for t in leg.get_texts():
+            legend_of[id(t)] = leg
+    items = []                                # (kind, bbox, owner, snippet)
+    for art in fig.findobj(Text):
+        if not art.get_visible() or not art.get_text().strip():
+            continue
+        try:
+            bb = art.get_window_extent(rend)
+        except Exception:
+            continue
+        if bb.width <= 0 or bb.height <= 0:
+            continue
+        leg = legend_of.get(id(art))
+        items.append(("legend entry" if leg is not None else "text", bb, leg,
+                      art.get_text().replace(chr(10), " ")[:26]))
+    for leg in fig.legends:
+        items.append(("LEGEND", leg.get_window_extent(rend), leg, "<legend>"))
+
+    def box(b):
+        return "x %.0f..%.0f y %.0f..%.0f" % ((b.x0 - fb.x0) / sc,
+                                              (b.x1 - fb.x0) / sc,
+                                              (b.y0 - fb.y0) / sc,
+                                              (b.y1 - fb.y0) / sc)
+
+    out_of_box = [(k, b, s) for k, b, _, s in items
+                  if (b.x0 < fb.x0 - tol or b.y0 < fb.y0 - tol
+                      or b.x1 > fb.x1 + tol or b.y1 > fb.y1 + tol)]
+    collisions = []
+    for i, (k1, b1, p1, s1) in enumerate(items):
+        for (k2, b2, p2, s2) in items[i + 1:]:
+            if p1 is not None and p1 is p2:       # legend box vs its own entry
+                continue
+            if s1 and s1 == s2:
+                # the same string drawn twice (a shared axis label on two
+                # panels) is invisible when it overlaps, so do not fail
+                continue
+            ix = min(b1.x1, b2.x1) - max(b1.x0, b2.x0)
+            iy = min(b1.y1, b2.y1) - max(b1.y0, b2.y0)
+            if ix > smin and iy > smin:
+                collisions.append((s1, b1, s2, b2, ix / sc, iy / sc))
+    collisions.sort(key=lambda c: -(c[4] * c[5]))
+
+    on_data = []
+    for ax in axes:
+        boxes = [(t.get_text(), t.get_window_extent(rend))
+                 for t in ax.texts
+                 if t.get_visible() and t.get_text().strip()]
+        for line in ax.get_lines():
+            xy = getattr(line, "get_xydata", lambda: None)()
+            if xy is None or not len(xy):
+                continue
+            pts = ax.transData.transform(xy)
+            keep = []
+            for txt, bb in boxes:
+                hit = sum(1 for px, py in pts
+                          if bb.x0 - 4 <= px <= bb.x1 + 4
+                          and bb.y0 - 4 <= py <= bb.y1 + 4)
+                if hit:
+                    on_data.append((txt.replace(chr(10), " ")[:34], hit, len(pts)))
+                else:
+                    keep.append((txt, bb))
+            boxes = keep
+
+    print("[layout audit %s] canvas %.0fx%.0f pt | text artists %d | "
+          "outside canvas %d | text collisions %d"
+          % (layout, fb.width / sc, fb.height / sc, len(items),
+             len(out_of_box), len(collisions)))
+    for kind, b, snip in out_of_box:
+        print("   OUTSIDE: %-13s %-28r %s" % (kind, snip, box(b)))
+    for s1, b1, s2, b2, ix, iy in collisions[:16]:
+        print("   COLLIDE: %-28r %s  <->  %-28r %s  (%.1f x %.1f pt)"
+              % (s1, box(b1), s2, box(b2), ix, iy))
+    if on_data:
+        print("   TEXT-ON-DATA (informative):")
+        for txt, hit, tot in sorted(set(on_data)):
+            print("      %-36r %d of %d drawn points inside its box"
+                  % (txt, hit, tot))
+    # refuse to ship a figure whose text collides or leaves the canvas.  The
+    # legend *boxes* are only warned about: matplotlib clips a fraction of
+    # their padding at the canvas edge by design, and the entries are checked.
+    text_out = [it for it in out_of_box if it[0] != "LEGEND"]
+    if text_out or collisions:
+        sys.exit("layout audit failed for %s: %d text box(es) outside the "
+                 "canvas, %d text collision(s)"
+                 % (layout, len(text_out), len(collisions)))
+    return len(out_of_box), len(collisions)
+
+
+
 def render(per, cells, meta, out_pdf, out_png, logy=True):
     apply_style()
     # the drawn quantity is the per-cell median over seeds; the axis guard is
@@ -501,7 +632,12 @@ def render(per, cells, meta, out_pdf, out_png, logy=True):
         print("zero-valued plotted cells: none (no mark is lost to the log "
               "axis)")
 
-    fig, axes = plt.subplots(2, 2, figsize=(7.0, 4.5), sharex=True, sharey=True)
+    if LAYOUT == "1x4":
+        fig, axes = plt.subplots(1, 4, figsize=(7.0, 2.05),
+                                 sharex=True, sharey=True)
+    else:
+        fig, axes = plt.subplots(2, 2, figsize=(7.0, 4.5),
+                                 sharex=True, sharey=True)
     axes = np.asarray(axes).ravel()
     panel_notes = {
         "imdb": [("planted contrast saturates: the same real\n"
@@ -517,18 +653,29 @@ def render(per, cells, meta, out_pdf, out_png, logy=True):
     for ax, ds in zip(axes, DATASETS):
         draw_panel(ax, per, cells, ds, logy, panel_notes.get(ds, []))
         shape, rows = meta.get(ds, (None, None))
-        title = ("%s (%s, %s rows)" % (ds, SHAPE_LABEL.get(shape, shape), fmt_rows(rows))
+        tfmt = ("%s\n(%s, %s rows)" if LAYOUT == "1x4"
+                else "%s (%s, %s rows)")
+        title = (tfmt % (ds, SHAPE_LABEL.get(shape, shape), fmt_rows(rows))
                  if shape and rows else ds)
         ax.set_title(title, pad=3.0)
-    for i, ax in enumerate(axes):
-        row, col = divmod(i, 2)
-        ax.tick_params(axis="y", labelleft=(col == 0))
-        ax.tick_params(axis="x", labelbottom=(row == 1))
-    for ax in axes[2:]:
-        ax.set_xlabel("planted-effect target (plant_product / plant_xor)")
-    for ax in axes[::2]:
-        ax.set_ylabel("retention error  $|\\mathrm{syn}-\\mathrm{real}|"
-                      "/|\\mathrm{real}|$")
+    YLAB_FULL = ("retention error  $|\\mathrm{syn}-\\mathrm{real}|"
+                 "/|\\mathrm{real}|$")
+    XLAB = "planted-effect target (plant_product / plant_xor)"
+    if LAYOUT == "1x4":
+        for i, ax in enumerate(axes):
+            ax.tick_params(axis="y", labelleft=(i == 0), labelsize=6.2)
+            ax.tick_params(axis="x", labelbottom=True, labelsize=6.2)
+        axes[0].set_ylabel(YLAB_FULL)
+        fig.supxlabel(XLAB, fontsize=7.0, y=0.14)
+    else:
+        for i, ax in enumerate(axes):
+            row, col = divmod(i, 2)
+            ax.tick_params(axis="y", labelleft=(col == 0))
+            ax.tick_params(axis="x", labelbottom=(row == 1))
+        for ax in axes[2:]:
+            ax.set_xlabel(XLAB)
+        for ax in axes[::2]:
+            ax.set_ylabel(YLAB_FULL)
 
     handles = []
     for s in SERIES_ORDER:
@@ -557,11 +704,17 @@ def render(per, cells, meta, out_pdf, out_png, logy=True):
                markeredgewidth=0.9, label=r"$\varepsilon=0.8$ (hollow)"),
         Line2D([], [], color="#8c8c8c", lw=0.8, ls=":", label="1.0 = effect lost"),
     ]
-    fig.legend(handles=key, loc="lower center", bbox_to_anchor=(0.5, -0.012),
+    key_y = 0.02 if LAYOUT == "1x4" else -0.012
+    fig.legend(handles=key, loc="lower center", bbox_to_anchor=(0.5, key_y),
                ncol=3, frameon=False, handletextpad=0.4, columnspacing=1.6,
                borderaxespad=0.0)
-    fig.subplots_adjust(left=0.098, right=0.985, top=0.872, bottom=0.135,
-                        hspace=0.20, wspace=0.05)
+    if LAYOUT == "1x4":
+        fig.subplots_adjust(left=0.086, right=0.995, top=0.72,
+                            bottom=0.30, wspace=0.09)
+    else:
+        fig.subplots_adjust(left=0.098, right=0.985, top=0.872,
+                            bottom=0.16, hspace=0.20, wspace=0.05)
+    audit_layout(fig, axes, LAYOUT)
     if out_pdf:
         fig.savefig(out_pdf)
     fig.savefig(out_png, dpi=300)
@@ -751,10 +904,15 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--outdir", default=HERE)
     ap.add_argument("--yscale", choices=["log", "linear"], default="log")
+    ap.add_argument("--layout", choices=["1x4", "2x2"], default="1x4",
+                    help="1x4 (default) is the manuscript row layout; "
+                         "2x2 is the older grid")
     ap.add_argument("--data-dir", default=DATA_DIR,
                     help="campaign tree with <dataset>/*.json (default: %s)"
                          % DATA_DIR)
     args = ap.parse_args(argv)
+    global LAYOUT
+    LAYOUT = args.layout
 
     cells, info = load_grid(args.data_dir)
     if not cells:

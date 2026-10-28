@@ -133,17 +133,20 @@ COVERAGE_TXT = os.path.join(HERE, "plot_pareto_coverage.txt")
 EPS_A = [("0.8", 0.8), ("3.2", 3.2), ("8.0", 8.0)]
 SERIES_A = [
     ("pertable",      "PrivMRF",           "#2b2b2b", "o", "multihop_final"),
-    ("lava_asis",     "Lava-AsIs",         "#6e6e6e", "^", "multihop_final"),
-    ("lava_prop",     "Lava-Prop",         "#a8a8a8", "s", "multihop_final"),
+    ("lava_asis",     "PrivLava (released)", "#6e6e6e", "^", "multihop_final"),
+    ("lava_prop",     "PrivLava (Alg. 3)",   "#a8a8a8", "s", "multihop_final"),
     ("denorm",        "PrivMRF (denorm)",  "#1f4e8c", "D", "multihop_final"),
     ("chain_direct",  "Chain-NPM-direct",  "#c0392b", "v", "chain_results"),
     ("chain_mixture", "Chain-NPM-mixture", "#e67e22", "P", "chain_results"),
 ]
 EXP_BASE_DELTA = {
-    # 2026-09-21 修复"逐表基线 ε 盲"后按 V2 实测重设，与 main.tex tab:gap 同步
+    # 2026-09-21 修复"逐表基线 ε 盲"后按 V2 实测重设，与 main.tex tab:gap 同步。
+    # 2026-09-26：tab:gap 只印 PrivLava 的 released code（读者意见：不替他人工作改名），
+    # 故 lava_prop（Algorithm 3 配置）的逐格字面量已不在表内——改为核对其在
+    # tab:gap caption 里声明的界（$0.06$）；数值一致性检查（A1）照旧。
     "pertable":  ([0.00, -0.02, -0.09],  ["$0.00$", "$-0.02$", "$-0.09$"]),
     "lava_asis": ([0.02, 0.01, 0.03],    ["$0.02$", "$0.01$", "$0.03$"]),
-    "lava_prop": ([0.02, -0.004, -0.03], ["$0.02$", "$-0.004$", "$-0.03$"]),
+    "lava_prop": ([0.02, -0.004, -0.03], ["$0.06$"]),
     "denorm":    ([0.21, 0.29, 0.21],    ["$0.21$", "$0.29$", "$0.21$"]),
 }
 EXP_CHAIN_DELTA = {"chain_direct": [0.867, 0.866, 1.028],
@@ -292,7 +295,11 @@ def load_index(src=None):
                     and d.get("mode") in PLANT_T
                     and series_of(d) == "chainnpm")]
     else:
-        nat_it = plant_it = P.iter_files()
+        # 注意：P.iter_files() 是生成器——两个名字必须各自物化一次，否则
+        # nat 循环会把它耗尽、plant 循环看到空序列（2026-09-26 修，此前
+        # 默认 arm 因此永远拿不到 panel (b) 的 y 值，B5/B3 必然失败）
+        nat_it = list(P.iter_files())
+        plant_it = nat_it
     for d in nat_it:
         series = series_of(d)
         if series is None:

@@ -1,4 +1,4 @@
-fig_pareto coverage report   MODE: full arm=szquota
+fig_pareto coverage report   MODE: dry (no pdf/png written) arm=released
 panel (a) source: tmp/multihop_final_eps{0.8,3.2,8.0}.json + tmp/chain_results_eps{0.8,3.2,8.0}.json
 panel (b) source: tmp/results/  (resolved through results/tables/p7_common.py)
 
@@ -8,12 +8,12 @@ method           eps      time_s   delta_ratio  source file                    r
 PrivMRF          0.8      4.2434      0.004019  tmp/multihop_final_eps0.8.json 0.004019 0.064696 -0.048600
 PrivMRF          3.2      5.0846     -0.016544  tmp/multihop_final_eps3.2.json -0.016544 -0.036520 -0.007072
 PrivMRF          8.0      6.3175     -0.085152  tmp/multihop_final_eps8.0.json -0.085152 -0.093303 0.020151
-Lava-AsIs        0.8     15.9121      0.018830  tmp/multihop_final_eps0.8.json 0.018830 0.054516 -0.100183
-Lava-AsIs        3.2     15.8079      0.009948  tmp/multihop_final_eps3.2.json 0.009948 0.044658 -0.090823
-Lava-AsIs        8.0     15.6976      0.030818  tmp/multihop_final_eps8.0.json 0.030818 0.030565 0.036401
-Lava-Prop        0.8     15.4765      0.021754  tmp/multihop_final_eps0.8.json -0.097469 0.021754 0.034072
-Lava-Prop        3.2     15.7427     -0.003701  tmp/multihop_final_eps3.2.json 0.011580 -0.011497 -0.003701
-Lava-Prop        8.0     15.6279     -0.028202  tmp/multihop_final_eps8.0.json -0.028202 -0.098245 0.004918
+PrivLava (released) 0.8     15.9121      0.018830  tmp/multihop_final_eps0.8.json 0.018830 0.054516 -0.100183
+PrivLava (released) 3.2     15.8079      0.009948  tmp/multihop_final_eps3.2.json 0.009948 0.044658 -0.090823
+PrivLava (released) 8.0     15.6976      0.030818  tmp/multihop_final_eps8.0.json 0.030818 0.030565 0.036401
+PrivLava (Alg. 3) 0.8     15.4765      0.021754  tmp/multihop_final_eps0.8.json -0.097469 0.021754 0.034072
+PrivLava (Alg. 3) 3.2     15.7427     -0.003701  tmp/multihop_final_eps3.2.json 0.011580 -0.011497 -0.003701
+PrivLava (Alg. 3) 8.0     15.6279     -0.028202  tmp/multihop_final_eps8.0.json -0.028202 -0.098245 0.004918
 PrivMRF (denorm) 0.8      2.4202      0.213743  tmp/multihop_final_eps0.8.json 0.213743 0.253028 0.138805
 PrivMRF (denorm) 3.2      3.4543      0.291612  tmp/multihop_final_eps3.2.json 0.357219 0.104340 0.291612
 PrivMRF (denorm) 8.0      3.8775      0.209282  tmp/multihop_final_eps8.0.json 0.209282 0.274381 0.187450
@@ -240,18 +240,18 @@ retention error = |syn − real| / |real|；financial 取 effect.delta_*，三�
 [y] imdb       privmrf    plant_xor@t=0.8 eps=3.2  n=10 src=pertable_plant_xor_t0.8_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}.json
       real=0.121079825  per-seed syn/retention: 42=0.001743/0.98560 43=0.001469/0.98787 44=-0.000985/1.00813 45=-0.001241/1.01025 46=0.001315/0.98914 47=-0.000164/1.00136 48=0.000899/0.99257 49=-0.000422/1.00348 50=0.000109/0.99910 51=0.000585/0.99517
       protocol median retention = 0.997134
-[y] imdb       chainnpm   plant_product@t=0.316 eps=0.8  n=10 src=chainnpm_plant_product_t0.316_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}_pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota.json
-      real=0.121079825  per-seed syn/retention: 42=0.120726/0.00292 43=0.119621/0.01204 44=0.121617/0.00443 45=0.123020/0.01602 46=0.122440/0.01123 47=0.121813/0.00606 48=0.123523/0.02018 49=0.122532/0.01199 50=0.119857/0.01010 51=0.121573/0.00407
-      protocol median retention = 0.010669
-[y] imdb       chainnpm   plant_xor@t=0.8 eps=0.8  n=10 src=chainnpm_plant_xor_t0.8_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}_pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota.json
-      real=0.121079825  per-seed syn/retention: 42=0.123820/0.02263 43=0.120629/0.00372 44=0.121502/0.00348 45=0.120808/0.00225 46=0.123220/0.01768 47=0.118214/0.02367 48=0.118204/0.02375 49=0.119402/0.01386 50=0.120427/0.00539 51=0.121444/0.00301
-      protocol median retention = 0.009625
-[y] imdb       chainnpm   plant_product@t=0.316 eps=3.2  n=10 src=chainnpm_plant_product_t0.316_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}_pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota.json
-      real=0.121079825  per-seed syn/retention: 42=0.120437/0.00531 43=0.120047/0.00853 44=0.120481/0.00494 45=0.121871/0.00653 46=0.122807/0.01426 47=0.121522/0.00366 48=0.123083/0.01654 49=0.123433/0.01943 50=0.120285/0.00656 51=0.121596/0.00426
-      protocol median retention = 0.006548
-[y] imdb       chainnpm   plant_xor@t=0.8 eps=3.2  n=10 src=chainnpm_plant_xor_t0.8_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}_pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota.json
-      real=0.121079825  per-seed syn/retention: 42=0.122904/0.01506 43=0.118706/0.01961 44=0.121123/0.00036 45=0.121818/0.00610 46=0.124055/0.02457 47=0.117686/0.02803 48=0.118833/0.01855 49=0.118720/0.01949 50=0.121260/0.00149 51=0.121493/0.00342
-      protocol median retention = 0.016808
+[y] imdb       chainnpm   plant_product@t=0.316 eps=0.8  n=10 src=chainnpm_plant_product_t0.316_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}.json
+      real=0.121079825  per-seed syn/retention: 42=0.140994/0.16448 43=0.121287/0.00171 44=0.141203/0.16620 45=0.142345/0.17563 46=0.141882/0.17180 47=0.141263/0.16669 48=0.120540/0.00446 49=0.122007/0.00766 50=0.140574/0.16100 51=0.142946/0.18059
+      protocol median retention = 0.165337
+[y] imdb       chainnpm   plant_xor@t=0.8 eps=0.8  n=10 src=chainnpm_plant_xor_t0.8_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}.json
+      real=0.121079825  per-seed syn/retention: 42=0.148907/0.22983 43=0.149492/0.23466 44=0.148128/0.22339 45=0.150363/0.24185 46=0.148593/0.22723 47=0.148222/0.22417 48=0.148438/0.22595 49=0.148214/0.22410 50=0.146841/0.21276 51=0.151534/0.25152
+      protocol median retention = 0.226594
+[y] imdb       chainnpm   plant_product@t=0.316 eps=3.2  n=10 src=chainnpm_plant_product_t0.316_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}.json
+      real=0.121079825  per-seed syn/retention: 42=0.140774/0.16266 43=0.121920/0.00694 44=0.140624/0.16142 45=0.139939/0.15576 46=0.141933/0.17223 47=0.138017/0.13988 48=0.120954/0.00104 49=0.123316/0.01846 50=0.138947/0.14756 51=0.139340/0.15081
+      protocol median retention = 0.149186
+[y] imdb       chainnpm   plant_xor@t=0.8 eps=3.2  n=10 src=chainnpm_plant_xor_t0.8_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}.json
+      real=0.121079825  per-seed syn/retention: 42=0.146376/0.20893 43=0.146351/0.20871 44=0.147553/0.21864 45=0.146866/0.21297 46=0.147574/0.21882 47=0.144703/0.19510 48=0.146837/0.21273 49=0.147417/0.21752 50=0.145155/0.19884 51=0.146371/0.20888
+      protocol median retention = 0.210827
 [y] imdb       privbayes  plant_product@t=0.316 eps=0.8  n=10 src=privbayes_plant_product_t0.316_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}.json
       real=0.121079825  per-seed syn/retention: 42=-0.000161/1.00133 43=0.000643/0.99469 44=0.000617/0.99491 45=0.000042/0.99966 46=-0.000399/1.00329 47=-0.000438/1.00361 48=0.000107/0.99911 49=0.002229/0.98159 50=-0.000944/1.00779 51=0.001297/0.98929
       protocol median retention = 0.999385
@@ -312,18 +312,18 @@ retention error = |syn − real| / |real|；financial 取 effect.delta_*，三�
 [y] instacart  privmrf    plant_xor@t=0.8 eps=3.2  n=10 src=pertable_plant_xor_t0.8_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}.json
       real=-1.01391843/-1.01393257/-1.01394672/-1.01398915/-1.01401743/-1.01405986/-1.01407401  per-seed syn/retention: 42=-0.001427/0.99859 43=-0.001719/0.99830 44=-0.001263/0.99875 45=-0.001761/0.99826 46=0.000697/1.00069 47=-0.000204/0.99980 48=-0.000454/0.99955 49=0.000317/1.00031 50=-0.003245/0.99680 51=-0.002127/0.99790
       protocol median retention = 0.998673
-[y] instacart  chainnpm   plant_product@t=0.316 eps=0.8  n=10 src=chainnpm_plant_product_t0.316_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}_pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota.json
-      real=0.293343165/0.295026249/0.2954647/0.29550713/0.296864913/0.297147784/0.29891573/0.300160364/0.303894265/0.307288721  per-seed syn/retention: 42=0.301013/0.00702 43=0.296901/0.01213 44=0.294843/0.00062 45=0.298094/0.00688 46=0.300435/0.01203 47=0.298637/0.01059 48=0.300689/0.01768 49=0.302776/0.00368 50=0.299514/0.00796 51=0.312173/0.01590
-      protocol median retention = 0.009277
-[y] instacart  chainnpm   plant_xor@t=0.8 eps=0.8  n=10 src=chainnpm_plant_xor_t0.8_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}_pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota.json
-      real=-1.01391843/-1.01393257/-1.01394672/-1.01398915/-1.01401743/-1.01405986/-1.01407401  per-seed syn/retention: 42=-1.013925/0.00002 43=-1.011006/0.00287 44=-1.011791/0.00220 45=-1.014794/0.00084 46=-1.012929/0.00105 47=-1.014246/0.00018 48=-1.013575/0.00035 49=-1.017162/0.00306 50=-1.013509/0.00056 51=-1.013439/0.00050
-      protocol median retention = 0.000696
-[y] instacart  chainnpm   plant_product@t=0.316 eps=3.2  n=10 src=chainnpm_plant_product_t0.316_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}_pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota.json
-      real=0.293343165/0.295026249/0.2954647/0.29550713/0.296864913/0.297147784/0.29891573/0.300160364/0.303894265/0.307288721  per-seed syn/retention: 42=0.300608/0.00566 43=0.296046/0.00921 44=0.295204/0.00060 45=0.300985/0.00275 46=0.298927/0.00695 47=0.295943/0.00147 48=0.298158/0.00911 49=0.305086/0.00392 50=0.301003/0.01297 51=0.309357/0.00673
-      protocol median retention = 0.006197
-[y] instacart  chainnpm   plant_xor@t=0.8 eps=3.2  n=10 src=chainnpm_plant_xor_t0.8_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}_pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota.json
-      real=-1.01391843/-1.01393257/-1.01394672/-1.01398915/-1.01401743/-1.01405986/-1.01407401  per-seed syn/retention: 42=-1.014429/0.00048 43=-1.011346/0.00254 44=-1.013683/0.00033 45=-1.012161/0.00176 46=-1.014781/0.00078 47=-1.015406/0.00133 48=-1.014316/0.00038 49=-1.015857/0.00177 50=-1.010694/0.00333 51=-1.013011/0.00092
-      protocol median retention = 0.001125
+[y] instacart  chainnpm   plant_product@t=0.316 eps=0.8  n=10 src=chainnpm_plant_product_t0.316_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}.json
+      real=0.293343165/0.295026249/0.2954647/0.29550713/0.296864913/0.297147784/0.29891573/0.300160364/0.303894265/0.307288721  per-seed syn/retention: 42=0.308939/0.03353 43=0.300347/0.02388 44=0.312946/0.06074 45=0.259395/0.13581 46=0.318991/0.07453 47=0.285305/0.03452 48=0.312584/0.05794 49=0.321195/0.05693 50=0.333235/0.12144 51=0.325193/0.05827
+      protocol median retention = 0.058104
+[y] instacart  chainnpm   plant_xor@t=0.8 eps=0.8  n=10 src=chainnpm_plant_xor_t0.8_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}.json
+      real=-1.01391843/-1.01393257/-1.01394672/-1.01398915/-1.01401743/-1.01405986/-1.01407401  per-seed syn/retention: 42=-0.989979/0.02364 43=-0.972129/0.04122 44=-0.973620/0.03984 45=-1.023815/0.00973 46=-0.985931/0.02767 47=-1.008885/0.00510 48=-0.975301/0.03810 49=-1.010201/0.00381 50=-0.982793/0.03085 51=-0.964081/0.04918
+      protocol median retention = 0.029259
+[y] instacart  chainnpm   plant_product@t=0.316 eps=3.2  n=10 src=chainnpm_plant_product_t0.316_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}.json
+      real=0.293343165/0.295026249/0.2954647/0.29550713/0.296864913/0.297147784/0.29891573/0.300160364/0.303894265/0.307288721  per-seed syn/retention: 42=0.298303/0.00205 43=0.291583/0.00600 44=0.292077/0.01000 45=0.290064/0.03364 46=0.298617/0.00590 47=0.285640/0.03339 48=0.290378/0.01722 49=0.305694/0.00592 50=0.302396/0.01766 51=0.311240/0.01286
+      protocol median retention = 0.011427
+[y] instacart  chainnpm   plant_xor@t=0.8 eps=3.2  n=10 src=chainnpm_plant_xor_t0.8_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}.json
+      real=-1.01391843/-1.01393257/-1.01394672/-1.01398915/-1.01401743/-1.01405986/-1.01407401  per-seed syn/retention: 42=-1.001512/0.01226 43=-0.999494/0.01423 44=-1.001306/0.01254 45=-1.020360/0.00632 46=-1.005668/0.00821 47=-1.018011/0.00390 48=-1.003559/0.01023 49=-1.014059/0.00000 50=-1.009207/0.00480 51=-0.998068/0.01566
+      protocol median retention = 0.009219
 [y] instacart  privbayes  plant_product@t=0.316 eps=0.8  n=10 src=privbayes_plant_product_t0.316_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}.json
       real=0.293343165/0.295026249/0.2954647/0.29550713/0.296864913/0.297147784/0.29891573/0.300160364/0.303894265/0.307288721  per-seed syn/retention: 42=0.001007/0.99663 43=0.000351/0.99880 44=0.001211/0.99589 45=-0.000825/1.00275 46=-0.000293/1.00099 47=0.000239/0.99919 48=0.000535/0.99819 49=-0.000785/1.00258 50=-0.000565/1.00190 51=0.001656/0.99461
       protocol median retention = 0.998996
@@ -384,18 +384,18 @@ retention error = |syn − real| / |real|；financial 取 effect.delta_*，三�
 [y] movielens  privmrf    plant_xor@t=0.8 eps=3.2  n=10 src=pertable_plant_xor_t0.8_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}.json
       real=0.974752823/0.975073777/0.975325258/0.976635761/0.976835007/0.977309182/0.977830915/0.979873001/0.980144391/0.981861532  per-seed syn/retention: 42=0.001189/0.99878 43=-0.001949/1.00200 44=0.001026/0.99895 45=0.001645/0.99832 46=-0.001038/1.00106 47=0.003547/0.99636 48=0.001408/0.99856 49=-0.003280/1.00336 50=-0.000157/1.00016 51=0.000126/0.99987
       protocol median retention = 0.999410
-[y] movielens  chainnpm   plant_product@t=0.316 eps=0.8  n=10 src=chainnpm_plant_product_t0.316_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}_pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota.json
-      real=0.292965417/0.294233964/0.294650896/0.295153644/0.29576395/0.29758703/0.298231597/0.299046483/0.299790912/0.313198355  per-seed syn/retention: 42=0.298581/0.00334 43=0.311621/0.00503 44=0.292071/0.00735 45=0.299814/0.01752 46=0.297765/0.00677 47=0.300902/0.01948 48=0.297996/0.01717 49=0.299917/0.00291 50=0.302737/0.00983 51=0.297713/0.00174
-      protocol median retention = 0.007059
-[y] movielens  chainnpm   plant_xor@t=0.8 eps=0.8  n=10 src=chainnpm_plant_xor_t0.8_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}_pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota.json
-      real=0.974752823/0.975073777/0.975325258/0.976635761/0.976835007/0.977309182/0.977830915/0.979873001/0.980144391/0.981861532  per-seed syn/retention: 42=0.978996/0.00376 43=0.978735/0.00215 44=0.977126/0.00210 45=0.989972/0.00826 46=0.980646/0.00079 47=0.977140/0.00245 48=0.980112/0.00287 49=0.979866/0.00310 50=0.980915/0.00315 51=0.983667/0.00359
-      protocol median retention = 0.002985
-[y] movielens  chainnpm   plant_product@t=0.316 eps=3.2  n=10 src=chainnpm_plant_product_t0.316_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}_pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota.json
-      real=0.292965417/0.294233964/0.294650896/0.295153644/0.29576395/0.29758703/0.298231597/0.299046483/0.299790912/0.313198355  per-seed syn/retention: 42=0.297955/0.00124 43=0.314053/0.00273 44=0.294689/0.00155 45=0.299682/0.01707 46=0.292766/0.01014 47=0.294625/0.00179 48=0.299749/0.02315 49=0.301533/0.00831 50=0.301485/0.00565 51=0.299167/0.00314
-      protocol median retention = 0.004394
-[y] movielens  chainnpm   plant_xor@t=0.8 eps=3.2  n=10 src=chainnpm_plant_xor_t0.8_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}_pubn_rowleaf_szthresh_exactmarg_repair_growcap_szquota.json
-      real=0.974752823/0.975073777/0.975325258/0.976635761/0.976835007/0.977309182/0.977830915/0.979873001/0.980144391/0.981861532  per-seed syn/retention: 42=0.976941/0.00166 43=0.977102/0.00048 44=0.977495/0.00248 45=0.983448/0.00162 46=0.978808/0.00109 47=0.975687/0.00096 48=0.978734/0.00146 49=0.982592/0.00589 50=0.981902/0.00416 51=0.985548/0.00551
-      protocol median retention = 0.001636
+[y] movielens  chainnpm   plant_product@t=0.316 eps=0.8  n=10 src=chainnpm_plant_product_t0.316_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}.json
+      real=0.292965417/0.294233964/0.294650896/0.295153644/0.29576395/0.29758703/0.298231597/0.299046483/0.299790912/0.313198355  per-seed syn/retention: 42=0.254819/0.14372 43=0.237682/0.24111 44=0.257358/0.12533 45=0.443322/0.50457 46=0.384787/0.30099 47=0.253865/0.13989 48=0.378167/0.29083 49=0.443502/0.48305 50=0.323871/0.08032 51=0.120630/0.59551
+      protocol median retention = 0.265970
+[y] movielens  chainnpm   plant_xor@t=0.8 eps=0.8  n=10 src=chainnpm_plant_xor_t0.8_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}.json
+      real=0.7770753/0.974752823/0.975073777/0.976635761/0.976835007/0.977309182/0.977830915/0.979873001/0.980144391/0.981861532  per-seed syn/retention: 42=0.652550/0.16025 43=0.736233/0.24615 44=0.766066/0.21435 45=0.893268/0.09023 46=0.910706/0.07059 47=0.764389/0.21581 48=0.896812/0.08237 49=0.915832/0.06245 50=0.838891/0.14209 51=0.686965/0.29912
+      protocol median retention = 0.151169
+[y] movielens  chainnpm   plant_product@t=0.316 eps=3.2  n=10 src=chainnpm_plant_product_t0.316_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}.json
+      real=0.292965417/0.294233964/0.294650896/0.295153644/0.29576395/0.29758703/0.298231597/0.299046483/0.299790912/0.313198355  per-seed syn/retention: 42=0.287994/0.03223 43=0.278844/0.10969 44=0.298168/0.01337 45=0.325248/0.10384 46=0.347753/0.17578 47=0.272392/0.07712 48=0.331495/0.13151 49=0.369084/0.23420 50=0.319574/0.06599 51=0.269767/0.09544
+      protocol median retention = 0.099643
+[y] movielens  chainnpm   plant_xor@t=0.8 eps=3.2  n=10 src=chainnpm_plant_xor_t0.8_eps3.20_seed{42,43,44,45,46,47,48,49,50,51}.json
+      real=0.7770753/0.974752823/0.975073777/0.976635761/0.976835007/0.977309182/0.977830915/0.979873001/0.980144391/0.981861532  per-seed syn/retention: 42=0.771392/0.00731 43=0.856839/0.12266 44=0.891144/0.08608 45=0.896077/0.08737 46=0.973289/0.00672 47=0.874894/0.10245 48=0.933400/0.04493 49=0.948356/0.02915 50=0.916001/0.06323 51=0.881247/0.10090
+      protocol median retention = 0.074653
 [y] movielens  privbayes  plant_product@t=0.316 eps=0.8  n=10 src=privbayes_plant_product_t0.316_eps0.80_seed{42,43,44,45,46,47,48,49,50,51}.json
       real=0.292965417/0.294233964/0.294650896/0.295153644/0.29576395/0.29758703/0.298231597/0.299046483/0.299790912/0.313198355  per-seed syn/retention: 42=-0.000837/1.00281 43=-0.001304/1.00416 44=0.002931/0.99004 45=0.003342/0.98866 46=0.001864/0.99370 47=-0.000708/1.00240 48=-0.006037/1.02060 49=-0.001768/1.00591 50=-0.000698/1.00233 51=-0.002843/1.00953
       protocol median retention = 1.002605
@@ -453,12 +453,12 @@ PrivMRF    0.8        10.221      1.000609  x:financial,imdb,instacart,movielens
 PrivMRF    3.2         7.307      0.999329  x:financial,imdb,instacart,movielens | y:financial,imdb,instacart,movielens
            x per dataset (s): financial=8.025 imdb=11.061 instacart=6.590 movielens=3.372
            y per dataset    : financial=0.999395 imdb=0.997134 instacart=1.000056 movielens=0.999263
-Chain-NPM  0.8        50.055      0.007068  x:financial,imdb,instacart,movielens | y:financial,imdb,instacart,movielens
+Chain-NPM  0.8        50.055      0.191988  x:financial,imdb,instacart,movielens | y:financial,imdb,instacart,movielens
            x per dataset (s): financial=6.922 imdb=82.753 instacart=49.881 movielens=50.229
-           y per dataset    : financial=0.748522 imdb=0.010669 instacart=0.002966 movielens=0.003467
-Chain-NPM  3.2        43.094      0.005077  x:financial,imdb,instacart,movielens | y:financial,imdb,instacart,movielens
+           y per dataset    : financial=0.748522 imdb=0.196676 instacart=0.038970 movielens=0.187300
+Chain-NPM  3.2        43.094      0.135194  x:financial,imdb,instacart,movielens | y:financial,imdb,instacart,movielens
            x per dataset (s): financial=4.317 imdb=83.664 instacart=41.182 movielens=45.006
-           y per dataset    : financial=0.309319 imdb=0.007547 instacart=0.002155 movielens=0.002606
+           y per dataset    : financial=0.309319 imdb=0.183666 instacart=0.010113 movielens=0.086722
 PrivBayes  0.8         5.318      0.999679  x:financial,imdb,instacart,movielens | y:financial,imdb,instacart,movielens
            x per dataset (s): financial=6.267 imdb=5.356 instacart=5.279 movielens=1.091
            y per dataset    : financial=0.996330 imdb=0.999385 instacart=0.999974 movielens=1.001572
@@ -551,8 +551,8 @@ B4b 两套 real 的相对差（cap 0.30）:
      movielens  plant_product max rel spread = 13.253%  (at eps=0.8)
      movielens  plant_xor     max rel spread = 26.353%  (at eps=0.8)
 B4c 改用'多数派 real'作分母后各方法 y 的位移（cap 0.30）:
-     chainnpm   eps=0.8  |Δy| = 0.0004  (y_own=0.0071 → y_majority=0.0075)
-     chainnpm   eps=3.2  |Δy| = 0.0002  (y_own=0.0051 → y_majority=0.0053)
+     chainnpm   eps=0.8  |Δy| = 0.0183  (y_own=0.1920 → y_majority=0.2103)
+     chainnpm   eps=3.2  |Δy| = 0.0094  (y_own=0.1352 → y_majority=0.1446)
      lavaprop   eps=0.8  |Δy| = 0.0001  (y_own=1.0010 → y_majority=1.0010)
      lavaprop   eps=3.2  |Δy| = 0.0000  (y_own=0.9994 → y_majority=0.9994)
      pbpgm      eps=0.8  |Δy| = 0.0001  (y_own=1.0007 → y_majority=1.0008)
@@ -563,31 +563,31 @@ B4c 改用'多数派 real'作分母后各方法 y 的位移（cap 0.30）:
      privmrf    eps=3.2  |Δy| = 0.0018  (y_own=0.9993 → y_majority=0.9975)
      privpetal  eps=0.8  |Δy| = 0.0000  (y_own=1.0006 → y_majority=1.0006)
      privpetal  eps=3.2  |Δy| = 0.0000  (y_own=1.0006 → y_majority=1.0006)
-B4d eps=0.8 在'多数派 real'口径下的 y 排序: chainnpm=0.0075 < privbayes=0.9990 < privmrf=1.0003 < privpetal=1.0006 < pbpgm=1.0008 < lavaprop=1.0010
-B4d eps=3.2 在'多数派 real'口径下的 y 排序: chainnpm=0.0053 < privmrf=0.9975 < privbayes=0.9979 < pbpgm=0.9988 < lavaprop=0.9994 < privpetal=1.0006
+B4d eps=0.8 在'多数派 real'口径下的 y 排序: chainnpm=0.2103 < privbayes=0.9990 < privmrf=1.0003 < privpetal=1.0006 < pbpgm=1.0008 < lavaprop=1.0010
+B4d eps=3.2 在'多数派 real'口径下的 y 排序: chainnpm=0.1446 < privmrf=0.9975 < privbayes=0.9979 < pbpgm=0.9988 < lavaprop=0.9994 < privpetal=1.0006
 B4  说明：`共同基准`的共同之处是**协议与强度**（product@t=0.316、xor@φ=0.8，各 10 seeds），不是逐格同一份 GT——四个 p4_common 方法逐 seed 重抽 planted GT（financial/imdb/instacart/movielens 上`plant.p` 也可能不同：instacart 0.609375 vs 0.625、movielens 0.99609375 vs 0.9375），PrivPetal 的植入文件自带 `plant_seed: 42`。每格保留误差按手稿定义以该格自身的 Δ_real 为基准；上表给出改用统一分母后的位移与排序。
 
-FACT eps=0.8: PrivPetal x=3737.8 s, y=1.000636 → faster methods with y <= PrivPetal's: PrivMRF x=10.2 s y=1.0006; Chain-NPM x=50.1 s y=0.0071; PrivBayes x=5.3 s y=0.9997
-FACT eps=3.2: PrivPetal x=5143.6 s, y=1.000564 → faster methods with y <= PrivPetal's: PrivMRF x=7.3 s y=0.9993; Chain-NPM x=43.1 s y=0.0051; PrivBayes x=5.1 s y=0.9991; PB-PGM x=5.4 s y=1.0000; PrivLava x=114.7 s y=0.9994
+FACT eps=0.8: PrivPetal x=3737.8 s, y=1.000636 → faster methods with y <= PrivPetal's: PrivMRF x=10.2 s y=1.0006; Chain-NPM x=50.1 s y=0.1920; PrivBayes x=5.3 s y=0.9997
+FACT eps=3.2: PrivPetal x=5143.6 s, y=1.000564 → faster methods with y <= PrivPetal's: PrivMRF x=7.3 s y=0.9993; Chain-NPM x=43.1 s y=0.1352; PrivBayes x=5.1 s y=0.9991; PB-PGM x=5.4 s y=1.0000; PrivLava x=114.7 s y=0.9994
 axis panel (a): x [1.353, 23.073] s, y [-0.185, 1.088]; plotted points outside the box: 0
-axis panel (b): x [3.023, 7458.234] s, y [-0.065, 1.100]; plotted points outside the box: 0
+axis panel (b): x [3.023, 7458.234] s, y [0.065, 1.100]; plotted points outside the box: 0
 
 -- B8 panel (a): legend location search at 300 dpi (hard: box inside the axes, 0 marker/segment inside, 0 text collision) --
   candidate                loc         inside   mark    seg   ref  quad clear(px) note
-  upper-right corner       upper right yes         0      0     1     0    136.8 
+  upper-right corner       upper right yes         0      0     1     0     18.5 
   lower-right corner       lower right yes         9      6     1    12    -17.1 invalid: occl 
   upper-left corner        upper left  yes         6      4     1    10    -17.1 invalid: occl 
   lower-left corner        lower left  yes         5      4     1     8    -17.1 invalid: occl 
-  right edge, upper band   upper right yes         0      0     0     0    136.8 CHOSEN
-  right edge, lower band   lower right yes         9      6     1    12    -17.1 invalid: occl 
+  right edge, upper band   upper right yes         0      0     0     0     18.5 CHOSEN
+  right edge, lower band   lower right yes        10      7     1    12    -17.1 invalid: occl 
   left edge, upper band    upper left  yes         5      4     0    10    -16.7 invalid: occl 
-  left edge, lower band    lower left  yes         6      3     1     8    -17.1 invalid: occl 
-  right edge, mid band     center right yes         0      0     0     0     13.3 
+  left edge, lower band    lower left  yes         5      3     1     8    -17.1 invalid: occl 
+  right edge, mid band     center right yes         0      0     0     0      2.0 
   left edge, mid band      center left yes         2      2     0    10    -16.7 invalid: occl 
   CHOSEN for panel (a): right edge, upper band (upper right) -> panel (a) methods, panel (a) marker fill
-  B7 panel (a): markers inside the legend box = 0, segments inside = 0, text collisions = 0, nearest marker 1 px margin = 136.8 px
-    panel (a) methods        box in axes fraction: x [0.357, 0.985], y [0.669, 0.855]
-    panel (a) marker fill    box in axes fraction: x [0.656, 0.985], y [0.470, 0.657]
+  B7 panel (a): markers inside the legend box = 0, segments inside = 0, text collisions = 0, nearest marker 1 px margin = 18.5 px
+    panel (a) methods        box in axes fraction: x [0.217, 0.985], y [0.668, 0.855]
+    panel (a) marker fill    box in axes fraction: x [0.656, 0.985], y [0.469, 0.656]
 
 -- B8 panel (b): legend location search at 300 dpi (hard: box inside the axes, 0 marker/segment inside, 0 text collision) --
   candidate                loc         inside   mark    seg   ref  quad clear(px) note
@@ -595,12 +595,12 @@ axis panel (b): x [3.023, 7458.234] s, y [-0.065, 1.100]; plotted points outside
   lower-right corner       lower right yes         0      0     0     0    161.8 CHOSEN
   upper-left corner        upper left  yes         6      3     1    12    -17.5 invalid: occl 
   lower-left corner        lower left  yes         2      1     0     3    -17.5 invalid: occl 
-  right edge, upper band   upper right yes         0      0     0     3     15.2 invalid: text-hit 
-  right edge, lower band   lower right yes         0      0     0     0    134.3 
-  left edge, upper band    upper left  yes         0      0     0    12     14.7 
-  left edge, lower band    lower left  yes         0      0     0     3     28.1 
-  right edge, mid band     center right yes         0      0     0     3    114.3 
-  left edge, mid band      center left yes         0      0     0    12     91.7 
+  right edge, upper band   upper right yes         0      0     0     3      9.3 invalid: text-hit 
+  right edge, lower band   lower right yes         0      0     0     0    128.5 
+  left edge, upper band    upper left  yes         0      0     0    12      8.8 
+  left edge, lower band    lower left  yes         1      0     0     3     -5.2 invalid: occl 
+  right edge, mid band     center right yes         0      0     0     3    108.4 
+  left edge, mid band      center left yes         0      0     0    12     67.0 
   CHOSEN for panel (b): lower-right corner (lower right) -> panel (b) methods, panel (b) marker fill
   B7 panel (b): markers inside the legend box = 0, segments inside = 0, text collisions = 0, nearest marker 1 px margin = 161.8 px
     panel (b) methods        box in axes fraction: x [0.571, 0.985], y [0.015, 0.363]
@@ -623,8 +623,8 @@ axis panel (b): x [3.023, 7458.234] s, y [-0.065, 1.100]; plotted points outside
      privpetal  colour=#b45309 marker='s' : ms=4.8 mfc=none; ms=4.8 mfc=#b45309
    panel (a) palette (unchanged, controlled benchmark):
      PrivMRF          #2b2b2b 'o'
-     Lava-AsIs        #6e6e6e '^'
-     Lava-Prop        #a8a8a8 's'
+     PrivLava (released) #6e6e6e '^'
+     PrivLava (Alg. 3) #a8a8a8 's'
      PrivMRF (denorm) #1f4e8c 'D'
      Chain-NPM-direct #c0392b 'v'
      Chain-NPM-mixture #e67e22 'P'
@@ -652,8 +652,8 @@ axis panel (b): x [3.023, 7458.234] s, y [-0.065, 1.100]; plotted points outside
    excluded by the chroma guard (achromatic, covered by the geometric B7 test and by the 'darkest pixel' test below): #2b2b2b, #6e6e6e, #a8a8a8
    second, colour-blind criterion: in the same legend-hidden render, every legend box must contain no pixel darker than 200/255 - only white and the #d9d9d9 y-grid may show through (a grey series, a reference line or any other ink would fail this even though it is achromatic)
    panel (a) methods          text "PrivMRF"                      coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
-   panel (a) methods          text "Lava-AsIs"                    coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
-   panel (a) methods          text "Lava-Prop"                    coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
+   panel (a) methods          text "PrivLava (released)"          coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
+   panel (a) methods          text "PrivLava (Alg. 3)"            coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
    panel (a) methods          text "PrivMRF (denorm)"             coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
    panel (a) methods          text "Chain-NPM-direct"             coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
    panel (a) methods          text "Chain-NPM-mixture"            coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
@@ -666,37 +666,37 @@ axis panel (b): x [3.023, 7458.234] s, y [-0.065, 1.100]; plotted points outside
    panel (b) methods          text "PB-PGM"                       coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
    panel (b) methods          text "PrivLava"                     coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
    panel (b) methods          text "PrivPetal (A800 GPU)"         coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
-   panel (b) marker fill      text "$\varepsilon{=}0.8$ hollow"   coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
-   panel (b) marker fill      text "$\varepsilon{=}3.2$ filled"   coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 0.859) -> OK
+   panel (b) marker fill      text "$\varepsilon{=}0.8$ hollow"   coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 1.000) -> OK
+   panel (b) marker fill      text "$\varepsilon{=}3.2$ filled"   coloured px: text box   0 | legend box   0 | px darker than 200 in the box   0 (darkest channel 1.000) -> OK
    B9 verdict: every legend/text box has 0 series-coloured pixels and 0 pixel darker than the y-grid
 
 -- B11 marker-overlap report (display distance in POINTS; a pair counts when the distance is below the marker diameter = the larger marker's ms) --
    note: the canonical palette changes colour/marker shape only, and the panel (b) marker sizes are now uniform (all series: ms 4.8 with mew 0.8 hollow at eps=0.8 / mew 0.5 filled at eps=3.2) - same data, same limits - so the metric only moves with the axes box (top 0.80 -> 0.905, height 1.56 -> 1.81 in) and with the marker fill/size.
    before (accepted version)  panel (a): closer than marker diameter = 15 pair(s); per threshold: <4.80 pt: 15, <5.80 pt: 16, <5.76 pt: 16, <8.00 pt: 17
-        0.92 pt  Lava-AsIs/eps=0.8 -- Lava-AsIs/eps=3.2 (dia 4.4 pt)
-        1.24 pt  Lava-AsIs/eps=3.2 -- Lava-Prop/eps=3.2 (dia 4.4 pt)
-        1.29 pt  Lava-Prop/eps=0.8 -- Lava-AsIs/eps=8.0 (dia 5.0 pt)
-        1.44 pt  Lava-AsIs/eps=0.8 -- Lava-AsIs/eps=8.0 (dia 5.0 pt)
-        1.84 pt  Lava-Prop/eps=0.8 -- Lava-AsIs/eps=3.2 (dia 4.4 pt)
-   before (accepted version)  panel (b): closer than marker diameter = 8 pair(s); per threshold: <4.80 pt: 8, <5.80 pt: 8, <5.76 pt: 8, <8.00 pt: 9
-        0.20 pt  PrivLava/eps=0.8 -- PrivLava/eps=3.2 (dia 4.8 pt)
+        0.92 pt  PrivLava (released)/eps=0.8 -- PrivLava (released)/eps=3.2 (dia 4.4 pt)
+        1.24 pt  PrivLava (released)/eps=3.2 -- PrivLava (Alg. 3)/eps=3.2 (dia 4.4 pt)
+        1.29 pt  PrivLava (Alg. 3)/eps=0.8 -- PrivLava (released)/eps=8.0 (dia 5.0 pt)
+        1.44 pt  PrivLava (released)/eps=0.8 -- PrivLava (released)/eps=8.0 (dia 5.0 pt)
+        1.84 pt  PrivLava (Alg. 3)/eps=0.8 -- PrivLava (released)/eps=3.2 (dia 4.4 pt)
+   before (accepted version)  panel (b): closer than marker diameter = 7 pair(s); per threshold: <4.80 pt: 7, <5.80 pt: 7, <5.76 pt: 7, <8.00 pt: 9
+        0.21 pt  PrivLava/eps=0.8 -- PrivLava/eps=3.2 (dia 4.8 pt)
         0.34 pt  PrivBayes/eps=0.8 -- PB-PGM/eps=3.2 (dia 4.8 pt)
         1.03 pt  PrivBayes/eps=0.8 -- PrivBayes/eps=3.2 (dia 4.8 pt)
         1.37 pt  PrivBayes/eps=3.2 -- PB-PGM/eps=3.2 (dia 4.8 pt)
         2.26 pt  PrivBayes/eps=3.2 -- PB-PGM/eps=0.8 (dia 4.8 pt)
    after  (this version)      panel (a): closer than marker diameter = 13 pair(s); per threshold: <4.80 pt: 13, <5.80 pt: 15, <5.76 pt: 15, <8.00 pt: 17
-        1.03 pt  Lava-AsIs/eps=0.8 -- Lava-AsIs/eps=3.2 (dia 4.4 pt)
-        1.38 pt  Lava-Prop/eps=0.8 -- Lava-AsIs/eps=8.0 (dia 5.0 pt)
-        1.44 pt  Lava-AsIs/eps=3.2 -- Lava-Prop/eps=3.2 (dia 4.4 pt)
-        1.57 pt  Lava-AsIs/eps=0.8 -- Lava-AsIs/eps=8.0 (dia 5.0 pt)
-        1.95 pt  Lava-Prop/eps=0.8 -- Lava-AsIs/eps=3.2 (dia 4.4 pt)
-   after  (this version)      panel (b): closer than marker diameter = 8 pair(s); per threshold: <4.80 pt: 8, <5.80 pt: 8, <5.76 pt: 8, <8.00 pt: 9
-        0.22 pt  PrivLava/eps=0.8 -- PrivLava/eps=3.2 (dia 4.8 pt)
+        1.03 pt  PrivLava (released)/eps=0.8 -- PrivLava (released)/eps=3.2 (dia 4.4 pt)
+        1.38 pt  PrivLava (Alg. 3)/eps=0.8 -- PrivLava (released)/eps=8.0 (dia 5.0 pt)
+        1.44 pt  PrivLava (released)/eps=3.2 -- PrivLava (Alg. 3)/eps=3.2 (dia 4.4 pt)
+        1.57 pt  PrivLava (released)/eps=0.8 -- PrivLava (released)/eps=8.0 (dia 5.0 pt)
+        1.95 pt  PrivLava (Alg. 3)/eps=0.8 -- PrivLava (released)/eps=3.2 (dia 4.4 pt)
+   after  (this version)      panel (b): closer than marker diameter = 7 pair(s); per threshold: <4.80 pt: 7, <5.80 pt: 7, <5.76 pt: 7, <8.00 pt: 8
+        0.24 pt  PrivLava/eps=0.8 -- PrivLava/eps=3.2 (dia 4.8 pt)
         0.34 pt  PrivBayes/eps=0.8 -- PB-PGM/eps=3.2 (dia 4.8 pt)
         1.03 pt  PrivBayes/eps=0.8 -- PrivBayes/eps=3.2 (dia 4.8 pt)
         1.37 pt  PrivBayes/eps=3.2 -- PB-PGM/eps=3.2 (dia 4.8 pt)
         2.26 pt  PrivBayes/eps=3.2 -- PB-PGM/eps=0.8 (dia 4.8 pt)
-   cross-check of the reconstruction: the before-geometry count at <5.76 pt (= the archived 8 display px at 100 dpi) is {'a': 16, 'b': 8}; the accepted version's B8 line recorded {'a': 17, 'b': 7}
+   cross-check of the reconstruction: the before-geometry count at <5.76 pt (= the archived 8 display px at 100 dpi) is {'a': 16, 'b': 7}; the accepted version's B8 line recorded {'a': 17, 'b': 7}
    WARN the reconstruction does not reproduce the archived B8 counts; treat the before/after comparison with care
 
 == caption requirements (the caption must carry all of these) ==
@@ -707,3 +707,5 @@ axis panel (b): x [3.023, 7458.234] s, y [-0.065, 1.100]; plotted points outside
 (5) panel (b) ground truth caveat: each cell's retention error is relative to that cell's own measured real effect (the manuscript's definition). The realized ground truth is NOT one single database across the six methods: the four p4_common methods redraw the planted ground truth per seed while PrivPetal's planted files carry plant_seed=42 (and PrivLava's V-shaped natural cells come from the same vshape pipeline); the two variants differ by up to 26% on movielens plant_xor. Switching to a single pooled denominator moves every y by at most 0.018 and leaves Chain-NPM the lowest retention error at both budgets (see the B4 block).
 (6) no dataset had to be dropped for a missing/zero runtime; PrivLava's V-shaped natural cells record no runtime_sec, so its synthesis time is model_sec+synthesize_sec (the same synthesis-only basis).
 (7) there is no shared legend: each panel carries its own in-panel legend (methods + a marker-fill key). Panel (b)'s six methods use the manuscript's canonical palette for this method set (the same colour and marker as Figures 6, 8 and 9), so a colour denotes the same method in every figure of the paper (PrivPetal is the orange/brown square #b45309 everywhere). In BOTH panels the marker fill encodes eps and nothing else (hollow = 0.8, filled = 3.2, exactly as Figure 6); PrivPetal's A800-GPU x-axis caveat is carried by its legend label and the in-plot annotation rather than by a marker style. Panel (a) uses its own controlled-benchmark palette and additionally spells out the third budget (eps=8.0 half-filled), and neither legend reuses the other panel's (colour, marker) slots.
+
+MODE dry: pdf/png 未写出；以上数值即将会被绘制的全部数值。

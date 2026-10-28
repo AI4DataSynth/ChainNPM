@@ -15,4 +15,4 @@ panel: ACS PUMS (2 private tables)   eps: ['0.8', '3.2']
   PrivPetal  1-hop  --  ['0.020', '0.015']
 
 legend: one entry per method (Chain-NPM, PrivPetal), each a solid line in its method colour; the solid/dashed hop encoding is carried by the manuscript caption, because every dashed line in the ACS panel is drawn in its method colour (no grey reference line exists in the plot).
-density note: the legacy rails have only two budgets each and at most two query classes, so this figure is deliberately sparser than the four-database sweep figures; it summarises the tables rather than replacing them.
+density note: these rails have only two budgets each and at most two query classes, so this figure is deliberately sparser than the four-database sweep figures; it summarises the tables rather than replacing them.

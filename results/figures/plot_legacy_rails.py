@@ -6,7 +6,7 @@
   panel = 一轨（TPC-H / deep TPC-H / ACS PUMS）；
   x = 该轨自己的隐私预算档（TPC-H 与 deep TPC-H 是 {0.2, 3.2}，ACS 是 {0.8, 3.2}）；
   线 = 方法 × 查询类别（Chain-NPM 蓝、PrivPetal 橙；实线 = 该轨最深跳，虚线 = 1-hop）；
-  每 panel 2–4 条线。数据密度天然低于新 Fig 7/8（legacy 三轨只有 2 档预算），
+  每 panel 2–4 条线。数据密度天然低于新 Fig 7/8（这三轨各只有 2 档预算），
   这一点在图注里写明，不用补做实验去凑。
 
 图例只列方法（Chain-NPM / PrivPetal），各一个条目；实线/虚线的跳数编码由
@@ -85,7 +85,7 @@ def main():
                  "encoding is carried by the manuscript caption, because every "
                  "dashed line in the ACS panel is drawn in its method colour "
                  "(no grey reference line exists in the plot).")
-    notes.append("density note: the legacy rails have only two budgets each and "
+    notes.append("density note: these rails have only two budgets each and "
                  "at most two query classes, so this figure is deliberately "
                  "sparser than the four-database sweep figures; it summarises "
                  "the tables rather than replacing them.")

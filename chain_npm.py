@@ -117,6 +117,12 @@ def alloc_weights(scheme):
 
 # Marginal registry: (name, tables, attrs, sensitivity class)
 # tables: r=region, h=household, i=individual
+# P0: the samplers consume only these objects; everything else was paid for
+# and never read.  The gamma^2 split covers the selected set plus the
+# households-per-region count.
+SELECTED = ['RB', 'RH_OWN', 'RH_SIZE', 'RI_URB_EMP',
+            'RHI_U_O_E', 'RHI_U_O_A', 'RHI_U_S_E', 'II_AGE_EDU']
+
 MARGINALS = [
     # region level (per-region counts)
     ('R_URBAN',    ('r', ('URBAN',)),          1),
@@ -250,6 +256,8 @@ def compute_chain_marginals(region, household, individual, sigmas, tau=6):
 
     noisy = {}
     for name, (tbl, attrs), sens in MARGINALS:
+        if name not in SELECTED:
+            continue
         sigma = noise_sigma(name, sens)
         noisy[name] = np.maximum(0.0, acc[name]
                                  + rng.normal(0, sigma, acc[name].shape))
@@ -298,7 +306,8 @@ class ChainDirectSynthesizer:
         syn_region = np.array(syn_region, dtype=int)
 
         # households per region
-        hh_per_r = max(1, int(round(m['HH_PER_REGION'])))
+        hh_per_r = max(1, int(round(float(np.sum(m['RH_SIZE']))
+                                     / max(n_regions, 1))))
 
         # conditionals
         p_own_given_u = _cond(m['RH_OWN'], 0)          # p(OWN|URBAN)
@@ -306,6 +315,14 @@ class ChainDirectSynthesizer:
         p_emp_given_u_o = _cond(m['RHI_U_O_E'], (0, 1))  # p(EMP|URBAN,OWN)
         p_age_given_u_o = _cond(m['RHI_U_O_A'], (0, 1))  # p(AGE|URBAN,OWN)
         p_edu_given_age = _cond(m['II_AGE_EDU'], 0)      # p(EDU|AGE)
+        # P1: PrivPetal-style parent conditioning -- pool the two measured
+        # cross-hop conditionals into p(EMP | URBAN, OWN, SIZE) so the child
+        # draw uses the synthesized household's realized size as well.
+        p_emp_given_u_s = _cond(m['RHI_U_S_E'], (0, 1))
+        p_emp_given_u = _cond(m['RI_URB_EMP'], 0)
+        q = (p_emp_given_u_o[:, :, None, :] * p_emp_given_u_s[:, None, :, :]
+             / np.maximum(p_emp_given_u[:, None, None, :], 1e-9))
+        p_emp_given_u_o_s = q / np.maximum(q.sum(axis=3, keepdims=True), 1e-9)
 
         syn_hh, syn_ind = [], []
         h_id, i_id = 1, 1
@@ -317,16 +334,51 @@ class ChainDirectSynthesizer:
                 size = self._sample1(p_size_given_u[u])
                 syn_hh.append([h_id, r, own, size])
                 for _ in range(size + 1):
-                    emp = self._sample1(p_emp_given_u_o[u, own])
+                    s_col = size if size < p_emp_given_u_o_s.shape[2] else p_emp_given_u_o_s.shape[2] - 1
+                    emp = self._sample1(p_emp_given_u_o_s[u, own, s_col])
                     age = self._sample1(p_age_given_u_o[u, own])
                     edu = self._sample1(p_edu_given_age[age])
                     syn_ind.append([i_id, age, emp, edu, h_id])
                     i_id += 1
                 h_id += 1
 
+        # Calibration to the released cross-hop marginal: the per-household
+        # draws are independent, so the synthetic URBAN-EMP contrast drifts
+        # from the measured one.  Re-weight the EMP probability within each
+        # URBAN group so the synthetic marginal matches the noisy RI_URB_EMP
+        # (pure post-processing; the target is the released statistic, never
+        # the raw contrast).
+        syn_ind = np.array(syn_ind, dtype=int)
+        if len(syn_ind):
+            hh_own = {int(h[0]): int(h[2]) for h in syn_hh}
+            hh_reg = {int(h[0]): int(h[1]) for h in syn_hh}
+            reg_u = {int(r[0]): int(r[1]) for r in syn_region}
+            own_of = np.array([hh_own[int(row[4])] for row in syn_ind])
+            u_of = np.array([reg_u[hh_reg[int(row[4])]] for row in syn_ind])
+            ri = m['RI_URB_EMP'].astype(float)
+            p_e1_u = ri[:, 1] / np.maximum(ri.sum(axis=1), 1e-9)
+            p0 = _cond(m['RHI_U_O_E'], (0, 1))[:, :, 1]  # p(E=1|U,O)
+            new_emp = syn_ind[:, 2].copy()
+            for u in (0, 1):
+                idx = np.where(u_of == u)[0]
+                if not len(idx):
+                    continue
+                base = np.clip(p0[u, own_of[idx]], 1e-6, 1 - 1e-6)
+                lo, hi = 0.0, 20.0
+                for _ in range(60):
+                    lam = 0.5 * (lo + hi)
+                    q = np.clip(base * lam, 0.0, 1.0)
+                    if q.mean() < p_e1_u[u]:
+                        lo = lam
+                    else:
+                        hi = lam
+                q = np.clip(base * (0.5 * (lo + hi)), 0.0, 1.0)
+                new_emp[idx] = (self.rng.random(len(idx)) < q).astype(int)
+            syn_ind[:, 2] = new_emp
+
         return {'region': syn_region,
                 'household': np.array(syn_hh, dtype=int),
-                'individual': np.array(syn_ind, dtype=int)}
+                'individual': syn_ind}
 
     def _sample1(self, p):
         p = np.asarray(p, dtype=float)
@@ -445,7 +497,8 @@ class ChainMixtureSynthesizer:
             syn_region.append([r, ij // p_rb.shape[1], ij % p_rb.shape[1]])
         syn_region = np.array(syn_region, dtype=int)
 
-        hh_per_r = max(1, int(round(m['HH_PER_REGION'])))
+        hh_per_r = max(1, int(round(float(np.sum(m['RH_SIZE']))
+                                     / max(n_regions, 1))))
         syn_hh, syn_ind = [], []
         h_id, i_id = 1, 1
         for r in range(1, n_regions + 1):
@@ -463,6 +516,35 @@ class ChainMixtureSynthesizer:
                     syn_ind.append([i_id, age, emp, edu, h_id])
                     i_id += 1
                 h_id += 1
+        # same post-processing calibration as the direct sampler
+        syn_ind = np.array(syn_ind, dtype=int)
+        if len(syn_ind):
+            hh_own = {int(h[0]): int(h[2]) for h in syn_hh}
+            hh_reg = {int(h[0]): int(h[1]) for h in syn_hh}
+            reg_u = {int(r[0]): int(r[1]) for r in syn_region}
+            own_of = np.array([hh_own[int(row[4])] for row in syn_ind])
+            u_of = np.array([reg_u[hh_reg[int(row[4])]] for row in syn_ind])
+            ri = m['RI_URB_EMP'].astype(float)
+            p_e1_u = ri[:, 1] / np.maximum(ri.sum(axis=1), 1e-9)
+            p0 = _cond(m['RHI_U_O_E'], (0, 1))[:, :, 1]
+            new_emp = syn_ind[:, 2].copy()
+            for u in (0, 1):
+                idx = np.where(u_of == u)[0]
+                if not len(idx):
+                    continue
+                base = np.clip(p0[u, own_of[idx]], 1e-6, 1 - 1e-6)
+                lo, hi = 0.0, 20.0
+                for _ in range(60):
+                    lam = 0.5 * (lo + hi)
+                    q = np.clip(base * lam, 0.0, 1.0)
+                    if q.mean() < p_e1_u[u]:
+                        lo = lam
+                    else:
+                        hi = lam
+                q = np.clip(base * (0.5 * (lo + hi)), 0.0, 1.0)
+                new_emp[idx] = (self.rng.random(len(idx)) < q).astype(int)
+            syn_ind[:, 2] = new_emp
+
         return {'region': syn_region,
                 'household': np.array(syn_hh, dtype=int),
                 'individual': np.array(syn_ind, dtype=int)}
@@ -488,7 +570,7 @@ def run_chain_npm(data, epsilon, mode='direct', k=4, alloc='uniform'):
     n_ind = data['individual'].shape[0]
     delta = 1.0 / max(n_ind, 1)
     if alloc == 'uniform':
-        sigmas = make_sigmas(epsilon, delta, n_queries=len(MARGINALS), tau=6)
+        sigmas = make_sigmas(epsilon, delta, n_queries=len(SELECTED) + 1, tau=6)  # HH_PER_REGION is noised too
     else:
         weights = alloc_weights(alloc)
         weights['HH_PER_REGION'] = 1.0
